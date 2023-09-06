@@ -1,56 +1,81 @@
 package com.example.pium.entity;
 
-import javax.persistence.*;
+import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
 import java.math.BigInteger;
+import javax.validation.constraints.NotNull;
+
+import javax.persistence.*;
 
 @Entity
-@Table(name = "USER")
+@Builder
+@DynamicInsert
+@Table(name="user")
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Data
 public class UserEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_no", nullable = false)
-    private int userNo;
+    @Column(name = "user_no")
+    private Integer userNo;
 
-    @Column(name = "user_type", nullable = true, columnDefinition = "int default 3")
-    private Integer userType;
+    @Builder.Default
+    @Column(name = "user_type")
+    private Integer userType = 3;
 
-    @Column(name = "user_name", nullable = false, length = 10)
+    @NotNull(message = "userName must not be null")
+    @Column(name = "user_name")
     private String userName;
 
-    @Column(name = "user_id", nullable = false, length = 20, unique = true)
+    @NotNull(message = "userId must not be null")
+    @Column(name = "user_id")
     private String userId;
 
-    @Column(name = "password", nullable = false, length = 255)
+    @Column
+    @NotNull(message = "password must not be null")
     private String password;
 
-    @Column(name = "join_date", nullable = false)
-    private BigInteger joinDate; // Consider using LocalDateTime instead of long
+    @NotNull(message = "joinDate must not be null")
+    @Column(name = "join_date")
+    private BigInteger joinDate;
 
-    @Column(name = "phone_number", length = 30)
-    private String phoneNumber;
+    @Builder.Default
+    @Column(name = "phone_number")
+    private String phoneNumber = null;
 
-    @Column(name = "is_deleted", nullable = false, columnDefinition = "boolean default false")
-    private boolean isDeleted;
+    @Builder.Default
+    @NotNull(message = "isDeleted must not be null")
+    @Column(name = "is_deleted")
+    private Boolean isDeleted = false;
 
-    @Column(name = "point", nullable = false, columnDefinition = "int default 0")
-    private int point;
+    @Builder.Default
+    @NotNull(message = "point must not be null")
+    @Column
+    private Integer point = 0;
 
-    @Column(name = "image_path", length = 255)
+    @Column(name = "image_path")
     private String imagePath;
 
-    @Column(name = "is_primed1", nullable = false, columnDefinition = "boolean default false")
-    private boolean isPrimed1;
+    @Builder.Default
+    @NotNull(message = "isPrimed1 must not be null")
+    @Column(name = "is_primed1")
+    private Boolean isPrimed1 = false;
 
-    @Column(name = "is_primed2", nullable = false, columnDefinition = "boolean default false")
-    private boolean isPrimed2;
+    @Builder.Default
+    @NotNull(message = "isPrimed2 must not be null")
+    @Column(name = "is_primed2")
+    private Boolean isPrimed2 = false;
 
-    @Column(name = "cash", nullable = false, columnDefinition = "int default 0")
-    private int cash;
+    @Builder.Default
+    @NotNull(message = "cash must not be null")
+    @Column
+    private Integer cash = 0;
 
-    @Column(name = "rival")
-    private Integer rival;
+    @Builder.Default
+    @Column
+    private Integer rival = null;
 
-    // getters, setters, and other methods...
 
 }
