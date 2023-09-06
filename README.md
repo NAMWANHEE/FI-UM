@@ -2,11 +2,10 @@
 
 ## 9기 A308팀 gitlab repository
 
-<br><br><br>
+<br><br><br><br>
 
 # 📝PR & Commit Message Rule
 
-<details>
 <summary>📌 PR & Commit 컨벤션</summary>
 
 ### Pull Request
@@ -15,7 +14,7 @@
 
 ### Commit Message
 
-- 명령 / 스토리 또는 테스크 / 내용 
+- 명령 / 스토리 또는 테스크 / 내용
 
 ### Command keyword
 
@@ -63,7 +62,6 @@
 
 # 📝DB
 
-<details>
 <summary>📌 DB 네이밍 컨벤션</summary>
 
 ## **1. 테이블 및 기타 관계는 단수형을 사용한다**
@@ -113,106 +111,61 @@
 
 이름이 잘 정의된 테이블, 컬럼이 있다면 **개발자 본인과 다른 개발자들도 DB구조를 이해하는데 적은 시간이 소요된다.**
 
-</details>
-
 ---
 
 <br>
 
-# 📝JAVA
+# ✔️ Merge Convention
 
-<details>
-<summary>📌 JAVA 컨벤션</summary>
+** MR(Merge Request) 생성**
 
-[참고사이트](https://google.github.io/styleguide/javaguide.html)
+- 피드백이나 도움이 필요할 때 그리고 merge 준비가 완료되었을 때 Merge Request를 생성한다.
 
-### 인코딩(ENCODING)
+- 동료들의 리뷰가 끝난 후 준비가 완료되었다면 develop 브랜치(or develop-(FE/BE))로 반영을 요구한다
 
-기본 UTF-8
+- develop 브랜치로 merge될 경우 conflict를 작업 중인 브랜치에서 미리 해결하고 진행한다.
 
-### 자바 소스 파일 구조
+- MR 생성 시 예시
 
-1. 시작 주석(있을 경우)  
-   ![image](https://github.com/yoonoi/algo-study/assets/94058311/8f21856d-df7b-404c-ad30-860597144e47)
+  - MR 제목
 
-2. Package & Import 명세  
-   ![image](https://github.com/yoonoi/algo-study/assets/94058311/a036bb32-8b07-4088-97f4-3b184355b541)
+  | 생성 목적 | MR 제목                              |
+  | --------- | ------------------------------------ |
+  | 기능 개발 | [issue_number] issue_name            |
+  | 버그 픽스 | [issue_number] issue_name (Fix)      |
+  | 코드 개선 | [issue_number] issue_name (Refactor) |
 
-3. 최상위 Class 및 Interface 선언
+  - 예시
 
-### 선언 ★
+  ```
+  | 기능 개발 | [#22] 로그인기능 구현  |
+  | 버그 픽스 | [#22] 로그인기능 구현 (Fix)  |
+  | 코드 개선 | [#22] 로그인기능 구현 (Refactor)|
+  ```
 
-- static import에만 와일드 카드(\*)를 허용한다.  
-  (클래스를 import할 때는 와일드 카드없이 모든 클래스명을 다 쓴다.)
-  ![image](https://github.com/yoonoi/ssafy-project/assets/94058311/b1c6d786-7315-45cf-abf1-4164a6dca6a6)
-- 클래스/메서드/멤버변수의 제한자는 아래의 순서로 쓴다.  
-   (https://docs.oracle.com/javase/specs/jls/se7/html/jls-18.html 참조)
-  ![image](https://github.com/yoonoi/ssafy-project/assets/94058311/bea8036c-e738-473e-a7da-f244c6f12cb7)
-- 어노테이션 선언 후 새 줄을 사용한다. 단, 파라미터가 없는 어노테이션은 같은 줄에 선언할 수 있다.
-- 문장이 끝나는 ; 뒤에는 새 줄을 삽입한다.
-- 하나의 선언문에는 하나의 변수만 작성한다.
-  ![image](https://github.com/yoonoi/ssafy-project/assets/94058311/713beb9c-2ada-449c-8523-d08173d487c1)
-- 배열 선언에 오는 대괄호([])는 타입의 바로 뒤에 붙인다.
-  ![image](https://github.com/yoonoi/ssafy-project/assets/94058311/8344861d-e095-45f3-8635-9017d939a0d2)
-- long형의 숫자에는 마지막에 대문자'L'을 붙인다.
+  - MR 설명
 
-</details>
-
----
+  ```
+  - Merge Request 이유:
+   - feature 병합 / 버그수정 / 코드 개선 등
+  - 세부내용:
+    - 왜 해당 MR이 필요한지 최대한 다른 사람이 알아볼 수 있도록 적기
+  - Relevant issue number:
+    - 관련된 이슈 넘버가 있으면 이곳에 기입해주세요, ex) #000, #000
+  ```
 
 <br>
+## 0. 코드 리뷰할 때 주의사항
 
-# 📝Jira
+- **nit 줄이기** : 사소하고 작은 문제로 주로 스타일 가이드 준수, 가독성 개선 등을 의미 / 전체적으로는 중요하지 않지만 품질 향상에 도움이 될 수 있는 부분에서 사용
+- **변경 사이즈 줄이기** : 리뷰할 내용이 커지면 코드 리뷰하기 부담
 
-<details>
-<summary>📌 Jira 컨벤션</summary>
+## 1. 코드 리뷰 방식
 
-[Jira 컨벤션 참고](https://upsw-p.tistory.com/25)
-
-## 🚗스프린트
-
-- 각 스프린트는 1주일을 기준으로 진행한다.
-- 각 스프린트 기준으로 일인당 40 Point의 스토리 포인트가 부여된다.
-  - 하루에 8포인트 ( 8시간 ) \* 5 = 40 Point
-
-## 🚓이슈 등록
-
-- 이슈 등록은 개인이 JIRA Convention에 맞추어 등록한다.
-- 이슈 등록 후 해당 이슈에 본인 파트의 팀원을 등록한다.
-
-## 🚕이슈관리
-
-- 최초 이슈를 할당받으면 담당자는 스토리 포인트를 부여한다.
-- 또한 해당 이슈의 우선순위를 설정한다.
-- 작업 들어가기 전 할 일 --> 진행 중
-- 진행 완료하면 --> 완료로 상태를 최신화한다.
-- 설명란에 최대한 자세히 해당 이슈에 있어서 `담당자`가 작성한다.
-- 모든 이슈 관련 문의는 댓글 기능을 통해 이뤄지며 SNS/전화는 지양한다.
-
-## 🚌작업유형
-
-### - Epic(에픽)
-
-- 큰 단위의 업무(기능 명세서 기준, 중분류 단위)로 에픽을 생성한다.
-- 매주 월요일 스프린트를 들어가기 전에 Epic들을 검토하고 수정사항과 수행해야하는 하위 스토리 들을 정한다.
-- 논의한 Epic을 기본으로 해당 Epic에 담당자를 지정하여 생성한다.
-
-### - 스토리
-
-- Epic 하위에 기능명세서의 소분류 기준으로 스토리를 생성한다.
-- 스토리의 Description에 세부 작업내용을 적는다.
-- 스프린트에 넣을 때, `서브테스크 단위를 사용하지 않기 위해서` 생성컨벤션에 맞춰서 해당이슈를 재생성하여 추가한다.
-
-```js
-[생성컨벤션]
-
-ex) [BE]1-1-1 일반회원가입 , [FE]1-1-1 일반회원가입, [IOT]1-1-3 기기조작
-
-[BE] : Back-end
-
-[FE] : Front-end
-
-[IOT] : Internet of Things
-```
-
-</details>
+|  타입  | 개요                                                                  | 설명                                                                                                     |
+| :----: | --------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| **P1** | 이번에 반드시 반영되어야 하는 중대한 코드 수정 의견 (Request Changes) | 버그 가능성이 있거나 잘못된 구현인 경우. 만약 반영되지 않는다면 이에 대한 반대 의견도 낼 수 있어야 한다. |
+| **P2** | 적극적으로 이야기했으면 하는 의견 (Request Changes)                   | 잠재적인 이슈나 확장성을 고려해야 하는 경우. 토론하며 의견 조율할 수 있다.                               |
+| **P3** | 가능하다면 반영해주었으면 하는 의견 (Comment)                         | 지금 구현보다 더 나은 방향이 있는 경우. 이번 반영이 어렵다면 다음 작업에서도 고려해볼 수 있도록 한다.    |
+| **P4** | 다음에 반영 되도 되는 의견 (Approve)                                  | 반영이 되지 않거나 반대 의견을 적극적으로 할 필요 없다.                                                  |
+| **P5** | 사소한 의견 (Approve)                                                 | 무시해도 됨. 혹은 관련 나누고 싶은 점 나눌 수 있다.                                                      |
