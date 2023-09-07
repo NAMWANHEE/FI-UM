@@ -7,10 +7,15 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class UserService {
+public class UserServiceImp {
     private final UserRepository userRepository;
 
     public void save(UserEntity userEntity){
         userRepository.save(userEntity);
     }
+
+    public boolean isUserIdExist(String userId) {
+        return userRepository.findByUserId(userId).isPresent();
+    }
 }
+
