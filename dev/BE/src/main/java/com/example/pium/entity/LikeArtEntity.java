@@ -1,6 +1,7 @@
 package com.example.pium.entity;
 
 
+import com.sun.istack.NotNull;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
 
@@ -13,6 +14,7 @@ import javax.persistence.*;
 @Builder
 @DynamicInsert
 @Table(name = "like_art")
+@IdClass(LikeArtPK.class)
 public class LikeArtEntity {
 
     @Id
@@ -21,10 +23,11 @@ public class LikeArtEntity {
     private Integer likeArtNo;
 
     @Id
-    @Column(name = "user_no")
-    private Integer userNo;
-
-    @Id
-    @Column(name = "auction_no")
-    private Integer auctionNo;
+    @NotNull
+    @ManyToOne
+    @JoinColumns({
+            @JoinColumn(name="auction_no", referencedColumnName = "auction_no"),
+            @JoinColumn(name="user_no", referencedColumnName = "user_no")
+    })
+    private ArtAuctionEntity auctionNo;
 }

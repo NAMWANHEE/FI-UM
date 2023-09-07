@@ -12,29 +12,34 @@ import javax.persistence.*;
 @Entity
 @Builder
 @DynamicInsert
-@Table(name = "bank_product_data")
+@Table(name = "BANK_PRODUCT_DATA")
+@IdClass(BankProductDataPK.class)
 public class BankProductDataEntity {
 
     @Id
+    @NotNull
     @ManyToOne
-    @JoinColumn(name="bank_no", referencedColumnName="bank_no")
-    private BankListEntity bank;
+    @JoinColumn(name="bank_no")
+    private BankListEntity bankNo;
 
     @Id
+    @NotNull
     @ManyToOne
-    @JoinColumn(name="product_no", referencedColumnName="product_no")
-    private ProductTypeEntity product;
+    @JoinColumn(name="product_no")
+    private ProductTypeEntity productNo;
 
-    @Column(name="interest_rate", nullable=false)
-    private int interestRate;
+    @NotNull
+    @Builder.Default
+    @Column(name="interest_rate")
+    private Integer interestRate = 0;
 
+    @Builder.Default
     @Column(name="prime_interest_rate")
-    private Integer primeInterestRate;
+    private Integer primeInterestRate = 0;
 
     @Column(name="prime_condition")
     private String primeCondition;
 
-    // Getters, Setters, Constructors, equals, hashCode
-    // ... (as per your requirements)
+
 }
 

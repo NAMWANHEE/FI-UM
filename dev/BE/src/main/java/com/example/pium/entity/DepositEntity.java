@@ -1,46 +1,52 @@
 package com.example.pium.entity;
 
+import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
+import java.math.BigInteger;
+import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
-import javax.persistence.Column;
-import javax.persistence.Id;
-import javax.persistence.IdClass;
-import javax.persistence.ManyToOne;
-import javax.persistence.JoinColumn;
-
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Data
 @Entity
-@Table(name="DEPOSIT")
-@IdClass(DepositId.class)
+@Builder
+@DynamicInsert
+@Table(name = "DEPOSIT")
+@IdClass(DepositPK.class)
 public class DepositEntity {
 
     @Id
+    @NotNull
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="deposit_no")
-    private int depositNo;
+    private Integer depositNo;
 
     @Id
+    @NotNull
     @ManyToOne
-    @JoinColumn(name="user_no", referencedColumnName="user_no")
-    private UserEntity user;
+    @JoinColumn(name="user_no")
+    private UserEntity userNo;
 
-    @Column(name="deposit_balance", nullable=false)
-    private int depositBalance;
+    @NotNull
+    @Column(name="deposit_balance")
+    private Integer depositBalance;
 
-    @Column(name="create_deposit", nullable=false)
-    private long createDeposit;
+    @NotNull
+    @Column(name="create_deposit")
+    private BigInteger createDeposit;
 
-    @Column(name="deposit_money", nullable=false)
-    private int depositMoney;
+    @NotNull
+    @Column(name="deposit_money")
+    private Integer depositMoney;
 
     @ManyToOne
-    @JoinColumn(name="bank_no", referencedColumnName="bank_no")
-    private BankProductDataEntity bank;
+    @JoinColumns({
+            @JoinColumn(name="bank_no", referencedColumnName = "bank_no"),
+            @JoinColumn(name="product_no", referencedColumnName = "product_no")
+    })
+    private BankProductDataEntity bankProductData;
 
-    @ManyToOne
-    @JoinColumn(name="product_no", referencedColumnName="product_no")
-    private BankProductDataEntity product;
-
-    // 생성자, getter, setter 등은 생략되었습니다.
 }
 

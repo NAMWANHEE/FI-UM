@@ -1,35 +1,48 @@
 package com.example.pium.entity;
 
+import lombok.*;
+import org.hibernate.annotations.DynamicInsert;
+import java.math.BigInteger;
 import javax.persistence.*;
-import java.io.Serializable;
+import javax.validation.constraints.NotNull;
 
+
+@AllArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Data
 @Entity
-@Table(name="SAVING")
-@IdClass(SavingId.class)
+@Builder
+@DynamicInsert
+@Table(name = "SAVING")
+@IdClass(SavingPK.class)
 public class SavingEntity {
 
     @Id
+    @NotNull
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="saving_no")
-    private int savingNo;
+    private Integer savingNo;
 
     @Id
+    @NotNull
     @ManyToOne
-    @JoinColumn(name="user_no", referencedColumnName="user_no")
-    private UserEntity user;
+    @JoinColumn(name="user_no")
+    private UserEntity userNo;
 
-    @Column(name="saving_balance", nullable=false)
-    private int savingBalance;
+    @NotNull
+    @Column(name="saving_balance")
+    private Integer savingBalance;
 
-    @Column(name="create_saving", nullable=false)
-    private long createSaving;
-
-    @ManyToOne
-    @JoinColumn(name="bank_no", referencedColumnName="bank_no")
-    private BankProductDataEntity bank;
+    @NotNull
+    @Column(name="create_saving")
+    private BigInteger createSaving;
 
     @ManyToOne
-    @JoinColumn(name="product_no", referencedColumnName="product_no")
-    private BankProductDataEntity product;
+    @JoinColumns({
+            @JoinColumn(name="bank_no", referencedColumnName = "bank_no"),
+            @JoinColumn(name="product_no", referencedColumnName = "product_no")
+    })
+    private BankProductDataEntity bankProductData;
 
 
 

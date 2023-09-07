@@ -13,6 +13,7 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Data
 @Table(name="SPONSOR_FUNDING_HISTORY")
+@IdClass(SponsorFundingHistoryPK.class)
 public class SponsorFundingHistoryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -20,13 +21,17 @@ public class SponsorFundingHistoryEntity {
     @Column(name = "funding_no")
     private Integer fundingNo;
 
+    @Id
     @NotNull(message = "itemNo must not be null")
-    @Column(name = "item_no")
-    private Integer itemNo;
+    @ManyToOne
+    @JoinColumn(name = "item_no")
+    private ItemListEntity itemNo;
 
+    @Id
     @NotNull(message = "userNo must not be null")
-    @Column(name = "user_no")
-    private Integer userNo;
+    @ManyToOne
+    @JoinColumn(name = "user_no")
+    private UserEntity userNo;
 
     @NotNull(message = "price must not be null")
     @Column(name = "price")

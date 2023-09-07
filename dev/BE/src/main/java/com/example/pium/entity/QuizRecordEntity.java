@@ -20,13 +20,15 @@ public class QuizRecordEntity {
     @Column(name = "quiz_record_no")
     private Integer quizRecordNo;
 
+    @ManyToOne
     @NotNull(message = "userNo must not be null")
-    @Column(name = "user_no")
-    private Integer userNo;
+    @JoinColumn(name = "user_no")
+    private UserEntity userNo;
 
+    @ManyToOne
     @NotNull(message = "quizNo must not be null")
-    @Column(name = "quiz_no")
-    private Integer quizNo;
+    @JoinColumn(name = "quiz_no")
+    private QuizContentEntity quizNo;
 
     @NotNull(message = "isCorrected must not be null")
     @Column(name = "is_corrected")

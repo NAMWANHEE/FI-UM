@@ -25,15 +25,18 @@ public class RankingEntity {
     private String rankingType;
 
     @Builder.Default
-    @Column(name="ranking_no1")
-    private Integer rankingNo1 = null;
+    @ManyToOne
+    @JoinColumn(name="ranking_no1")
+    private UserEntity rankingNo1 = null;
 
     @Builder.Default
-    @Column(name="ranking_no2")
-    private Integer rankingNo2 = null;
+    @ManyToOne
+    @JoinColumn(name="ranking_no2")
+    private UserEntity rankingNo2 = null;
 
     @Builder.Default
-    @Column(name="ranking_no3")
-    private Integer rankingNo3 = null;
+    @ManyToOne
+    @JoinColumn(name="ranking_no3")
+    private UserEntity rankingNo3 = null;
 
 }

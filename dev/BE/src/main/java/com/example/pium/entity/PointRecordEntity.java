@@ -14,6 +14,7 @@ import java.math.BigInteger;
 @Builder
 @DynamicInsert
 @Table(name = "point_record")
+@IdClass(PointRecordPK.class)
 public class PointRecordEntity {
 
     @Id
@@ -22,12 +23,14 @@ public class PointRecordEntity {
     private Integer pointNo;
 
     @Id
-    @Column(name = "user_no")
-    private Integer userNo;
+    @ManyToOne
+    @JoinColumn(name = "user_no")
+    private UserEntity userNo;
 
     @NotNull
-    @Column(name = "point_type_no")
-    private Integer pointTypeNo;
+    @ManyToOne
+    @JoinColumn(name = "point_type_no")
+    private PointTypeEntity pointTypeNo;
 
     @NotNull
     @Column(name = "pointChange")

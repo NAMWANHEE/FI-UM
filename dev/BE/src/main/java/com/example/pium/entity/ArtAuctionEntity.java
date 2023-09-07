@@ -1,11 +1,10 @@
 package com.example.pium.entity;
 
-import com.sun.istack.NotNull;
+import javax.validation.constraints.NotNull;
 import lombok.*;
 import org.hibernate.annotations.DynamicInsert;
-
-import javax.persistence.*;
 import java.math.BigInteger;
+import javax.persistence.*;
 
 
 @AllArgsConstructor
@@ -14,7 +13,8 @@ import java.math.BigInteger;
 @Entity
 @Builder
 @DynamicInsert
-@Table(name = "art_auction")
+@Table(name = "ART_AUCTION")
+@IdClass(ArtAuctionPK.class)
 public class ArtAuctionEntity {
 
     @Id
@@ -23,8 +23,9 @@ public class ArtAuctionEntity {
     private Integer auctionNo;
 
     @Id
-    @Column(name = "user_no")
-    private Integer userNo;
+    @ManyToOne(cascade = CascadeType.PERSIST)
+    @JoinColumn(name = "user_no")
+    private UserEntity user;
 
     @NotNull
     @Column
@@ -40,20 +41,19 @@ public class ArtAuctionEntity {
 
     @NotNull
     @Column(name = "view_count")
-    @Builder.Default
     private Integer viewCount = 0;
 
     @NotNull
     @Column(name = "auction_price")
-    @Builder.Default
     private Integer auctionPrice = 100;
 
     @NotNull
     @Column(name = "instant_price")
     private Integer instantPrice;
 
-    @Column
+    @ManyToOne
+    @JoinColumn(name="winner_no")
     @Builder.Default
-    private Integer winner = null;
+    private UserEntity winner = null;
 
 }

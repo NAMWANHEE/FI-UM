@@ -14,6 +14,7 @@ import javax.persistence.*;
 @Builder
 @DynamicInsert
 @Table(name = "follow")
+@IdClass(FollowPK.class)
 public class FollowEntity {
 
     @Id
@@ -21,13 +22,15 @@ public class FollowEntity {
     @Column(name = "follow_no")
     private Integer followNo;
 
-
-    @Column
+    @Id
+    @JoinColumn(name = "following")
     @NotNull
-    private Integer following;
+    @ManyToOne
+    private UserEntity following;
 
-
-    @Column
+    @Id
+    @JoinColumn(name = "follower")
     @NotNull
-    private Integer follower;
+    @ManyToOne
+    private UserEntity follower;
 }

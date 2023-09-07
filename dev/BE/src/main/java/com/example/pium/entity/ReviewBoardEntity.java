@@ -22,9 +22,9 @@ public class ReviewBoardEntity {
     @Column(name = "review_no")
     private Integer reviewNo;
 
-    @Id
-    @Column(name = "user_no")
-    private Integer userNo;
+    @ManyToOne
+    @JoinColumn(name = "user_no")
+    private UserEntity userNo;
 
     @Column
     @NotNull
