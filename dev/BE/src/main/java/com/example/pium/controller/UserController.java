@@ -1,7 +1,6 @@
 package com.example.pium.controller;
 
 import com.example.pium.dto.SignUpDto;
-// 유저 엔티티
 import com.example.pium.entity.UserEntity;
 import com.example.pium.service.UserServiceImp;
 import lombok.RequiredArgsConstructor;
@@ -23,9 +22,8 @@ import java.util.Map;
 
 public class UserController {
     private final UserServiceImp userService;
-
     @PostMapping("signup")
-    public Map<String, String> signUp(@RequestBody SignUpDto signUpDto) {
+    public Map<String,String> signUp(@RequestBody SignUpDto signUpDto){
         System.out.println(signUpDto);
         UserEntity userEntity = UserEntity.builder()
                 .userId(signUpDto.getId())
@@ -38,7 +36,7 @@ public class UserController {
 
         userService.save(userEntity);
         Map<String, String> returnMsg = new HashMap<>();
-        returnMsg.put("msg", "회원 가입이 성공적으로 완료되었습니다.");
+        returnMsg.put("msg","회원 가입이 성공적으로 완료되었습니다.");
         return returnMsg;
 
     }
@@ -51,11 +49,13 @@ public class UserController {
 
         Map<String, String> returnMsg = new HashMap<>();
         if (exists) {
-            returnMsg.put("msg", "사용 불가능");
+            returnMsg.put("msg","사용 불가능");
         } else {
-            returnMsg.put("msg", "사용 가능");
+            returnMsg.put("msg","사용 가능");
         }
         return new ResponseEntity<>(returnMsg, HttpStatus.OK);
     }
 
+
 }
+
