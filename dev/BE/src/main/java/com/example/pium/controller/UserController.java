@@ -1,6 +1,8 @@
 package com.example.pium.controller;
 
 import com.example.pium.dto.SignUpDto;
+import com.example.pium.dto.TokenResponseDto;
+import com.example.pium.dto.UserLoginDto;
 import com.example.pium.entity.UserEntity;
 import com.example.pium.service.UserServiceImp;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,19 @@ import java.util.Map;
 
 public class UserController {
     private final UserServiceImp userService;
+
+    @PostMapping("login")
+    public ResponseEntity<TokenResponseDto> login(@RequestBody UserLoginDto userLoginDto){
+        if(userService.check(userLoginDto)){
+            TokenResponseDto tokenResponseDto = userService.getTokenResponse(userService.getUserNo(userLoginDto.getId()));
+            return ResponseEntity.ok(tokenResponseDto);
+        }
+        else{
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
+        }
+
+    }
+
     @PostMapping("signup")
     public Map<String,String> signUp(@RequestBody SignUpDto signUpDto){
         System.out.println(signUpDto);
