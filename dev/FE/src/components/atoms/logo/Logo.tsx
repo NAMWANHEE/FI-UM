@@ -1,8 +1,22 @@
+import { convertClassName } from '@/utils';
+import styles from '@/components/atoms/logo/Logo.module.scss';
 
-const Logo = () => {
-  return (
-    <div>Logo</div>
-  )
+interface LogoProps {
+  src: string;
+  alt: string;
+  className?: string;
 }
 
-export default Logo
+const Logo = ({ src, alt, className }: LogoProps) => {
+  return (
+    <>
+      <img
+        src={src}
+        alt={alt}
+        className={convertClassName(className, styles) + ` ${styles.logo}`}
+      />
+    </>
+  );
+};
+
+export default Logo;

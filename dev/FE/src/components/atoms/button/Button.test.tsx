@@ -11,10 +11,11 @@ describe('Button 컴포넌트', () => {
   });
 
   test('Button className이 제대로 전달되는지 확인', () => {
-    const { getByText } = render(<Button label="확인" />);
+    const { getByText } = render(
+      <Button label="확인" className="primary normal" />,
+    );
     const button = getByText('확인');
 
-    // styles 객체에서 `normal` 클래스를 가져와서 비교합니다.
     expect(button).toHaveClass(styles.normal);
   });
 

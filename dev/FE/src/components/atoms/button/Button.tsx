@@ -1,19 +1,15 @@
 import styles from '@/components/atoms/button/Button.module.scss';
+import { convertClassName } from '@/utils';
 
 interface ButtonProps {
   label: string;
-  size?: 'small' | 'normal' | 'large';
-  bgColor?: 'gray' | 'primary';
+  className?: string;
   onClick?: () => void;
 }
 
-const Button = ({ label, size, bgColor, onClick }: ButtonProps) => {
-  const className: string[] = [
-    styles[size ?? 'normal'],
-    styles[bgColor ?? 'primary'],
-  ];
+const Button = ({ label, className, onClick }: ButtonProps) => {
   return (
-    <button className={className.join(' ')} onClick={onClick}>
+    <button className={convertClassName(className, styles)} onClick={onClick}>
       {label}
     </button>
   );
