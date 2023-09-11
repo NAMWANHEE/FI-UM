@@ -22,7 +22,7 @@ public class JwtTokenProvider {
     //==토큰 생성 메소드==//
     public static String createToken(int userNo) {
         Date now = new Date();
-        Date expiration = new Date(now.getTime() + Duration.ofMinutes(30).toMillis()); // 만료기간 30초 (임시)
+        Date expiration = new Date(now.getTime() + Duration.ofMinutes(30).toMillis()); // 만료기간 30분
         Claims claims = Jwts.claims().setSubject(Integer.toString(userNo));
         return Jwts.builder()
                 .setClaims(claims)

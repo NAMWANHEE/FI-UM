@@ -23,7 +23,7 @@ public class ArtAuctionEntity {
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_no")
-    private UserEntity user;
+    private UserEntity userNo;
 
     @NotNull
     @Column

@@ -36,9 +36,9 @@ public class AuctionServiceImp {
         AuctionDto dto = new AuctionDto();
         dto.setTitle(beforeDetail.getTitle());
         dto.setContent(beforeDetail.getContent());
-        dto.setName(beforeDetail.getUser().getUserName());
+        dto.setName(beforeDetail.getUserNo().getUserName());
         dto.setItemImagePath(beforeDetail.getImagePath());
-        dto.setUserImagePath(beforeDetail.getUser().getImagePath());
+        dto.setUserImagePath(beforeDetail.getUserNo().getImagePath());
         dto.setAuctionPrice(beforeDetail.getAuctionPrice());
         dto.setInstantPrice(beforeDetail.getInstantPrice());
         dto.setViewCount(beforeDetail.getViewCount());

@@ -2,6 +2,7 @@ package com.example.pium.repository;
 
 import com.example.pium.dto.RGSAuctionDto;
 import com.example.pium.entity.ArtAuctionEntity;
+import com.example.pium.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -13,5 +14,6 @@ public interface ArtAuctionRepository extends JpaRepository<ArtAuctionEntity, In
 
     List<ArtAuctionEntity> findAll();
     Optional<ArtAuctionEntity> findByAuctionNo(Integer auctionNo);
+    List<ArtAuctionEntity> findByUserNo(UserEntity userNo);
 
 }

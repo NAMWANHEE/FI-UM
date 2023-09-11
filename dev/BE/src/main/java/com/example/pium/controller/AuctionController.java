@@ -37,7 +37,7 @@ public class AuctionController {
     public ResponseEntity<Map<String, String>> postAuction(@RequestBody RGSAuctionDto rgsAuctionDto) {
         Integer tmpUser = 1;
         ArtAuctionEntity artAuctionEntity = ArtAuctionEntity.builder()
-                .user(userService.getUserInfo(tmpUser))
+                .userNo(userService.getUserInfo(tmpUser))
                 .title(rgsAuctionDto.getTitle())
                 .content(rgsAuctionDto.getContent())
                 .createdTime(BigInteger.valueOf(System.currentTimeMillis()))
