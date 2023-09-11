@@ -13,7 +13,6 @@ import javax.validation.constraints.NotNull;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Data
 @Table(name="STOCK_ACCOUNT")
-@IdClass(StockAccountPK.class)
 public class StockAccountEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,13 +20,11 @@ public class StockAccountEntity {
     @Column(name = "account_no")
     private Integer accountNo;
 
-    @Id
     @NotNull(message = "userNo must not be null")
     @ManyToOne
     @JoinColumn(name = "user_no")
     private UserEntity userNo;
 
-    @Id
     @NotNull(message = "stockNo must not be null")
     @ManyToOne
     @JoinColumn(name = "stock_no")

@@ -12,17 +12,15 @@ import javax.persistence.*;
 @Entity
 @Builder
 @DynamicInsert
-@IdClass(BalanceSheetPK.class)
 @Table(name = "balance_sheet")
 public class BalanceSheetEntity {
-
 
     @Id
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name = "balance_no")
     private Integer balanceNo;
 
-    @Id
+
     @OneToOne(cascade = CascadeType.PERSIST)
     @JoinColumn(name = "user_no")
     private UserEntity userNo;

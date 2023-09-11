@@ -5,9 +5,13 @@ import com.example.pium.dto.TokenResponseDto;
 import com.example.pium.dto.UserLoginDto;
 import com.example.pium.entity.RefreshTokenEntity;
 import com.example.pium.entity.UserEntity;
+<<<<<<< HEAD
+import com.example.pium.repository.UserRepository;
+=======
 import com.example.pium.repositiory.RefreshTokenRedisRepository;
 import com.example.pium.repositiory.UserRepository;
 import com.example.pium.util.JwtTokenProvider;
+>>>>>>> a695be629543d1f96f2f035ba3a95369c4925a21
 import lombok.RequiredArgsConstructor;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
@@ -56,5 +60,7 @@ public class UserServiceImp {
         return tokenResponseDto;
 
     }
+
+    public UserEntity getUserInfo(Integer userNo) { return userRepository.findByUserNo(userNo).get();}
 }
 

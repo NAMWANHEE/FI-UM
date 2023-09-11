@@ -14,7 +14,6 @@ import javax.persistence.*;
 @Builder
 @DynamicInsert
 @Table(name = "like_art")
-@IdClass(LikeArtPK.class)
 public class LikeArtEntity {
 
     @Id
@@ -22,12 +21,13 @@ public class LikeArtEntity {
     @Column(name = "like_art_no")
     private Integer likeArtNo;
 
-    @Id
     @NotNull
     @ManyToOne
-    @JoinColumns({
-            @JoinColumn(name="auction_no", referencedColumnName = "auction_no"),
-            @JoinColumn(name="user_no", referencedColumnName = "user_no")
-    })
+    @JoinColumn(name="auction_no")
     private ArtAuctionEntity auctionNo;
+
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name="user_no")
+    private UserEntity userNo;
 }

@@ -15,7 +15,6 @@ import java.math.BigInteger;
 @Builder
 @DynamicInsert
 @Table(name = "bid_record")
-@IdClass(BidRecordPK.class)
 public class BidRecordEntity {
 
     @Id
@@ -23,14 +22,15 @@ public class BidRecordEntity {
     @Column(name = "bid_no")
     private Integer bidNo;
 
-    @Id
     @NotNull
     @ManyToOne
-    @JoinColumns({
-            @JoinColumn(name="auction_no", referencedColumnName = "auction_no"),
-            @JoinColumn(name="user_no", referencedColumnName = "user_no")
-    })
+    @JoinColumn(name="auction_no")
     private ArtAuctionEntity auctionNo;
+
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name="user_no")
+    private UserEntity userNo;
 
     @NotNull
     @Column(name = "bid_price")

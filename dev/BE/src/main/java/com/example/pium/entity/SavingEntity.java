@@ -14,7 +14,6 @@ import javax.validation.constraints.NotNull;
 @Builder
 @DynamicInsert
 @Table(name = "SAVING")
-@IdClass(SavingPK.class)
 public class SavingEntity {
 
     @Id
@@ -23,7 +22,6 @@ public class SavingEntity {
     @Column(name="saving_no")
     private Integer savingNo;
 
-    @Id
     @NotNull
     @ManyToOne
     @JoinColumn(name="user_no")
@@ -38,11 +36,8 @@ public class SavingEntity {
     private BigInteger createSaving;
 
     @ManyToOne
-    @JoinColumns({
-            @JoinColumn(name="bank_no", referencedColumnName = "bank_no"),
-            @JoinColumn(name="product_no", referencedColumnName = "product_no")
-    })
-    private BankProductDataEntity bankProductData;
+    @JoinColumn(name="bank_product_data_no")
+    private BankProductDataEntity bankProductDataNo;
 
 
 

@@ -13,16 +13,18 @@ import javax.persistence.*;
 @Builder
 @DynamicInsert
 @Table(name = "BANK_PRODUCT_DATA")
-@IdClass(BankProductDataPK.class)
 public class BankProductDataEntity {
 
     @Id
+    @GeneratedValue(strategy=GenerationType.IDENTITY)
+    @Column(name = "bank_product_data_no")
+    private Integer bankProductDataNo;
+
     @NotNull
     @ManyToOne
     @JoinColumn(name="bank_no")
     private BankListEntity bankNo;
 
-    @Id
     @NotNull
     @ManyToOne
     @JoinColumn(name="product_no")

@@ -14,7 +14,6 @@ import javax.persistence.*;
 @Builder
 @DynamicInsert
 @Table(name = "ART_AUCTION")
-@IdClass(ArtAuctionPK.class)
 public class ArtAuctionEntity {
 
     @Id
@@ -22,14 +21,17 @@ public class ArtAuctionEntity {
     @Column(name = "auction_no")
     private Integer auctionNo;
 
-    @Id
-    @ManyToOne(cascade = CascadeType.PERSIST)
+    @ManyToOne(cascade = CascadeType.MERGE)
     @JoinColumn(name = "user_no")
     private UserEntity user;
 
     @NotNull
     @Column
     private String title;
+
+    @NotNull
+    @Column
+    private String content;
 
     @NotNull
     @Column(name = "created_time")
@@ -39,11 +41,11 @@ public class ArtAuctionEntity {
     @Column(name = "image_path")
     private String imagePath;
 
-    @NotNull
+    @Builder.Default
     @Column(name = "view_count")
     private Integer viewCount = 0;
 
-    @NotNull
+    @Builder.Default
     @Column(name = "auction_price")
     private Integer auctionPrice = 100;
 
