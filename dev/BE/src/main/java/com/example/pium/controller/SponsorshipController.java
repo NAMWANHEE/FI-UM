@@ -43,16 +43,15 @@ public class SponsorshipController {
 
     }
 
-    @GetMapping("/{id}")
-    public ResponseEntity<ItemListEntity> getDetailItemById(@PathVariable Integer id) {
-        Optional<ItemListEntity> itemOpt = sponserShipServiceImp.findProductById(id);
-
-        if (itemOpt.isPresent()) {
-            return ResponseEntity.ok(itemOpt.get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
+//    @GetMapping("/{id}")
+//    public ResponseEntity<ItemListEntity> getDetailItemById(@PathVariable Integer id) {
+//        ItemListEntity itemOpt = sponserShipServiceImp.findProductById(id);
+//        if (itemOpt.isPresent()) {
+//            return ResponseEntity.ok(itemOpt.get());
+//        } else {
+//            return ResponseEntity.notFound().build();
+//        }
+//    }
 
 
 

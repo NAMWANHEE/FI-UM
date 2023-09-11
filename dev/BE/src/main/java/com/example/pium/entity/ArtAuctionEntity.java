@@ -41,10 +41,14 @@ public class ArtAuctionEntity {
     @Column(name = "image_path")
     private String imagePath;
 
+
+    @NotNull
     @Builder.Default
     @Column(name = "view_count")
     private Integer viewCount = 0;
 
+
+    @NotNull
     @Builder.Default
     @Column(name = "auction_price")
     private Integer auctionPrice = 100;

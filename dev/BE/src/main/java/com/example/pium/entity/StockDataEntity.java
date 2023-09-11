@@ -11,7 +11,7 @@ import javax.validation.constraints.NotNull;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Data
-@Table(name="STOCK_DATA")
+@Table(name="stock_data")
 public class StockDataEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

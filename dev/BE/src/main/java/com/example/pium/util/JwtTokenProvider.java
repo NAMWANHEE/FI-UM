@@ -4,7 +4,10 @@ import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;
 import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.stereotype.Component;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import java.security.Key;
 import java.time.Duration;
 import java.util.Base64;
@@ -19,7 +22,7 @@ public class JwtTokenProvider {
     //==토큰 생성 메소드==//
     public static String createToken(int userNo) {
         Date now = new Date();
-        Date expiration = new Date(now.getTime() + Duration.ofMinutes(30).toMillis()); // 만료기간 1일
+        Date expiration = new Date(now.getTime() + Duration.ofMinutes(30).toMillis()); // 만료기간 30초 (임시)
         Claims claims = Jwts.claims().setSubject(Integer.toString(userNo));
         return Jwts.builder()
                 .setClaims(claims)
@@ -35,8 +38,8 @@ public class JwtTokenProvider {
     //==토큰 생성 메소드==//
     public static String createRefreshToken(int userNo) {
         Date now = new Date();
-        Date expiration = new Date(now.getTime() + Duration.ofMinutes(30).toMillis()); // 만료기간 1일
-        Claims claims = Jwts.claims();
+        Date expiration = new Date(now.getTime() + Duration.ofDays(14).toMillis()); // 만료기간 2 주
+        Claims claims = Jwts.claims().setSubject(Integer.toString(userNo));
         return Jwts.builder()
                 .setClaims(claims)
                 .setHeaderParam(Header.TYPE, Header.JWT_TYPE) // (1)
@@ -64,15 +67,21 @@ public class JwtTokenProvider {
 //        return Jwts.parser().setSigningKey(secretKey).parseClaimsJws(token).getBody().getSubject();
 //    }
 
+    public String getJwt(){
+        HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+        return request.getHeader("X-ACCESS-TOKEN");
+    }
+
+
     //토큰에서 값 추출
     public String getUserNo(String token) {
-        return Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token).getBody().getSubject();
+        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getSubject();
     }
 
     //유효한 토큰인지 확인
     public boolean validateToken(String token) {
         try {
-            Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(secretKey).build().parseClaimsJws(token);
+            Jws<Claims> claims = Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             if (claims.getBody().getExpiration().before(new Date())) {
                 return false;
             }
