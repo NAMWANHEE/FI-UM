@@ -8,6 +8,7 @@ import java.math.BigInteger;
 public class AuctionDto {
     private String title;
     private String content;
+    private Integer userNo;
     private String name;
     private String itemImagePath;
     private String userImagePath;

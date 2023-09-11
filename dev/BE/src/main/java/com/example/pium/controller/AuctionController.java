@@ -3,13 +3,10 @@ package com.example.pium.controller;
 import com.example.pium.dto.AuctionDto;
 import com.example.pium.dto.RGSAuctionDto;
 import com.example.pium.entity.ArtAuctionEntity;
-import com.example.pium.entity.BidRecordEntity;
-import com.example.pium.entity.UserEntity;
 import com.example.pium.service.AuctionServiceImp;
 import com.example.pium.service.UserServiceImp;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -71,7 +68,8 @@ public class AuctionController {
     @PostMapping("bid/{auctionNo}")
     public ResponseEntity<Map<String, String>> modifyAuctionPrice(@PathVariable("auctionNo") Integer auctionNo, @RequestBody RGSAuctionDto rgsAuctionDto) {
         ArtAuctionEntity artAuctionEntity = auctionService.getAuctionInfo(auctionNo);
-        Integer tmpUser = 2;
+        Integer buyer = 2;
+        Integer seller = 3;
         Map<String, String> returnMsg = new HashMap<>();
         // 일단 낙찰자가 있는지 없는지 확인하여 구분 있으면 이미 판매된 상품 메세지
         if (artAuctionEntity.getWinner() == null) {
@@ -81,10 +79,11 @@ public class AuctionController {
                 return new ResponseEntity<>(returnMsg, HttpStatus.NOT_ACCEPTABLE);
             } else {
                 // 구매 가능한 경우 입찰 기록에 등록 및 즉시구매가일 경우 낙찰자까지 입력하는 로직
-                auctionService.makeRecord(userService.getUserInfo(tmpUser), artAuctionEntity, rgsAuctionDto);
+                auctionService.makeRecord(userService.getUserInfo(buyer), artAuctionEntity, rgsAuctionDto);
 
                 if (rgsAuctionDto.getAuctionPrice().equals(artAuctionEntity.getInstantPrice())) {
-                    artAuctionEntity.setWinner(userService.getUserInfo(tmpUser));
+                    artAuctionEntity.setWinner(userService.getUserInfo(buyer));
+                    auctionService.changePoint(userService.getUserInfo(buyer), userService.getUserInfo(seller), rgsAuctionDto.getAuctionPrice());
                     returnMsg.put("msg","구매에 성공하였습니다.");
                 }
                 else {

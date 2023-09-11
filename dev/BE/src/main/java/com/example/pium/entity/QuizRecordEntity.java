@@ -16,7 +16,6 @@ import javax.validation.constraints.NotNull;
 public class QuizRecordEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull(message = "quizRecordNo must not be null")
     @Column(name = "quiz_record_no")
     private Integer quizRecordNo;
 

@@ -16,7 +16,6 @@ import javax.validation.constraints.NotNull;
 public class SponsorFundingHistoryEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull(message = "fundingNo must not be null")
     @Column(name = "funding_no")
     private Integer fundingNo;
 

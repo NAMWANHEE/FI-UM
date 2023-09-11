@@ -16,13 +16,8 @@ import javax.validation.constraints.NotNull;
 public class RankingEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull(message = "rankingNo must not be null")
     @Column(name = "ranking_no")
     private Integer rankingNo;
-
-    @ManyToOne(cascade = CascadeType.MERGE)
-    @JoinColumn(name = "user_no")
-    private UserEntity userNo;
 
     @NotNull(message = "rankingType must not be null")
     @Column(name="ranking_type")

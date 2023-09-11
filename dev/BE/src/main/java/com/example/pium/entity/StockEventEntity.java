@@ -16,7 +16,6 @@ import javax.validation.constraints.NotNull;
 public class StockEventEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull(message = "stockNo must not be null")
     @Column(name = "stock_no")
     private Integer stockNo;
 

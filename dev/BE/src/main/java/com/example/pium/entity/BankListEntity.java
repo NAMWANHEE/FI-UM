@@ -16,7 +16,6 @@ import javax.persistence.*;
 public class BankListEntity {
 
     @Id
-    @NotNull
     @Column(name="bank_no")
     private int bankNo;
 

@@ -9,4 +9,5 @@ import java.util.List;
 @Repository
 public interface RankingRepository extends JpaRepository<RankingEntity, Integer> {
     List<RankingEntity> findAll();
+    RankingEntity findByRankingType(String rankingType);
 }

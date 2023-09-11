@@ -17,7 +17,6 @@ import javax.validation.constraints.NotNull;
 public class SavingEntity {
 
     @Id
-    @NotNull
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="saving_no")
     private Integer savingNo;

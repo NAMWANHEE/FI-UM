@@ -16,7 +16,6 @@ import javax.validation.constraints.NotNull;
 public class StockAccountEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull(message = "accountNo must not be null")
     @Column(name = "account_no")
     private Integer accountNo;
 
@@ -37,4 +36,5 @@ public class StockAccountEntity {
     @Builder.Default
     @Column(name = "stock_average")
     private Integer stockAverage = 0;
+
 }

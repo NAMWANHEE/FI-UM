@@ -16,7 +16,6 @@ import javax.validation.constraints.NotNull;
 public class ProductTypeEntity {
 
     @Id
-    @NotNull
     @GeneratedValue(strategy=GenerationType.IDENTITY)
     @Column(name="product_no")
     private Integer productNo;

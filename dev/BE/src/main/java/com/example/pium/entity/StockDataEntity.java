@@ -15,7 +15,6 @@ import javax.validation.constraints.NotNull;
 public class StockDataEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull(message = "dataNo must not be null")
     @Column(name = "data_no")
     private Integer dataNo;
 
@@ -31,4 +30,8 @@ public class StockDataEntity {
     @NotNull(message = "fluctuationPrice must not be null")
     @Column(name = "fluctuation_price")
     private Integer fluctuationPrice;
+
+    @NotNull
+    @Column(name="search_no")
+    private Integer searchNo;
 }

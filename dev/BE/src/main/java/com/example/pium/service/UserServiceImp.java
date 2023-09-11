@@ -124,5 +124,7 @@ public class UserServiceImp {
         return userRepository.findByUserId(userId).get();
     }
     public UserEntity getUserInfo(Integer userNo) { return userRepository.findByUserNo(userNo).get();}
+
+
 }
 

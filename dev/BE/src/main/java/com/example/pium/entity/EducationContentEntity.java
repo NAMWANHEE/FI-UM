@@ -16,7 +16,6 @@ import javax.validation.constraints.NotNull;
 public class EducationContentEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @NotNull(message = "eduContentNo must not be null")
     @Column(name = "edu_contennt_no")
     private Integer eduContentNo;
 
