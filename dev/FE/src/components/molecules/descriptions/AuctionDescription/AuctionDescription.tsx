@@ -1,13 +1,25 @@
 import { Button, Text } from '@/components/atoms';
-import { convertClassName, convertClassNameList } from '@/utils';
+import {
+  convertClassName,
+  convertClassNameList,
+  formatCurrency,
+} from '@/utils';
 import styles from './AuctionDescription.module.scss';
 
 interface AuctionDescriptionProps {
   className?: string;
+  auctionPrice: string;
+  instantPrice: string;
+  auctionClick: () => void;
+  buyItClick: () => void;
 }
 
 const AuctionDescription = ({
   className,
+  auctionPrice,
+  instantPrice,
+  auctionClick,
+  buyItClick,
 }: AuctionDescriptionProps): JSX.Element => {
   return (
     <div
@@ -18,12 +30,12 @@ const AuctionDescription = ({
     >
       <div>
         <Text className="text-lg" text="현재가" /> :
-        <Text className="blue" text="123456" />
+        <Text className="blue" text={formatCurrency(auctionPrice)} />
       </div>
 
       <div>
         <Text className="text-lg" text="즉시구매가" /> :
-        <Text className="blue" text="123456" />
+        <Text className="blue" text={formatCurrency(instantPrice)} />
       </div>
 
       <div>
@@ -32,8 +44,8 @@ const AuctionDescription = ({
       </div>
 
       <div>
-        <Button className="primary" label="경매하기" />
-        <Button className="primary" label="즉시구매" />
+        <Button className="primary" label="경매하기" onClick={auctionClick} />
+        <Button className="primary" label="즉시구매" onClick={buyItClick} />
       </div>
     </div>
   );

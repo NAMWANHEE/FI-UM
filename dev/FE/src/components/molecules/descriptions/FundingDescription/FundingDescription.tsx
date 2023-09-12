@@ -16,7 +16,7 @@ const FundingDescription = ({
         styles['funding-description'])
       }
     >
-      <RankingCard />
+      <RankingCard no1="노태균" no2="신기정" no3="김승우" />
       <FundingItemStatus />
     </div>
   );
