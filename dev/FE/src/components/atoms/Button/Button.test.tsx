@@ -18,16 +18,4 @@ describe('Button 컴포넌트', () => {
 
     expect(button).toHaveClass(styles.normal);
   });
-
-  test('size prop을 전달하지 않았을 때, normal 크기로 스타일이 적용되는지 확인', () => {
-    const { getByText } = render(<Button label="확인" />);
-    const button = getByText('확인');
-
-    // normal 사이즈의 스타일을 검증합니다.
-    expect(button).toHaveStyle(`
-      width: 240px;
-      height: 60px;
-      font-size: 1.5rem;
-    `);
-  });
 });

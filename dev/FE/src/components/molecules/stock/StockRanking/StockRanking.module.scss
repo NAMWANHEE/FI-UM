@@ -1,1 +1,19 @@
 // StockRanking.module.scss
+
+.stockRanking {
+  box-sizing: border-box;
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
+  align-items: center;
+
+  width: 360px;
+
+  .title {
+    margin: 1rem;
+  }
+  .chart {
+    width: 300px;
+  }
+}
