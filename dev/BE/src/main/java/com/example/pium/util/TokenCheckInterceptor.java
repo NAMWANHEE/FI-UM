@@ -21,6 +21,9 @@ public class TokenCheckInterceptor implements HandlerInterceptor {
         if(arr[arr.length-1].equals("auction") && request.getMethod().equals("GET")){
             return true;
         };
+        if(arr[arr.length-1].equals("sponsorship") && request.getMethod().equals("GET")){
+            return true;
+        };
         String jwtToken = jwtTokenProvider.getJwt();
         String uri = request.getRequestURI();
 

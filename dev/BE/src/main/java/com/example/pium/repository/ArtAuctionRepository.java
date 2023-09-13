@@ -14,5 +14,6 @@ public interface ArtAuctionRepository extends JpaRepository<ArtAuctionEntity, In
     List<ArtAuctionEntity> findAll();
     Optional<ArtAuctionEntity> findByAuctionNo(Integer auctionNo);
     List<ArtAuctionEntity> findByUserNo(UserEntity userNo);
+    List<ArtAuctionEntity> findAllByWinner(UserEntity userNo);
 
 }

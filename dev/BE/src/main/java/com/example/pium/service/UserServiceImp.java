@@ -40,9 +40,27 @@ public class UserServiceImp {
 
     }
 
+    public boolean checkValidPoint(Integer userNo, Integer money) {
+        int userPoint = (int) userRepository.findByUserNo(userNo).getPoint();
+        if (userPoint >= money) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean checkValidCash(Integer userNo, Integer money) {
+        int userCash = (int) userRepository.findByUserNo(userNo).getCash();
+        if (userCash >= money) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public List<UserAuctionDto> getAuctionList(int artistNo){
         List<UserAuctionDto> auctionDtoList  = new ArrayList<>();
-        List<ArtAuctionEntity> list = artAuctionRepository.findByUserNo(userRepository.findByUserNo(artistNo).get());
+        List<ArtAuctionEntity> list = artAuctionRepository.findByUserNo(userRepository.findByUserNo(artistNo));
         for(ArtAuctionEntity art: list){
             UserAuctionDto userAuctionDto = new UserAuctionDto();
             userAuctionDto.setAuctionNo(art.getAuctionNo());
@@ -55,12 +73,12 @@ public class UserServiceImp {
     }
 
     public Integer getType(int userNo){
-        return userRepository.findByUserNo(userNo).get().getUserType();
+        return userRepository.findByUserNo(userNo).getUserType();
     }
 
     public ChildUserDto getChildData(Integer userNo){
         ChildUserDto childUserDto = new ChildUserDto();
-        UserEntity user = userRepository.findByUserNo(userNo).get();
+        UserEntity user = userRepository.findByUserNo(userNo);
         childUserDto.setUserNo(user.getUserNo());
         childUserDto.setUserName(user.getUserName());
         childUserDto.setImagePath(user.getImagePath());
@@ -195,7 +213,7 @@ public class UserServiceImp {
     public UserEntity getUserInfoById(String userId){
         return userRepository.findByUserId(userId).get();
     }
-    public UserEntity getUserInfo(Integer userNo) { return userRepository.findByUserNo(userNo).get();}
+    public UserEntity getUserInfo(Integer userNo) { return userRepository.findByUserNo(userNo);}
 
 
 }

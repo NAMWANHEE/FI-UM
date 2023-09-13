@@ -29,7 +29,6 @@ public class ItemListEntity {
     private Integer itemUnitPrice;
 
     @Builder.Default
-    @NotNull(message = "itemCount must not be null")
     @Column(name = "item_count")
     private Integer itemCount =1;
 
@@ -41,17 +40,14 @@ public class ItemListEntity {
     @Column(name = "item_image_path")
     private String itemImagePath;
 
-    @NotNull(message = "sponsorshipAmount must not be null")
     @Builder.Default
     @Column(name = "sponsorship_amount")
     private Integer sponsorshipAmount = 0;
 
-    @NotNull(message = "fundingAmount must not be null")
     @Builder.Default
     @Column(name = "funding_amount")
     private Integer fundingAmount = 0;
 
-    @NotNull(message = "isCompleted must not be null")
     @Builder.Default
     @Column(name = "is_completed")
     private Boolean isCompleted = false;

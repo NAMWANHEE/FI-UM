@@ -18,7 +18,7 @@ public class PointServiceImp {
     private final PointRecordRepository pointRecordRepository;
     private final UserRepository userRepository;
 
-    public Boolean makePointRecord(UserEntity user, PointTypeEntity pointType, Integer price){
+    public void makePointRecord(UserEntity user, PointTypeEntity pointType, Integer price){
         PointRecordEntity buyerPointRecord = PointRecordEntity.builder()
                 .userNo(user)
                 .pointTypeNo(pointType)
@@ -26,15 +26,18 @@ public class PointServiceImp {
                 .changedTime(BigInteger.valueOf(System.currentTimeMillis()))
                 .build();
         pointRecordRepository.save(buyerPointRecord);
-        return true;
     }
 
-    public Boolean changePointTable(UserEntity user, Integer price) {
+    public void changePointTable(UserEntity user, Integer price) {
         user.setPoint(user.getPoint()-price);
         userRepository.save(user);
-        return true;
     }
 
+    public void changeCashTable(UserEntity user, Integer money) {
+        user.setCash(user.getCash() - money);
+        user.setPoint(user.getPoint() + (money/10));
+        userRepository.save(user);
+    }
     public List<ChildPointInterface> getPointRecord(Integer userNo){
         return pointRecordRepository.findByUserNo(userNo);
     }

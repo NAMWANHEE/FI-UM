@@ -78,11 +78,11 @@ public class StockServiceImp {
 
 
     public StockAccountDto getDetailAccount(Integer stockNo, Integer userNo) {
-        UserEntity user = userRepository.findByUserNo(userNo).get();
+        UserEntity user = userRepository.findByUserNo(userNo);
         StockEventEntity stockData = getStockType(stockNo);
         Optional<StockAccountEntity> stockAccountOpt = stockAccountRepository.findByUserNoAndStockNo(user, stockData);
         StockAccountDto stockAccountDto = new StockAccountDto();
-        stockAccountDto.setPoint(userRepository.findByUserNo(userNo).get().getPoint());
+        stockAccountDto.setPoint(userRepository.findByUserNo(userNo).getPoint());
         if (!stockAccountOpt.isPresent()) {
             stockAccountDto.setStockCount(0);
             stockAccountDto.setStockAverage(0);
@@ -94,24 +94,23 @@ public class StockServiceImp {
         return stockAccountDto;
     }
 
-    public Boolean setPoint(UserEntity user, Integer price) {
+    public void setPoint(UserEntity user, Integer price) {
         PointTypeEntity pointType = pointTypeRepository.findByPointType("주식").get();
         pointService.makePointRecord(user, pointType, -price);
         pointService.changePointTable(user,price);
-        return true;
     }
 
-    public Boolean setBalance(UserEntity user,Integer price1, Integer price2, String type){
+    public void setBalance(UserEntity user,Integer price1, Integer price2, String type){
         BalanceSheetEntity sellerBalance = balanceSheetRepository.findByUserNo(user).get();
         sellerBalance.setStock(price1);
+        sellerBalance.setPoint(user.getPoint());
         if (type == "판매") {
             sellerBalance.setStockIncome(sellerBalance.getStockIncome()+ price2);
         }
         balanceSheetRepository.save(sellerBalance);
-        return true;
     }
 
-    public Boolean makeTradeRecord(UserEntity user, StockEventEntity stockNo, Integer count, Integer price) {
+    public void makeTradeRecord(UserEntity user, StockEventEntity stockNo, Integer count, Integer price) {
         StockTradeEntity stockTradeEntity = StockTradeEntity.builder()
                 .stockNo(stockNo)
                 .userNo(user)
@@ -120,11 +119,10 @@ public class StockServiceImp {
                 .tradeTime(BigInteger.valueOf(System.currentTimeMillis()))
                 .build();
         stockTradeRepository.save(stockTradeEntity);
-        return true;
     }
 
-    public Boolean buyStock(StockTradeDto stockTradeDto, Integer userNo) {
-        UserEntity user = userRepository.findByUserNo(userNo).get();
+    public void buyStock(StockTradeDto stockTradeDto, Integer userNo) {
+        UserEntity user = userRepository.findByUserNo(userNo);
         Integer price = stockTradeDto.getCount() * stockTradeDto.getPrice();
         StockEventEntity stockData = getStockType(stockTradeDto.getStockNo());
         Optional<StockAccountEntity> stockAccountOpt = stockAccountRepository.findByUserNoAndStockNo(user, stockData);
@@ -152,11 +150,10 @@ public class StockServiceImp {
 
         // 거래 내역 추가
         makeTradeRecord(user, stockData, stockTradeDto.getCount(), stockTradeDto.getPrice());
-        return true;
     }
 
-    public Boolean sellStock(StockTradeDto stockTradeDto, Integer userNo) {
-        UserEntity user = userRepository.findByUserNo(userNo).get();
+    public void sellStock(StockTradeDto stockTradeDto, Integer userNo) {
+        UserEntity user = userRepository.findByUserNo(userNo);
         StockEventEntity stockData = getStockType(stockTradeDto.getStockNo());
         StockAccountEntity stockAccount = stockAccountRepository.findByUserNoAndStockNo(user, stockData).get();
         Integer price = stockTradeDto.getCount() * stockTradeDto.getPrice();
@@ -175,11 +172,10 @@ public class StockServiceImp {
 
         // 거래 내역 추가
         makeTradeRecord(user, stockData, stockTradeDto.getCount(), -stockTradeDto.getPrice());
-        return true;
     }
 
     public List<StockStatusDto> getMyAccount(Integer userNo) {
-        Optional<List<StockAccountEntity>> stockAccountEntityListOpt = stockAccountRepository.findByUserNo(userRepository.findByUserNo(userNo).get());
+        Optional<List<StockAccountEntity>> stockAccountEntityListOpt = stockAccountRepository.findByUserNo(userRepository.findByUserNo(userNo));
         List<StockStatusDto> stockStatusDto = new ArrayList<>();
         if (stockAccountEntityListOpt.isPresent()){
             List<StockAccountEntity> stockAccountEntityList = stockAccountEntityListOpt.get();

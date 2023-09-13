@@ -17,7 +17,7 @@ public class BankListEntity {
 
     @Id
     @Column(name="bank_no")
-    private int bankNo;
+    private Integer bankNo;
 
     @NotNull
     @Column(name="bank_name")
