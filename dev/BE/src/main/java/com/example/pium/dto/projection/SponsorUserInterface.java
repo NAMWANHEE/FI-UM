@@ -1,4 +1,4 @@
-package com.example.pium.dto;
+package com.example.pium.dto.projection;
 
 import com.example.pium.entity.UserEntity;
 
