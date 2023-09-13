@@ -1,5 +1,7 @@
 package com.example.pium.service;
 
+import com.example.pium.dto.ChildUserDto;
+import com.example.pium.dto.projection.ChildUserInterface;
 import com.example.pium.entity.FollowEntity;
 import com.example.pium.entity.UserEntity;
 import com.example.pium.repository.FollowRepository;
@@ -8,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Service
@@ -32,5 +35,9 @@ public class FollowService {
             followRepository.deleteById(followNo);
         }
         return map;
+    }
+
+    public List<ChildUserInterface> getFollowing(Integer userNo){
+        return followRepository.findByUserNo(userRepository.findByUserNo(userNo).get());
     }
 }

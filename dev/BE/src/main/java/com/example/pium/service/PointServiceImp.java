@@ -1,5 +1,6 @@
 package com.example.pium.service;
 
+import com.example.pium.dto.projection.ChildPointInterface;
 import com.example.pium.entity.PointRecordEntity;
 import com.example.pium.entity.PointTypeEntity;
 import com.example.pium.entity.UserEntity;
@@ -9,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
+import java.util.List;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +33,10 @@ public class PointServiceImp {
         user.setPoint(user.getPoint()-price);
         userRepository.save(user);
         return true;
+    }
+
+    public List<ChildPointInterface> getPointRecord(Integer userNo){
+        return pointRecordRepository.findByUserNo(userNo);
     }
 
 }

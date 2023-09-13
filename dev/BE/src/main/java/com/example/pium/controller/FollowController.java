@@ -1,6 +1,8 @@
 package com.example.pium.controller;
 
+import com.example.pium.dto.ChildUserDto;
 import com.example.pium.dto.UserNoDto;
+import com.example.pium.dto.projection.ChildUserInterface;
 import com.example.pium.entity.FollowEntity;
 import com.example.pium.service.FollowService;
 import com.example.pium.service.UserServiceImp;
@@ -11,6 +13,8 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 import java.util.Map;
 
 
@@ -31,5 +35,12 @@ public class FollowController {
         int followingUserNo = userNoDto.getUserNo();
         Map<String,String> map = followService.doFollowing(userNo, followingUserNo);
         return ResponseEntity.ok(map);
+    }
+
+    @GetMapping
+    public ResponseEntity<List<ChildUserInterface>> checkFollowing(HttpServletRequest request){
+        Integer userNo = (Integer) request.getAttribute("userNo");
+        List<ChildUserInterface> childUserDtoList = followService.getFollowing(userNo);
+        return ResponseEntity.ok(childUserDtoList);
     }
 }
