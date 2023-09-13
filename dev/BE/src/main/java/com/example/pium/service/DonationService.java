@@ -33,8 +33,6 @@ public class DonationService {
             balanceSheetRepository.save(balanceSheetEntity);
             pointService.makePointRecord(user,pointType,money);
             return true;
-
-
         }
         else{
             return false;

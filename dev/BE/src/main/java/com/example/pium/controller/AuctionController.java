@@ -35,19 +35,15 @@ public class AuctionController {
     @PostMapping
     public ResponseEntity<Map<String, String>> postAuction(HttpServletRequest request, @RequestBody RGSAuctionDto rgsAuctionDto) {
         Integer postUser = (Integer) request.getAttribute("userNo");
-        ArtAuctionEntity artAuctionEntity = ArtAuctionEntity.builder()
-                .userNo(userService.getUserInfo(postUser))
-                .title(rgsAuctionDto.getTitle())
-                .content(rgsAuctionDto.getContent())
-                .createdTime(BigInteger.valueOf(System.currentTimeMillis()))
-                .imagePath(rgsAuctionDto.getImagePath())
-                .instantPrice(rgsAuctionDto.getInstantPrice())
-                .build();
-        System.out.println(artAuctionEntity);
-        auctionService.post(artAuctionEntity);
+        Boolean checkAuction = auctionService.postAuction(postUser, rgsAuctionDto);
         Map<String, String> returnMsg = new HashMap<>();
-        returnMsg.put("msg","경매 등록이 성공적으로 완료되었습니다.");
-        return new ResponseEntity<>(returnMsg, HttpStatus.OK);
+        if (checkAuction) {
+            returnMsg.put("msg","경매 등록이 성공적으로 완료되었습니다.");
+            return new ResponseEntity<>(returnMsg, HttpStatus.OK);
+        } else  {
+            returnMsg.put("msg","이미 경매물품이 등록되어있습니다.");
+            return new ResponseEntity<>(returnMsg, HttpStatus.NOT_ACCEPTABLE);
+        }
     }
 
     @PutMapping("{auctionNo}")

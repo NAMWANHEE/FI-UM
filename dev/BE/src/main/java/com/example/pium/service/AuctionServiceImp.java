@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -23,6 +24,7 @@ public class AuctionServiceImp {
     private final PointServiceImp pointService;
     private final UserServiceImp userService;
 
+
     public void post(ArtAuctionEntity artAuctionEntity){
         artAuctionRepository.save(artAuctionEntity);
     }
@@ -30,6 +32,24 @@ public class AuctionServiceImp {
     public ArtAuctionEntity getAuctionInfo(Integer auctionNo) {
         ArtAuctionEntity auctionInfo = artAuctionRepository.findByAuctionNo(auctionNo).get();
         return auctionInfo;
+    }
+
+    public Boolean postAuction(Integer user, RGSAuctionDto rgsAuctionDto) {
+        Optional<ArtAuctionEntity> checkData = artAuctionRepository.findByUserNoAndWinnerIsNull(userService.getUserInfo(user));
+        if (!checkData.isPresent()) {
+            ArtAuctionEntity artAuctionEntity = ArtAuctionEntity.builder()
+                    .userNo(userService.getUserInfo(user))
+                    .title(rgsAuctionDto.getTitle())
+                    .content(rgsAuctionDto.getContent())
+                    .createdTime(BigInteger.valueOf(System.currentTimeMillis()))
+                    .imagePath(rgsAuctionDto.getImagePath())
+                    .instantPrice(rgsAuctionDto.getInstantPrice())
+                    .build();
+            post(artAuctionEntity);
+            return true;
+        }else {
+            return false;
+        }
     }
 
     public AuctionDto convertToAuctionDto(Integer auctionNo) {

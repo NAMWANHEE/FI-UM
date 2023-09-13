@@ -22,11 +22,11 @@ public class FollowService {
 
     public Map<String,String> doFollowing(int userNo, int followingUserNo){
         Map<String,String> map = new HashMap<>();
-        UserEntity following =  userRepository.findByUserNo(userNo);
-        UserEntity follower = userRepository.findByUserNo(followingUserNo);
+        UserEntity following =  userRepository.findByUserNo(userNo).get();
+        UserEntity follower = userRepository.findByUserNo(followingUserNo).get();
         if(!followRepository.findByFollowingAndFollower(following,follower).isPresent()){
             map.put("msg","팔로우 성공");
-            FollowEntity followEntity = FollowEntity.builder().following(userRepository.findByUserNo(userNo)).follower(userRepository.findByUserNo(followingUserNo)).build();
+            FollowEntity followEntity = FollowEntity.builder().following(userRepository.findByUserNo(userNo).get()).follower(userRepository.findByUserNo(followingUserNo).get()).build();
             followRepository.save(followEntity);
         }
         else{
