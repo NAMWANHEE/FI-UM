@@ -1,6 +1,7 @@
 package com.example.pium.service;
 
 import com.example.pium.dto.ChildUserDto;
+import com.example.pium.dto.ReturnMessageDto;
 import com.example.pium.dto.projection.ChildUserInterface;
 import com.example.pium.entity.FollowEntity;
 import com.example.pium.entity.UserEntity;
@@ -20,21 +21,22 @@ public class FollowService {
     private final FollowRepository followRepository;
     private final UserRepository userRepository;
 
-    public Map<String,String> doFollowing(int userNo, int followingUserNo){
-        Map<String,String> map = new HashMap<>();
+    public ReturnMessageDto doFollowing(int userNo, int followingUserNo){
+
+        ReturnMessageDto returnMessageDto = new ReturnMessageDto();
         UserEntity following =  userRepository.findByUserNo(userNo).get();
         UserEntity follower = userRepository.findByUserNo(followingUserNo).get();
         if(!followRepository.findByFollowingAndFollower(following,follower).isPresent()){
-            map.put("msg","팔로우 성공");
+            returnMessageDto.setMsg("팔로우 성공");
             FollowEntity followEntity = FollowEntity.builder().following(userRepository.findByUserNo(userNo).get()).follower(userRepository.findByUserNo(followingUserNo).get()).build();
             followRepository.save(followEntity);
         }
         else{
-            map.put("msg","팔로우 취소");
+            returnMessageDto.setMsg("팔로우 취소");
             int followNo = followRepository.findByFollowingAndFollower(following,follower).get().getFollowNo();
             followRepository.deleteById(followNo);
         }
-        return map;
+        return returnMessageDto;
     }
 
     public List<ChildUserInterface> getFollowing(Integer userNo){

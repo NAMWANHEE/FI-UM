@@ -26,5 +26,5 @@ public class UserInfoDto {
 
     private boolean isPrimed2;
 
-    private TokenResponseDto tokenResponseDto;
+    private TokenResponseDto tokenResponse;
 }

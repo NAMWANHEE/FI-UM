@@ -1,9 +1,6 @@
 package com.example.pium.controller;
 
-import com.example.pium.dto.ItemListDto;
-import com.example.pium.dto.ItemRecordDto;
-import com.example.pium.dto.MoneyDto;
-import com.example.pium.dto.NewItemDto;
+import com.example.pium.dto.*;
 import com.example.pium.service.SponsorShipServiceImp;
 import com.example.pium.service.UserServiceImp;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@CrossOrigin("*")
+@CrossOrigin(value = "*", allowedHeaders = "*")
 @RequiredArgsConstructor
 @RequestMapping("/sponsorship")
 @RestController
@@ -33,51 +30,50 @@ public class SponsorshipController {
     }
 
     @PostMapping
-    public ResponseEntity<Map<String, String>> makeNewItem(HttpServletRequest request, @RequestBody NewItemDto postInformation) {
+    public ResponseEntity<ReturnMessageDto> makeNewItem(HttpServletRequest request, @RequestBody NewItemDto postInformation) {
         Integer teachUser = (Integer) request.getAttribute("userNo");
-        Map<String, String> returnMsg = new HashMap<>();
+        ReturnMessageDto returnMessageDto = new ReturnMessageDto();
         if (userService.getUserInfo(teachUser).getUserType() == 0) {
             sponsorShipService.makeNewItem(postInformation);
-            returnMsg.put("msg","정상적으로 등록되였습니다.");
-            System.out.println(1);
-            return new ResponseEntity<>(returnMsg, HttpStatus.OK);
+            returnMessageDto.setMsg("정상적으로 등록되였습니다.");
+            return new ResponseEntity<>(returnMessageDto, HttpStatus.OK);
         } else {
-            returnMsg.put("msg","등록가능한 대상이 아닙니다.");
-            return new ResponseEntity<>(returnMsg, HttpStatus.NOT_ACCEPTABLE);
+            returnMessageDto.setMsg("등록가능한 대상이 아닙니다.");
+            return new ResponseEntity<>(returnMessageDto, HttpStatus.NOT_ACCEPTABLE);
         }
     }
 
     @PutMapping("{itemNo}")
-    public ResponseEntity<Map<String, String>> changeItemDetail(HttpServletRequest request,@PathVariable("itemNo") Integer itemNo, @RequestBody NewItemDto postInformation) {
+    public ResponseEntity<ReturnMessageDto> changeItemDetail(HttpServletRequest request,@PathVariable("itemNo") Integer itemNo, @RequestBody NewItemDto postInformation) {
         Integer teachUser = (Integer) request.getAttribute("userNo");
-        Map<String, String> returnMsg = new HashMap<>();
+        ReturnMessageDto returnMessageDto = new ReturnMessageDto();
         if (userService.getUserInfo(teachUser).getUserType().equals(0)) {
             sponsorShipService.changeItem(postInformation, itemNo);
-            returnMsg.put("msg","정상적으로 수정되였습니다.");
-            return new ResponseEntity<>(returnMsg, HttpStatus.OK);
+            returnMessageDto.setMsg("정상적으로 수정되였습니다.");
+            return new ResponseEntity<>(returnMessageDto, HttpStatus.OK);
         } else {
-            returnMsg.put("msg","등록가능한 대상이 아닙니다.");
-            return new ResponseEntity<>(returnMsg, HttpStatus.NOT_ACCEPTABLE);
+            returnMessageDto.setMsg("등록가능한 대상이 아닙니다.");
+            return new ResponseEntity<>(returnMessageDto, HttpStatus.NOT_ACCEPTABLE);
         }
     }
 
     @PostMapping("support/{itemNo}")
-    public ResponseEntity<Map<String, String>> postSupport(HttpServletRequest request, @PathVariable("itemNo") Integer itemNo, @RequestBody MoneyDto supportPrice) {
+    public ResponseEntity<ReturnMessageDto> postSupport(HttpServletRequest request, @PathVariable("itemNo") Integer itemNo, @RequestBody MoneyDto supportPrice) {
         Integer postUser = (Integer) request.getAttribute("userNo");
         Boolean checkPrice = sponsorShipService.checkPrice(itemNo, supportPrice.getMoney());
-        Map<String, String> returnMsg = new HashMap<>();
+        ReturnMessageDto returnMessageDto = new ReturnMessageDto();
         if (checkPrice) {
             if (userService.checkValidCash(postUser, supportPrice.getMoney())){
                 sponsorShipService.postSupport(postUser, itemNo, supportPrice.getMoney());
-                returnMsg.put("msg","정상적으로 후원하였습니다.");
-                return new ResponseEntity<>(returnMsg, HttpStatus.OK);
+                returnMessageDto.setMsg("정상적으로 후원하였습니다.");
+                return new ResponseEntity<>(returnMessageDto, HttpStatus.OK);
             } else {
-                returnMsg.put("msg","보유 캐시가 부족합니다.");
-                return new ResponseEntity<>(returnMsg, HttpStatus.FAILED_DEPENDENCY);
+                returnMessageDto.setMsg("보유 캐시가 부족합니다.");
+                return new ResponseEntity<>(returnMessageDto, HttpStatus.FAILED_DEPENDENCY);
             }
         } else {
-            returnMsg.put("msg","후원가능금액보다 더 많이 후원시도하였습니다.");
-            return new ResponseEntity<>(returnMsg, HttpStatus.NOT_ACCEPTABLE);
+            returnMessageDto.setMsg("후원가능금액보다 더 많이 후원시도하였습니다.");
+            return new ResponseEntity<>(returnMessageDto, HttpStatus.NOT_ACCEPTABLE);
         }
     }
 

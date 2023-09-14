@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@CrossOrigin("*")
+@CrossOrigin(value = "*", allowedHeaders = "*")
 @RequiredArgsConstructor
 @RequestMapping("/stock")
 @RestController
@@ -45,40 +45,40 @@ public class StockController {
     }
 
     @PostMapping("buying")
-    public ResponseEntity<Map<String, String>> buyStock(HttpServletRequest request, @RequestBody StockTradeDto stockTradeDto) {
+    public ResponseEntity<ReturnMessageDto> buyStock(HttpServletRequest request, @RequestBody StockTradeDto stockTradeDto) {
         Integer buyUser = (Integer) request.getAttribute("userNo");
         Boolean checkPrice = stockService.getStockNow(stockTradeDto.getStockNo(), stockTradeDto.getPrice());
-        Map<String, String> returnMsg = new HashMap<>();
+        ReturnMessageDto returnMessageDto = new ReturnMessageDto();
         // 현재 금액이 구매하려고 하는 금액과 일치하는지 여부
         if (checkPrice) {
             Integer price = stockTradeDto.getPrice() * stockTradeDto.getCount();
             // 보유포인트가 구매 가능한 정도로 남았는지 체크
             if (userService.checkValidPoint(buyUser, price)) {
                 stockService.buyStock(stockTradeDto, buyUser);
-                returnMsg.put("msg", "구매가 완료되었습니다.");
-                return new ResponseEntity<>(returnMsg, HttpStatus.OK);
+                returnMessageDto.setMsg("구매가 완료되었습니다.");
+                return new ResponseEntity<>(returnMessageDto, HttpStatus.OK);
             } else {
-                returnMsg.put("msg", "보유 포인트가 부족합니다.");
-                return new ResponseEntity<>(returnMsg, HttpStatus.FAILED_DEPENDENCY);
+                returnMessageDto.setMsg("보유 포인트가 부족합니다.");
+                return new ResponseEntity<>(returnMessageDto, HttpStatus.FAILED_DEPENDENCY);
             }
         } else {
-            returnMsg.put("msg","구매금액을 다시 확인해주시기 바랍니다.");
-            return new ResponseEntity<>(returnMsg, HttpStatus.NOT_ACCEPTABLE);
+            returnMessageDto.setMsg("구매금액을 다시 확인해주시기 바랍니다.");
+            return new ResponseEntity<>(returnMessageDto, HttpStatus.NOT_ACCEPTABLE);
         }
     }
 
     @PostMapping("selling")
-    public ResponseEntity<Map<String, String>> sellStock(HttpServletRequest request, @RequestBody StockTradeDto stockTradeDto) {
+    public ResponseEntity<ReturnMessageDto> sellStock(HttpServletRequest request, @RequestBody StockTradeDto stockTradeDto) {
         Integer sellUser = (Integer) request.getAttribute("userNo");
         Boolean checkPrice = stockService.getStockNow(stockTradeDto.getStockNo(), stockTradeDto.getPrice());
-        Map<String, String> returnMsg = new HashMap<>();
+        ReturnMessageDto returnMessageDto = new ReturnMessageDto();
         if (checkPrice) {
             stockService.sellStock(stockTradeDto, sellUser);
-            returnMsg.put("msg","판매가 완료되었습니다.");
-            return new ResponseEntity<>(returnMsg, HttpStatus.OK);
+            returnMessageDto.setMsg("판매가 완료되었습니다.");
+            return new ResponseEntity<>(returnMessageDto, HttpStatus.OK);
         } else {
-            returnMsg.put("msg","판매금액을 다시 확인해주시기 바랍니다.");
-            return new ResponseEntity<>(returnMsg, HttpStatus.FAILED_DEPENDENCY);
+            returnMessageDto.setMsg("판매금액을 다시 확인해주시기 바랍니다.");
+            return new ResponseEntity<>(returnMessageDto, HttpStatus.FAILED_DEPENDENCY);
         }
     }
 

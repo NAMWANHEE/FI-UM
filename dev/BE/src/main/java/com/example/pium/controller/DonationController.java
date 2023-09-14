@@ -1,6 +1,7 @@
 package com.example.pium.controller;
 
 import com.example.pium.dto.DonationDto;
+import com.example.pium.dto.ReturnMessageDto;
 import com.example.pium.service.DonationService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
 import java.util.Map;
 
-@CrossOrigin("*")
+@CrossOrigin(value = "*", allowedHeaders = "*")
 @RequiredArgsConstructor
 @RequestMapping("/donation")
 @RestController
@@ -20,18 +21,21 @@ import java.util.Map;
 public class DonationController {
 
     private final DonationService donationService;
+
+    // 기부하기
     @PostMapping
-    public ResponseEntity<Map<String,String>> doDonation(HttpServletRequest request, @RequestBody DonationDto donationDto){
+    public ResponseEntity<ReturnMessageDto> doDonation(HttpServletRequest request, @RequestBody DonationDto donationDto){
         Integer userNo = (Integer) request.getAttribute("userNo");
         boolean check = donationService.donate(userNo, donationDto.getDonationMoney());
-        Map<String,String> map = new HashMap<>();
+        ReturnMessageDto returnMessageDto = new ReturnMessageDto();
         if(check){
-            map.put("msg","기부완료");
-            return ResponseEntity.ok(map);
+
+            returnMessageDto.setMsg("기부완료");
+            return ResponseEntity.ok(returnMessageDto);
         }
         else{
-            map.put("msg","보유한 포인트가 부족합니다.");
-            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(map);
+            returnMessageDto.setMsg("보유한 포인트가 부족합니다.");
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(returnMessageDto);
         }
     }
 }

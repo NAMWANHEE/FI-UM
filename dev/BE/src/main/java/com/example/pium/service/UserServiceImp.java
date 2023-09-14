@@ -129,7 +129,7 @@ public class UserServiceImp {
     }
 
     public boolean check(UserLoginDto userLoginDto){
-        Optional<UserEntity> user = userRepository.findByUserId(userLoginDto.getId());
+        Optional<UserEntity> user = userRepository.findByUserId(userLoginDto.getUserId());
         if(user.isPresent()&& BCrypt.checkpw(userLoginDto.getPassword(), user.get().getPassword())){
             return true;
         }

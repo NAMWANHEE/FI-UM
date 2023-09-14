@@ -1,9 +1,6 @@
 package com.example.pium.controller;
 
-import com.example.pium.dto.FundingProgressDto;
-import com.example.pium.dto.ItemListDto;
-import com.example.pium.dto.MoneyDto;
-import com.example.pium.dto.MyFundingDto;
+import com.example.pium.dto.*;
 import com.example.pium.service.FundingServiceImp;
 import com.example.pium.service.UserServiceImp;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@CrossOrigin("*")
+@CrossOrigin(value = "*", allowedHeaders = "*")
 @RequiredArgsConstructor
 @RequestMapping("/funding")
 @RestController
@@ -33,26 +30,26 @@ public class FundingController {
     }
 
     @PostMapping("{itemNo}")
-    public ResponseEntity<Map<String, String>> postFunding(HttpServletRequest request,@PathVariable("itemNo") Integer itemNo, @RequestBody MoneyDto money) {
+    public ResponseEntity<ReturnMessageDto> postFunding(HttpServletRequest request, @PathVariable("itemNo") Integer itemNo, @RequestBody MoneyDto money) {
         Integer childUser = (Integer) request.getAttribute("userNo");
-        Map<String, String> returnMsg = new HashMap<>();
+        ReturnMessageDto returnMessageDto = new ReturnMessageDto();
         if (fundingService.checkFundingNow(itemNo, money.getMoney())) {
             if (userService.checkValidPoint(childUser, money.getMoney())) {
                 if (userService.getUserInfo(childUser).getUserType() == 2) {
                     fundingService.postFunding(childUser, itemNo, money.getMoney());
-                    returnMsg.put("msg","정상적으로 펀딩되였습니다.");
-                    return new ResponseEntity<>(returnMsg, HttpStatus.OK);
+                    returnMessageDto.setMsg("정상적으로 펀딩되였습니다.");
+                    return new ResponseEntity<>(returnMessageDto, HttpStatus.OK);
                 } else {
-                    returnMsg.put("msg","펀딩가능한 대상이 아닙니다.");
-                    return new ResponseEntity<>(returnMsg, HttpStatus.NOT_ACCEPTABLE);
+                    returnMessageDto.setMsg("펀딩가능한 대상이 아닙니다.");
+                    return new ResponseEntity<>(returnMessageDto, HttpStatus.NOT_ACCEPTABLE);
                 }
             } else {
-                returnMsg.put("msg","보유 포인트가 부족합니다.");
-                return new ResponseEntity<>(returnMsg, HttpStatus.FAILED_DEPENDENCY);
+                returnMessageDto.setMsg("보유 포인트가 부족합니다.");
+                return new ResponseEntity<>(returnMessageDto, HttpStatus.FAILED_DEPENDENCY);
             }
         } else  {
-            returnMsg.put("msg","남은 펀딩금액보다 펀딩금액이 큽니다.");
-            return new ResponseEntity<>(returnMsg, HttpStatus.NOT_ACCEPTABLE);
+            returnMessageDto.setMsg("남은 펀딩금액보다 펀딩금액이 큽니다.");
+            return new ResponseEntity<>(returnMessageDto, HttpStatus.NOT_ACCEPTABLE);
         }
 
     }

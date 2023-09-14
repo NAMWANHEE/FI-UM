@@ -2,10 +2,9 @@ package com.example.pium.dto;
 
 import com.example.pium.dto.projection.ChildPointInterface;
 import com.example.pium.dto.projection.UserStockInterface;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 
-import javax.persistence.criteria.CriteriaBuilder;
+
 import java.util.List;
 
 @Data

@@ -2,6 +2,7 @@ package com.example.pium.controller;
 
 import com.example.pium.dto.AuctionDto;
 import com.example.pium.dto.RGSAuctionDto;
+import com.example.pium.dto.ReturnMessageDto;
 import com.example.pium.dto.UserAuctionDto;
 import com.example.pium.entity.ArtAuctionEntity;
 import com.example.pium.service.AuctionServiceImp;
@@ -18,7 +19,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.List;
 
-@CrossOrigin("*")
+@CrossOrigin(value = "*", allowedHeaders = "*")
 @RequiredArgsConstructor
 @RequestMapping("/auction")
 @RestController
@@ -33,28 +34,28 @@ public class AuctionController {
     }
 
     @PostMapping
-    public ResponseEntity<Map<String, String>> postAuction(HttpServletRequest request, @RequestBody RGSAuctionDto rgsAuctionDto) {
+    public ResponseEntity<ReturnMessageDto> postAuction(HttpServletRequest request, @RequestBody RGSAuctionDto rgsAuctionDto) {
         Integer postUser = (Integer) request.getAttribute("userNo");
         Boolean checkAuction = auctionService.postAuction(postUser, rgsAuctionDto);
-        Map<String, String> returnMsg = new HashMap<>();
+        ReturnMessageDto returnMessageDto = new ReturnMessageDto();
         if (checkAuction) {
-            returnMsg.put("msg","경매 등록이 성공적으로 완료되었습니다.");
-            return new ResponseEntity<>(returnMsg, HttpStatus.OK);
+            returnMessageDto.setMsg("경매 등록이 성공적으로 완료되었습니다.");
+            return new ResponseEntity<>(returnMessageDto, HttpStatus.OK);
         } else  {
-            returnMsg.put("msg","이미 경매물품이 등록되어있습니다.");
-            return new ResponseEntity<>(returnMsg, HttpStatus.NOT_ACCEPTABLE);
+            returnMessageDto.setMsg("이미 경매물품이 등록되어있습니다.");
+            return new ResponseEntity<>(returnMessageDto, HttpStatus.NOT_ACCEPTABLE);
         }
     }
 
     @PutMapping("{auctionNo}")
-    public ResponseEntity<Map<String, String>> modifyAuctionDetail(@PathVariable("auctionNo") Integer auctionNo, @RequestBody RGSAuctionDto rgsAuctionDto) {
+    public ResponseEntity<ReturnMessageDto> modifyAuctionDetail(@PathVariable("auctionNo") Integer auctionNo, @RequestBody RGSAuctionDto rgsAuctionDto) {
         ArtAuctionEntity artAuctionEntity = auctionService.getAuctionInfo(auctionNo);
         artAuctionEntity.setTitle(rgsAuctionDto.getTitle());
         artAuctionEntity.setContent(rgsAuctionDto.getContent());
         auctionService.post(artAuctionEntity);
-        Map<String, String> returnMsg = new HashMap<>();
-        returnMsg.put("msg","경매 수정이 성공적으로 완료되었습니다.");
-        return new ResponseEntity<>(returnMsg, HttpStatus.OK);
+        ReturnMessageDto returnMessageDto = new ReturnMessageDto();
+        returnMessageDto.setMsg("경매 수정이 성공적으로 완료되었습니다.");
+        return new ResponseEntity<>(returnMessageDto, HttpStatus.OK);
     }
 
     @GetMapping("detail/{auctionNo}")
@@ -64,17 +65,18 @@ public class AuctionController {
     }
 
     @PostMapping("bid/{auctionNo}")
-    public ResponseEntity<Map<String, String>> modifyAuctionPrice(HttpServletRequest request, @PathVariable("auctionNo") Integer auctionNo, @RequestBody RGSAuctionDto rgsAuctionDto) {
+    public ResponseEntity<ReturnMessageDto> modifyAuctionPrice(HttpServletRequest request, @PathVariable("auctionNo") Integer auctionNo, @RequestBody RGSAuctionDto rgsAuctionDto) {
         ArtAuctionEntity artAuctionEntity = auctionService.getAuctionInfo(auctionNo);
         Integer buyer = (Integer) request.getAttribute("userNo");
         Integer seller = artAuctionEntity.getUserNo().getUserNo();
-        Map<String, String> returnMsg = new HashMap<>();
+        ReturnMessageDto returnMessageDto = new ReturnMessageDto();
         // 일단 낙찰자가 있는지 없는지 확인하여 구분 있으면 이미 판매된 상품 메세지
         if (artAuctionEntity.getWinner() == null) {
             // 현재 경매품에 등록된 금액보다 작거나 같으면 경매입찰을 할수 없는 로직 설정
             if (artAuctionEntity.getAuctionPrice() >= rgsAuctionDto.getAuctionPrice()) {
-                returnMsg.put("msg","현재 금액보다 낮거나 같은 금액으로 입찰 시도하였음.");
-                return new ResponseEntity<>(returnMsg, HttpStatus.NOT_ACCEPTABLE);
+                returnMessageDto.setMsg("현재 금액보다 낮거나 같은 금액으로 입찰 시도하였음.");
+
+                return new ResponseEntity<>(returnMessageDto, HttpStatus.NOT_ACCEPTABLE);
             } else {
                 // 구매 가능한 경우 입찰 기록에 등록 및 즉시구매가일 경우 낙찰자까지 입력하는 로직
                 auctionService.makeRecord(userService.getUserInfo(buyer), artAuctionEntity, rgsAuctionDto);
@@ -82,19 +84,21 @@ public class AuctionController {
                 if (rgsAuctionDto.getAuctionPrice().equals(artAuctionEntity.getInstantPrice())) {
                     artAuctionEntity.setWinner(userService.getUserInfo(buyer));
                     auctionService.changePoint(userService.getUserInfo(buyer), userService.getUserInfo(seller), rgsAuctionDto.getAuctionPrice());
-                    returnMsg.put("msg","구매에 성공하였습니다.");
+                    returnMessageDto.setMsg("구매에 성공하였습니다.");
+
                 }
                 else {
-                    returnMsg.put("msg","입찰에 성공하였습니다.");
+                    returnMessageDto.setMsg("입찰에 성공하였습니다.");
+
                 }
 
                 artAuctionEntity.setAuctionPrice(rgsAuctionDto.getAuctionPrice());
                 auctionService.post(artAuctionEntity);
-                return new ResponseEntity<>(returnMsg, HttpStatus.OK);
+                return new ResponseEntity<>(returnMessageDto, HttpStatus.OK);
             }
         } else {
-            returnMsg.put("msg","이미 판매 완료된 상품입니다.");
-            return new ResponseEntity<>(returnMsg, HttpStatus.PRECONDITION_FAILED);
+            returnMessageDto.setMsg("이미 판매 완료된 상품입니다.");
+            return new ResponseEntity<>(returnMessageDto, HttpStatus.PRECONDITION_FAILED);
         }
     }
 

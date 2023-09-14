@@ -23,13 +23,16 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/user/reissue")
                 .excludePathPatterns("/auction/detail/**")
                 .excludePathPatterns("/ranking")
-                .excludePathPatterns("/item/funding")
+                //.excludePathPatterns("/funding")
                 .excludePathPatterns("/news")
                 .excludePathPatterns("/edu")
                // .excludePathPatterns("/sponsorship")
                 .excludePathPatterns("/image/**")
 //                .excludePathPatterns("/stock")
-                .excludePathPatterns("/stock/king");
+                .excludePathPatterns("/stock/king")
+                .excludePathPatterns("/swagger-ui/**")
+                .excludePathPatterns("/v2/api-docs")
+                .excludePathPatterns("/swagger-resources/**");
 
     }
 }

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
-@CrossOrigin("*")
+@CrossOrigin(value = "*", allowedHeaders = "*")
 @RequiredArgsConstructor
 @RequestMapping("/point")
 @RestController
@@ -22,6 +22,7 @@ public class PointController {
 
     private final PointServiceImp pointService;
 
+    // 나의 포인트 사용내역 조회
     @GetMapping
     public ResponseEntity<List<ChildPointInterface>>getPointRecord(HttpServletRequest request){
         Integer userNo = (Integer) request.getAttribute("userNo");
