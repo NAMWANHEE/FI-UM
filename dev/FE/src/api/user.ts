@@ -8,7 +8,7 @@ const getUserCheckId = async ({
 }: {
   queryKey: QueryKey;
 }): Promise<string> => {
-  return await api.get(`user/check-id?${userId}`);
+  return await api.get(`user/check-id?userId=${userId}`);
 };
 
 // 예술가 작품 전체 조회

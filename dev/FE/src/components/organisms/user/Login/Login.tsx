@@ -1,8 +1,9 @@
 import { Button, Text } from '@/components/atoms';
 import { convertClassName, convertClassNameList, convertUser } from '@/utils';
 import styles from './Login.module.scss';
-import { useMemo, useState, ChangeEvent } from 'react';
+import { useMemo, useState, ChangeEvent, useEffect } from 'react';
 import { UserDetail } from '@/types';
+import { getUserCheckId, userSignup } from '@/api/user';
 
 interface LoginProps {
   className?: string;
@@ -10,13 +11,90 @@ interface LoginProps {
 }
 
 const Login = ({ className, signUp }: LoginProps): JSX.Element => {
-  const [userInfomation, setUserInformation] = useState<UserDetail>({
-    id: '',
+  const [userInformation, setUserInformation] = useState<UserDetail>({
+    userId: '',
     password: '',
     password2: '',
-    phonenumber: '',
-    name: '',
+    phoneNumber: '',
+    userName: '',
   });
+  const [idCheckResponse, setIdCheckResponse] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState<string>('');
+
+  useEffect(() => {
+    if (userInformation.userId) {
+      getUserCheckId({ queryKey: ['', userInformation.userId] })
+        .then((res: any) => {
+          res.data.msg === '사용 가능'
+            ? setIdCheckResponse('사용 가능한 아이디입니다.')
+            : setIdCheckResponse('사용할 수 없는 아이디입니다.');
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+      if (userInformation.userId === '') {
+        setIdCheckResponse('');
+      }
+    }
+  }, [userInformation.userId]);
+  useEffect(() => {
+    // 모든 필드가 채워졌는지 확인
+    if (
+      !userInformation.userName ||
+      !userInformation.userId ||
+      !userInformation.password ||
+      !userInformation.password2 ||
+      !userInformation.phoneNumber
+    ) {
+      setErrorMessage('모든 필드를 채워주세요.');
+      return;
+    }
+
+    // ID 최대 12자
+    if (userInformation.userId.length > 12) {
+      setErrorMessage('ID는 최대 12자 까지 설정 가능합니다.');
+      return;
+    }
+
+    // ID가 알파벳과 숫자로만 구성되어 있는지 확인
+    if (!/^[A-Za-z0-9]+$/.test(userInformation.userId)) {
+      setErrorMessage('ID는 알파벳과 숫자로만 구성되어야 합니다.');
+      return;
+    }
+    // ID 중복 확인
+    if (idCheckResponse === '사용할 수 없는 아이디입니다.') {
+      console.log(idCheckResponse);
+      setErrorMessage('다른 아이디를 사용하여야 합니다.');
+      return;
+    }
+
+    // 비밀번호의 길이가 8자 이상 15자 이하인지 확인
+    if (
+      userInformation.password.length < 8 ||
+      userInformation.password.length > 15
+    ) {
+      setErrorMessage('비밀번호는 8자 이상 15자 이하이어야 합니다.');
+      return;
+    }
+
+    // 비밀번호가 일치하는지 확인
+    if (userInformation.password !== userInformation.password2) {
+      setErrorMessage('비밀번호가 일치하지 않습니다.');
+      return;
+    }
+
+    // 전화번호 형식이 맞는지 확인
+    if (
+      !/^01([0|1|6|7|8|9])-([0-9]{3,4})-([0-9]{4})$/.test(
+        userInformation.phoneNumber,
+      )
+    ) {
+      setErrorMessage('전화번호 형식이 올바르지 않습니다.');
+      return;
+    }
+    setErrorMessage('');
+  }, [userInformation]);
+
   const handleChangeValue = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
 
@@ -24,19 +102,24 @@ const Login = ({ className, signUp }: LoginProps): JSX.Element => {
       ...prevState,
       [name]: value,
     }));
-    console.log(userInfomation);
   };
 
   const handleSignUpClick = () => {
-    console.log('');
+    if (errorMessage === '') {
+      userSignup(userInformation).then((res) => {
+        console.log(res);
+      });
+    } else {
+      alert(errorMessage);
+    }
   };
 
   const inputList = useMemo(() => {
-    const arr = ['id', 'password'];
+    const arr = ['userId', 'password'];
     if (signUp) {
       arr.push('password2');
-      arr.push('name');
-      arr.push('phonenumber');
+      arr.push('userName');
+      arr.push('phoneNumber');
     }
     return arr;
   }, [signUp]);
@@ -73,9 +156,10 @@ const Login = ({ className, signUp }: LoginProps): JSX.Element => {
               className={convertClassNameList(styles['login__item--input'])}
               type="text"
               name={key}
-              value={userInfomation[key as keyof UserDetail]}
+              value={userInformation[key as keyof UserDetail]}
               onChange={handleChangeValue}
             />
+            {signUp && key === 'userId' ? <div>{idCheckResponse}</div> : ''}
           </div>
         ),
       )}
@@ -87,9 +171,7 @@ const Login = ({ className, signUp }: LoginProps): JSX.Element => {
           styles['login__item--button'],
         )}
         label={!signUp ? '로그인' : '회원가입'}
-        onClick={() => {
-          console.log(userInfomation);
-        }}
+        onClick={handleSignUpClick}
       />
     </div>
   );
