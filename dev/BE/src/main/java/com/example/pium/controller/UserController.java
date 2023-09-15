@@ -171,8 +171,6 @@ public class UserController {
             accessTokenDto.setToken("다시 로그인 해주세요.");
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(accessTokenDto);
         }
-
-
     }
 
     // 유저 회원가입

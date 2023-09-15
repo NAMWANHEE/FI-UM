@@ -6,6 +6,7 @@ import java.math.BigInteger;
 
 @Data
 public class AuctionDto {
+    private Integer auctionNo;
     private String title;
     private String content;
     private Integer userNo;

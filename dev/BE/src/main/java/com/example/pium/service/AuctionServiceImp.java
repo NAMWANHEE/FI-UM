@@ -55,6 +55,7 @@ public class AuctionServiceImp {
     public AuctionDto convertToAuctionDto(Integer auctionNo) {
         ArtAuctionEntity beforeDetail = artAuctionRepository.findByAuctionNo(auctionNo).get();
         AuctionDto dto = new AuctionDto();
+        dto.setAuctionNo(beforeDetail.getAuctionNo());
         dto.setUserNo(beforeDetail.getUserNo().getUserNo());
         dto.setTitle(beforeDetail.getTitle());
         dto.setContent(beforeDetail.getContent());

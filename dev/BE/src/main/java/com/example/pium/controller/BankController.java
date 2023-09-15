@@ -44,7 +44,7 @@ public class BankController {
                 return new ResponseEntity<>(returnMessageDto, HttpStatus.OK);
             } else {
                 returnMessageDto.setMsg("보유 포인트가 부족합니다.");
-                return new ResponseEntity<>(returnMessageDto, HttpStatus.FAILED_DEPENDENCY);
+                return new ResponseEntity<>(returnMessageDto, HttpStatus.BAD_REQUEST);
             }
         }
     }
@@ -60,7 +60,7 @@ public class BankController {
             return new ResponseEntity<>(returnMessageDto, HttpStatus.OK);
         } else {
             returnMessageDto.setMsg("보유 포인트가 부족합니다.");
-            return new ResponseEntity<>(returnMessageDto, HttpStatus.FAILED_DEPENDENCY);
+            return new ResponseEntity<>(returnMessageDto, HttpStatus.NOT_ACCEPTABLE);
         }
     }
 

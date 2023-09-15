@@ -37,7 +37,7 @@ public class StockController {
         return stockDetailDto;
     }
 
-    @GetMapping("myAccount/{stockNo}")
+    @GetMapping("my-account/{stockNo}")
     public StockAccountDto getDetailStockAccount(HttpServletRequest request, @PathVariable("stockNo") Integer stockNo) {
         Integer myUser = (Integer) request.getAttribute("userNo");
         StockAccountDto myAccountDetail = stockService.getDetailAccount(stockNo, myUser);
@@ -82,7 +82,7 @@ public class StockController {
         }
     }
 
-    @GetMapping("myStock")
+    @GetMapping("my-stock")
     public List<StockStatusDto> getMyStatus(HttpServletRequest request) {
         Integer myUser = (Integer) request.getAttribute("userNo");
         return stockService.getMyAccount(myUser);

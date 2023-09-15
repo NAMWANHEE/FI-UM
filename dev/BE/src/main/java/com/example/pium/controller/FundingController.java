@@ -41,17 +41,16 @@ public class FundingController {
                     return new ResponseEntity<>(returnMessageDto, HttpStatus.OK);
                 } else {
                     returnMessageDto.setMsg("펀딩가능한 대상이 아닙니다.");
-                    return new ResponseEntity<>(returnMessageDto, HttpStatus.NOT_ACCEPTABLE);
+                    return new ResponseEntity<>(returnMessageDto, HttpStatus.FAILED_DEPENDENCY);
                 }
             } else {
                 returnMessageDto.setMsg("보유 포인트가 부족합니다.");
-                return new ResponseEntity<>(returnMessageDto, HttpStatus.FAILED_DEPENDENCY);
+                return new ResponseEntity<>(returnMessageDto, HttpStatus.BAD_REQUEST);
             }
         } else  {
             returnMessageDto.setMsg("남은 펀딩금액보다 펀딩금액이 큽니다.");
             return new ResponseEntity<>(returnMessageDto, HttpStatus.NOT_ACCEPTABLE);
         }
-
     }
 
     @GetMapping("progress")

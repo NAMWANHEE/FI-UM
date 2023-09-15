@@ -65,7 +65,7 @@ public class UserServiceImp {
             UserAuctionDto userAuctionDto = new UserAuctionDto();
             userAuctionDto.setAuctionNo(art.getAuctionNo());
             userAuctionDto.setTitle(art.getTitle());
-            userAuctionDto.setWinner(art.getWinner().getUserNo());
+            userAuctionDto.setWinner(art.getWinner()== null ? null :art.getWinner().getUserNo());
             userAuctionDto.setImagePath(art.getImagePath());
             auctionDtoList.add(userAuctionDto);
         }

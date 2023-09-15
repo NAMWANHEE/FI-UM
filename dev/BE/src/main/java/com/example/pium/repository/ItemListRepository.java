@@ -1,5 +1,6 @@
 package com.example.pium.repository;
 
+import com.example.pium.dto.MyFundingDto;
 import com.example.pium.entity.ItemListEntity
         ;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -21,4 +22,10 @@ public interface ItemListRepository extends JpaRepository<ItemListEntity, Intege
 
     @Query("SELECT SUM(i.sponsorshipAmount) FROM ItemListEntity i WHERE i.isCompleted = true")
     Integer findTotalSponsorshipAmountForCompletedItems();
+    @Query("SELECT new com.example.pium.dto.MyFundingDto(i.itemNo, i.itemName , i.itemImagePath , i.itemUnitPrice , i.itemCount , i.fundingAmount) " +
+            "FROM ItemListEntity i " +
+            "where i.fundingAmount < (i.itemUnitPrice *i.itemCount * 0.3) AND i.isCompleted = true"
+            )
+    List<MyFundingDto> findFunding();
+
 }

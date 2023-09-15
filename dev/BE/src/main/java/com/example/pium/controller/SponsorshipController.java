@@ -69,11 +69,11 @@ public class SponsorshipController {
                 return new ResponseEntity<>(returnMessageDto, HttpStatus.OK);
             } else {
                 returnMessageDto.setMsg("보유 캐시가 부족합니다.");
-                return new ResponseEntity<>(returnMessageDto, HttpStatus.FAILED_DEPENDENCY);
+                return new ResponseEntity<>(returnMessageDto, HttpStatus.NOT_ACCEPTABLE);
             }
         } else {
             returnMessageDto.setMsg("후원가능금액보다 더 많이 후원시도하였습니다.");
-            return new ResponseEntity<>(returnMessageDto, HttpStatus.NOT_ACCEPTABLE);
+            return new ResponseEntity<>(returnMessageDto, HttpStatus.BAD_REQUEST);
         }
     }
 

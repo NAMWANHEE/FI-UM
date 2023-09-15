@@ -23,7 +23,7 @@ public class FundingServiceImp {
     private final BalanceSheetRepository balanceSheetRepository;
 
     public FundingProgressDto getFundingProgress() {
-        Integer sponsorPrice = itemListRepository.findTotalSponsorshipAmountForCompletedItems() * 3;
+        Integer sponsorPrice = itemListRepository.findTotalSponsorshipAmountForCompletedItems() * 3 /10;
         Integer fundingPrice = itemListRepository.findTotalFundingAmountForCompletedItems();
         FundingProgressDto getData = new FundingProgressDto();
         getData.setTotalFundingPrice(sponsorPrice);
@@ -34,7 +34,7 @@ public class FundingServiceImp {
 
     public Boolean checkFundingNow(Integer itemNo, Integer money) {
         ItemListEntity itemDetail = itemListRepository.findByItemNo(itemNo);
-        Integer canFunding = (itemDetail.getItemUnitPrice() * itemDetail.getItemCount() * 3) - itemDetail.getFundingAmount();
+        Integer canFunding = (itemDetail.getItemUnitPrice() * itemDetail.getItemCount() * 3 /10) - itemDetail.getFundingAmount();
         if (canFunding >= money) {
             return  true;
         } else  {
@@ -48,7 +48,7 @@ public class FundingServiceImp {
     }
 
     public List<MyFundingDto> getFunding() {
-        List<MyFundingDto> getData = sponsorFundingHistoryRepository.findFunding();
+        List<MyFundingDto> getData = itemListRepository.findFunding();
         return getData;
     }
 
@@ -73,12 +73,12 @@ public class FundingServiceImp {
         itemDetail.setFundingAmount(itemDetail.getFundingAmount()+money);
         itemListRepository.save(itemDetail);
 
-        // 포인트 추가 및 캐시 감소
-        pointService.changePointTable(userData, money);
+        // 포인트 추가
+        pointService.changePointTable(userData, -money);
 
         // 포인트 내역(포인트 획득)
         PointTypeEntity pointTypePoint = pointTypeRepository.findByPointType("펀딩").get();
-        pointService.makePointRecord(userData, pointTypePoint, money);
+        pointService.makePointRecord(userData, pointTypePoint, -money);
 
         // 재무상태표 반영
         setBalance(userData);
