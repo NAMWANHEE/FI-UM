@@ -3,7 +3,8 @@ import { convertClassName, convertClassNameList, convertUser } from '@/utils';
 import styles from './Login.module.scss';
 import { useMemo, useState, ChangeEvent, useEffect } from 'react';
 import { UserDetail } from '@/types';
-import { getUserCheckId, userSignup } from '@/api/user';
+import { getUserCheckId, userLogin, userSignup } from '@/api/user';
+import { useMutation } from '@tanstack/react-query';
 
 interface LoginProps {
   className?: string;
@@ -22,7 +23,7 @@ const Login = ({ className, signUp }: LoginProps): JSX.Element => {
   const [errorMessage, setErrorMessage] = useState<string>('');
 
   useEffect(() => {
-    if (userInformation.userId) {
+    if (userInformation.userId && signUp) {
       getUserCheckId({ queryKey: ['', userInformation.userId] })
         .then((res: any) => {
           res.data.msg === '사용 가능'
@@ -36,7 +37,8 @@ const Login = ({ className, signUp }: LoginProps): JSX.Element => {
         setIdCheckResponse('');
       }
     }
-  }, [userInformation.userId]);
+  }, [userInformation.userId, signUp]);
+
   useEffect(() => {
     // 모든 필드가 채워졌는지 확인
     if (
@@ -104,14 +106,37 @@ const Login = ({ className, signUp }: LoginProps): JSX.Element => {
     }));
   };
 
+  const signUpMutation = useMutation(userSignup, {
+    onSuccess: (data) => {
+      alert('회원가입 되었습니다.');
+      console.log(data);
+    },
+    onError: (err) => {
+      console.log(err);
+    },
+  });
+
   const handleSignUpClick = () => {
     if (errorMessage === '') {
-      userSignup(userInformation).then((res) => {
-        console.log(res);
-      });
+      signUpMutation.mutate(userInformation);
     } else {
       alert(errorMessage);
     }
+  };
+
+  const loginMutation = useMutation(userLogin, {
+    onSuccess: (data) => {
+      console.log(data);
+      sessionStorage.setItem('user', JSON.stringify(data));
+    },
+    onError: (err) => {
+      console.log(err);
+      alert('아이디 또는 비밀번호를 확인해주세요');
+    },
+  });
+
+  const handleLoginClick = () => {
+    loginMutation.mutate(userInformation);
   };
 
   const inputList = useMemo(() => {
@@ -154,7 +179,7 @@ const Login = ({ className, signUp }: LoginProps): JSX.Element => {
             </label>
             <input
               className={convertClassNameList(styles['login__item--input'])}
-              type="text"
+              type={key.includes('password') ? 'password' : 'text'}
               name={key}
               value={userInformation[key as keyof UserDetail]}
               onChange={handleChangeValue}
@@ -171,7 +196,7 @@ const Login = ({ className, signUp }: LoginProps): JSX.Element => {
           styles['login__item--button'],
         )}
         label={!signUp ? '로그인' : '회원가입'}
-        onClick={handleSignUpClick}
+        onClick={signUp ? handleSignUpClick : handleLoginClick}
       />
     </div>
   );

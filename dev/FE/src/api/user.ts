@@ -29,8 +29,14 @@ const getUserTotalCapital = async () => {
   return await authApi.get(`user/total-capital`);
 };
 
+// 회원가입
 const userSignup = async (userDetail: UserDetail) => {
   return await api.post(`user/signup`, userDetail);
+};
+
+// 로그인
+const userLogin = async (userDetail: UserDetail) => {
+  return await api.post('user/login', userDetail);
 };
 
 export {
@@ -39,4 +45,5 @@ export {
   getUser,
   getUserTotalCapital,
   userSignup,
+  userLogin,
 };
