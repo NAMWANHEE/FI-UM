@@ -11,4 +11,6 @@ import java.util.Optional;
 @Repository
 public interface SavingRepository extends JpaRepository<SavingEntity, Integer> {
     Optional<SavingEntity> findByUserNoAndBankProductDataNo(UserEntity userNo, BankProductDataEntity productNo);
+
+
 }

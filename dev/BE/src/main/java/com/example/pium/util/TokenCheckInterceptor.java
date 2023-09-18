@@ -18,6 +18,9 @@ public class TokenCheckInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception{
         String [] arr = request.getRequestURI().split("/");
+        if(request.getMethod().equals("OPTIONS")) {
+            return true;
+        }
         if(arr[arr.length-1].equals("auction") && request.getMethod().equals("GET")){
             return true;
         };
