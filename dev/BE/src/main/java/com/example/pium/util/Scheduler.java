@@ -142,7 +142,7 @@ public class Scheduler {
         }
     }
 
-    @Scheduled(cron ="0 * * * * *")
+    @Scheduled(cron ="0 0 0 * * *")
     public void ranking(){
         // 주식왕
         List<Rank> stockRankList = balanceSheetRepository.getStockRanking();

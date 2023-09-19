@@ -176,6 +176,7 @@ public class StockServiceImp {
     }
 
     public List<StockStatusDto> getMyAccount(Integer userNo) {
+        if(userNo == null) return null;
         Optional<List<StockAccountEntity>> stockAccountEntityListOpt = stockAccountRepository.findByUserNo(userRepository.findByUserNo(userNo).get());
         List<StockStatusDto> stockStatusDto = new ArrayList<>();
         if (stockAccountEntityListOpt.isPresent()){
