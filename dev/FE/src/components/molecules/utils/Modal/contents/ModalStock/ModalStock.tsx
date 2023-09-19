@@ -1,27 +1,43 @@
-import { ChangeEvent, MouseEvent, useCallback, useMemo, useState } from 'react';
+import {
+  ChangeEvent,
+  MouseEvent,
+  useCallback,
+  useMemo,
+  useState,
+  useEffect,
+} from 'react';
 import { convertClassName, convertClassNameList, priceFilter } from '@/utils';
 import styles from './ModalStock.module.scss';
 import { Button, Text } from '@/components/atoms';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp } from '@/utils/fontAwesomeIcon';
+import { StockAccount } from '@/types';
 
 interface ModalStockProps {
   className?: string;
   label: string;
   onClick: () => void;
   toggle: () => void;
+  price: number;
+  totalCount: number;
+  stockNo: number;
+  setStockAccount: (e: StockAccount) => void;
 }
 
 // 나중에 props로 대체 예정
 const ratioList = [10, 25, 50, 100];
-const totalCount = 12;
-const price = 10000;
+// const totalCount = 12;
+// const price = 10000;
 
 const ModalStock = ({
   className,
   label,
   onClick,
   toggle,
+  price,
+  totalCount,
+  stockNo,
+  setStockAccount,
 }: ModalStockProps): JSX.Element => {
   const [count, setCount] = useState<number>(0);
 
@@ -52,6 +68,14 @@ const ModalStock = ({
     },
     [totalCount],
   );
+
+  useEffect(() => {
+    setStockAccount({
+      stockNo: stockNo,
+      price: price,
+      count: count,
+    });
+  }, [count]);
 
   return (
     <div
@@ -130,6 +154,7 @@ const ModalStock = ({
         {ratioList.map(
           (ratio: number): JSX.Element => (
             <Button
+              key={ratio}
               className={convertClassNameList(
                 styles['modal-stock__button'],
                 'bg-gray-light',

@@ -44,7 +44,7 @@ const postStockBuying = async (stockAccount: StockAccount): Promise<string> => {
 };
 
 // 주식 판매
-const posttStockSelling = async (
+const postStockSelling = async (
   stockAccount: StockAccount,
 ): Promise<string> => {
   return await authApi.post(`stock/selling`, stockAccount);
@@ -57,5 +57,5 @@ export {
   getStockChart,
   getStockMyAccount,
   postStockBuying,
-  posttStockSelling,
+  postStockSelling,
 };

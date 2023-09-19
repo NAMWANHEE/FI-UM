@@ -1,1 +1,22 @@
 // StockPage.module.scss
+
+.stockPage {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.allStocks {
+  width: 70%;
+}
+
+.rankingWrapper {
+  display: flex;
+  width: 80%;
+  justify-content: center;
+}
+
+.newsWrapper {
+  width: 10%;
+}

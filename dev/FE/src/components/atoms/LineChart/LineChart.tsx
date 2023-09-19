@@ -13,9 +13,10 @@ ChartJS.register(CategoryScale, LinearScale, PointElement, LineElement);
 
 interface LineChartProps {
   className?: string;
+  data?: ChartData<'line', number[], string>;
 }
 
-const data: ChartData<'line', number[], string> = {
+const dummy: ChartData<'line', number[], string> = {
   labels: ['7-8', '8-9', '9-10', '10-11', '11-12', '17-18', '18-19', '19-20'],
   datasets: [
     {
@@ -29,10 +30,10 @@ const data: ChartData<'line', number[], string> = {
   ],
 };
 
-const LineChart = ({ className }: LineChartProps): JSX.Element => {
+const LineChart = ({ className, data }: LineChartProps): JSX.Element => {
   return (
     <div className={convertClassNameList(convertClassName(className, styles))}>
-      <Line data={data} />
+      <Line data={data ?? dummy} />
     </div>
   );
 };

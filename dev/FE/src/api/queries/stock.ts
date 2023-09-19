@@ -6,7 +6,7 @@ import {
   getStockChart,
   getStockMyAccount,
   postStockBuying,
-  posttStockSelling,
+  postStockSelling,
 } from '../stock';
 
 // 내 주식 확인
@@ -43,8 +43,8 @@ const postStockBuyingQuery = (stockAccount: StockAccount) => {
 };
 
 // 주식 판매
-const posttStockSellingQuery = (stockAccount: StockAccount) => {
-  return { mutationFn: () => posttStockSelling(stockAccount) };
+const postStockSellingQuery = (stockAccount: StockAccount) => {
+  return { mutationFn: () => postStockSelling(stockAccount) };
 };
 
 export {
@@ -54,5 +54,5 @@ export {
   getStockChartQuery,
   getStockMyAccountQuery,
   postStockBuyingQuery,
-  posttStockSellingQuery,
+  postStockSellingQuery,
 };

@@ -3,31 +3,24 @@ import { useMemo } from 'react';
 import { usePagination, useTable } from 'react-table';
 import './Table.module.scss';
 import { snakeToTitle } from '@/utils';
-
-// const cols = Object.keys(dummy[0]).map((snake) => {
-//   return {
-//     Header: snakeToTitle(snake),
-//     accessor: snake,
-//   };
-// });
-
 import { convertClassName, convertClassNameList } from '@/utils';
 import styles from './Table.module.scss';
 
 interface TableProps {
   className?: string;
   data?: any;
+  onClick?: any;
 }
 
-const Table = ({ className, data }: TableProps): JSX.Element => {
+const Table = ({ className, data, onClick }: TableProps): JSX.Element => {
   const columns = useMemo(() => {
-    Object.keys(data?.[0]).map((snake) => {
+    return Object.keys(data[0] || {}).map((snake) => {
       return {
         Header: snakeToTitle(snake),
         accessor: snake,
       };
     });
-  }, []);
+  }, [data]);
   // const data = useMemo(() => dummy, []);
   const {
     getTableProps,
@@ -80,7 +73,10 @@ const Table = ({ className, data }: TableProps): JSX.Element => {
           {page.map((row: any) => {
             prepareRow(row);
             return (
-              <tr {...row.getRowProps()}>
+              <tr
+                {...row.getRowProps()}
+                onClick={() => onClick && onClick(String(Number(row.id) + 1))}
+              >
                 {row.cells.map((cell: any) => {
                   return (
                     <td
