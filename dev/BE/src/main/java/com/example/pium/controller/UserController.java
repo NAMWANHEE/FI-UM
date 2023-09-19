@@ -37,8 +37,6 @@ public class UserController {
 
     private final UserServiceImp userService;
     private final JwtTokenProvider jwtTokenProvider;
-    private final BalanceSheetRepository balanceSheetRepository;
-    private final DepositRepository depositRepository;
 
     // 유저 로그인
     @PostMapping("login")
@@ -76,20 +74,23 @@ public class UserController {
         return ResponseEntity.ok(userDepositSavingInterface);
     }
 
-    //라이벌 등록 및 취소
+    //라이벌 등록
     @PostMapping("rival")
     public ResponseEntity<ReturnMessageDto> registRival(HttpServletRequest request, @RequestBody UserNoDto userNoDto){
         Integer userNo = (Integer) request.getAttribute("userNo");
         Integer rivalNo = userNoDto.getUserNo();
-        boolean check = userService.registOrDeleteRival(userNo,rivalNo);
+        boolean check = userService.existRival(userNo);
         ReturnMessageDto returnMessageDto = new ReturnMessageDto();
-        if(check){
+        if(!check){
+            userService.registRival(userNo,rivalNo);
             returnMessageDto.setMsg("등록 성공");
+            return ResponseEntity.ok(returnMessageDto);
         }
         else{
-            returnMessageDto.setMsg("해제 성공");
+            returnMessageDto.setMsg("이미 등록된 라이벌이 있습니다.");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(returnMessageDto);
         }
-        return ResponseEntity.ok(returnMessageDto);
+
     }
 
     // 라이벌 변경
@@ -104,6 +105,16 @@ public class UserController {
 
     }
 
+    // 라이벌 해제
+    @DeleteMapping("rival")
+    public ResponseEntity<ReturnMessageDto> deleteRival(HttpServletRequest request){
+        Integer userNo = (Integer) request.getAttribute("userNo");
+        userService.deleteRival(userNo);
+        ReturnMessageDto returnMessageDto = new ReturnMessageDto();
+        returnMessageDto.setMsg("해제 완료");
+        return ResponseEntity.ok(returnMessageDto);
+
+    }
 
     // 전체 아이들의 자산 현황
     @GetMapping("total-capital")

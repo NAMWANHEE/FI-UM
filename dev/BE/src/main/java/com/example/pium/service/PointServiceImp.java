@@ -5,6 +5,7 @@ import com.example.pium.entity.PointRecordEntity;
 import com.example.pium.entity.PointTypeEntity;
 import com.example.pium.entity.UserEntity;
 import com.example.pium.repository.PointRecordRepository;
+import com.example.pium.repository.PointTypeRepository;
 import com.example.pium.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +18,11 @@ import java.util.List;
 public class PointServiceImp {
     private final PointRecordRepository pointRecordRepository;
     private final UserRepository userRepository;
+    private final PointTypeRepository pointTypeRepository;
+
+    public PointTypeEntity getPointType(String type){
+        return pointTypeRepository.findByPointType(type).get();
+    }
 
     public void makePointRecord(UserEntity user, PointTypeEntity pointType, Integer price){
         PointRecordEntity buyerPointRecord = PointRecordEntity.builder()

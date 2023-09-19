@@ -5,6 +5,7 @@ import org.hibernate.annotations.DynamicInsert;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.math.BigInteger;
 
 @Builder
 @Entity
@@ -24,12 +25,12 @@ public class QuizRecordEntity {
     @JoinColumn(name = "user_no")
     private UserEntity userNo;
 
-    @ManyToOne
-    @NotNull(message = "quizNo must not be null")
-    @JoinColumn(name = "quiz_no")
-    private QuizContentEntity quizNo;
 
-    @NotNull(message = "isCorrected must not be null")
-    @Column(name = "is_corrected")
-    private Boolean isCorrected;
+    @NotNull(message = "count must not be null")
+    @Column(name = "correct_count")
+    private Integer correctCount;
+
+    @NotNull(message = "solveTime must not be null")
+    @Column(name = "solve_time")
+    private BigInteger solveTime;
 }

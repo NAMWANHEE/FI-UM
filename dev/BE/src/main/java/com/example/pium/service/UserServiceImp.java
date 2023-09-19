@@ -89,19 +89,26 @@ public class UserServiceImp {
         return childUserDto;
     }
 
-    public boolean registOrDeleteRival(Integer userNo, Integer rivalNo){
+    public void registRival(Integer userNo, Integer rivalNo){
         UserEntity user = userRepository.findByUserNo(userNo).get();
-        if(user.getRival() == null){ // 라이벌 등록
-            user.setRival(rivalNo);
-            userRepository.save(user);
+        user.setRival(rivalNo);
+        userRepository.save(user);
+
+
+    }
+
+    public void deleteRival(Integer userNo){
+        UserEntity user = userRepository.findByUserNo(userNo).get();
+        user.setRival(null);
+        userRepository.save(user);
+    }
+
+    public boolean existRival(Integer userNo){
+        UserEntity user = userRepository.findByUserNo(userNo).get();
+        if(user.getRival() != null){
             return true;
         }
-        else{                       // 라이벌 해제
-            user.setRival(null);
-            userRepository.save(user);
-            return false;
-        }
-
+        return false;
     }
 
     public void updateRival(Integer userNo, Integer rivalNo){
@@ -258,6 +265,11 @@ public class UserServiceImp {
         return userRepository.findByUserId(userId).get();
     }
     public UserEntity getUserInfo(Integer userNo) { return userRepository.findByUserNo(userNo).get();}
+    public boolean checkChild(Integer userNo){
+        UserEntity user = userRepository.findByUserNo(userNo).get();
+        if(user.getUserType()==2) return true;
+        return false;
+    }
 
 
 }
