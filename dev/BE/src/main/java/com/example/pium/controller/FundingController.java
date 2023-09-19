@@ -70,4 +70,14 @@ public class FundingController {
         List<MyFundingDto> getProgress = fundingService.getMyFunding(childUser);
         return new ResponseEntity<>(getProgress, HttpStatus.OK);
     }
+
+    @GetMapping("record")
+    public ResponseEntity<List<ItemRecordDto>> getAllRecord(HttpServletRequest request) {
+        if (userService.getUserInfo((Integer) request.getAttribute("userNo")).getUserType().equals(1)) {
+            List<ItemRecordDto> allRecord =  fundingService.getAllRecord();
+            return new ResponseEntity<>(allRecord, HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
+        }
+    }
 }

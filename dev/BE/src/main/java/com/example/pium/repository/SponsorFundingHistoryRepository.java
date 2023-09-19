@@ -20,6 +20,9 @@ public interface SponsorFundingHistoryRepository extends JpaRepository<SponsorFu
     @Query("SELECT s FROM SponsorFundingHistoryEntity s WHERE s.price < 0")
     List<SponsorFundingHistoryEntity> findAllByPriceLessThanZero();
 
+    @Query("SELECT s FROM SponsorFundingHistoryEntity s WHERE s.price > 0")
+    List<SponsorFundingHistoryEntity> findAllByPriceOverThanZero();
+
 
     @Query("SELECT s.userNo FROM SponsorFundingHistoryEntity s WHERE s.itemNo = :item GROUP BY s.userNo ORDER BY SUM(s.price) DESC")
     List<UserEntity> findTopFunderByItem(@Param("item") ItemListEntity item, Pageable pageable);

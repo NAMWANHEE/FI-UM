@@ -32,4 +32,8 @@ public class StockNewsEntity {
     @Column(name = "news_content")
     private String newsContent;
 
+    @NotNull
+    @Column(name="search_no")
+    private Integer searchNo;
+
 }

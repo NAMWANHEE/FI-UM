@@ -121,9 +121,13 @@ public class SponsorShipServiceImp {
 
     public ItemRecordDto changeDtoToRecord(SponsorFundingHistoryEntity historyEntities) {
         ItemRecordDto recordDto = new ItemRecordDto();
-        recordDto.setSponsorName(historyEntities.getUserNo().getUserName());
+        recordDto.setUserName(historyEntities.getUserNo().getUserName());
         recordDto.setItemName(historyEntities.getItemNo().getItemName());
-        recordDto.setPrice(-historyEntities.getPrice());
+        if (historyEntities.getPrice() < 0) {
+            recordDto.setPrice(-historyEntities.getPrice());
+        } else {
+            recordDto.setPrice(historyEntities.getPrice());
+        }
         return recordDto;
     }
 

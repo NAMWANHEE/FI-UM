@@ -4,7 +4,7 @@ import lombok.Data;
 
 @Data
 public class ItemRecordDto {
-    private String sponsorName;
+    private String userName;
     private String itemName;
     private Integer price;
 }

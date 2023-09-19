@@ -226,4 +226,36 @@ public class StockServiceImp {
         rankerDto.add(tmpDto3);
         return rankerDto;
     }
+    public StockNewsDto changeNewsDto(StockNewsEntity stockNews) {
+        StockNewsDto newsDto = new StockNewsDto();
+        newsDto.setNewsNo(stockNews.getNewsNo());
+        newsDto.setNewsTitle(stockNews.getNewsTitle());
+        newsDto.setNewContent(stockNews.getNewsContent());
+        newsDto.setSearchNo(stockNews.getSearchNo());
+        newsDto.setStockNo(stockNews.getStockNo().getStockNo());
+        newsDto.setStockName(stockNews.getStockNo().getStockName());
+        return newsDto;
+    }
+
+    public List<StockNewsDto> getAllNews() {
+        Long nowTime = System.currentTimeMillis() / 1000;
+        int searchTime = (int) Math.floor( (nowTime - startTime) / 60);
+        List<StockNewsEntity> stockNewsList = stockNewsRepository.findLatestNewsByStockBelowSearchNo(searchTime);
+        List<StockNewsDto> detailNews = new ArrayList<>();
+        for ( StockNewsEntity eachNews : stockNewsList) {
+            detailNews.add(changeNewsDto(eachNews));
+        }
+        return detailNews;
+    }
+
+    public List<StockNewsDto> getDetailNews(Integer stockNo) {
+        Long nowTime = System.currentTimeMillis() / 1000;
+        int searchTime = (int) Math.floor( (nowTime - startTime) / 60);
+        List<StockNewsEntity> stockNewsList = stockNewsRepository.findByStockNoAndSearchNoLessThanEqualOrderBySearchNoDesc(getStockType(stockNo), searchTime, PageRequest.of(0, 15));
+        List<StockNewsDto> allNews = new ArrayList<>();
+        for ( StockNewsEntity eachNews : stockNewsList) {
+            allNews.add(changeNewsDto(eachNews));
+        }
+        return allNews;
+    }
 }

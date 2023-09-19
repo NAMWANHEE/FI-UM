@@ -93,4 +93,18 @@ public class StockController {
         RankingDto rankingDto = rankingService.takeStockRanking();
         return stockService.getRankerData(rankingDto);
     }
+
+    @GetMapping("news")
+    public List<StockNewsDto> getAllNews() {
+        List<StockNewsDto> allNews = stockService.getAllNews();
+        return allNews;
+    }
+
+    @GetMapping("news/{stockNo}")
+    public List<StockNewsDto> getAllNews(@PathVariable("stockNo") Integer stockNo) {
+        List<StockNewsDto> detailNews = stockService.getDetailNews(stockNo);
+        return detailNews;
+    }
+
+
 }

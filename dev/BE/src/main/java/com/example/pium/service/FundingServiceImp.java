@@ -1,6 +1,7 @@
 package com.example.pium.service;
 
 import com.example.pium.dto.FundingProgressDto;
+import com.example.pium.dto.ItemRecordDto;
 import com.example.pium.dto.MyFundingDto;
 import com.example.pium.entity.*;
 import com.example.pium.repository.BalanceSheetRepository;
@@ -10,6 +11,7 @@ import com.example.pium.repository.SponsorFundingHistoryRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -21,6 +23,7 @@ public class FundingServiceImp {
     private final PointServiceImp pointService;
     private final PointTypeRepository pointTypeRepository;
     private final BalanceSheetRepository balanceSheetRepository;
+    private final SponsorShipServiceImp sponsorShipService;
 
     public FundingProgressDto getFundingProgress() {
         Integer sponsorPrice = itemListRepository.findTotalSponsorshipAmountForCompletedItems() * 3 /10;
@@ -84,4 +87,13 @@ public class FundingServiceImp {
         setBalance(userData);
     }
 
+
+    public List<ItemRecordDto> getAllRecord() {
+        List<SponsorFundingHistoryEntity> allRecordList = sponsorFundingHistoryRepository.findAllByPriceOverThanZero();
+        List<ItemRecordDto> recordData = new ArrayList<>();
+        for (SponsorFundingHistoryEntity eachData : allRecordList) {
+            recordData.add(sponsorShipService.changeDtoToRecord(eachData));
+        }
+        return recordData;
+    }
 }

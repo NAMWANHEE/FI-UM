@@ -33,7 +33,7 @@ public class SponsorshipController {
     public ResponseEntity<ReturnMessageDto> makeNewItem(HttpServletRequest request, @RequestBody NewItemDto postInformation) {
         Integer teachUser = (Integer) request.getAttribute("userNo");
         ReturnMessageDto returnMessageDto = new ReturnMessageDto();
-        if (userService.getUserInfo(teachUser).getUserType() == 0) {
+        if (userService.getUserInfo(teachUser).getUserType().equals(1)) {
             sponsorShipService.makeNewItem(postInformation);
             returnMessageDto.setMsg("정상적으로 등록되였습니다.");
             return new ResponseEntity<>(returnMessageDto, HttpStatus.OK);
@@ -47,7 +47,7 @@ public class SponsorshipController {
     public ResponseEntity<ReturnMessageDto> changeItemDetail(HttpServletRequest request,@PathVariable("itemNo") Integer itemNo, @RequestBody NewItemDto postInformation) {
         Integer teachUser = (Integer) request.getAttribute("userNo");
         ReturnMessageDto returnMessageDto = new ReturnMessageDto();
-        if (userService.getUserInfo(teachUser).getUserType().equals(0)) {
+        if (userService.getUserInfo(teachUser).getUserType().equals(1)) {
             sponsorShipService.changeItem(postInformation, itemNo);
             returnMessageDto.setMsg("정상적으로 수정되였습니다.");
             return new ResponseEntity<>(returnMessageDto, HttpStatus.OK);
@@ -80,7 +80,7 @@ public class SponsorshipController {
     @GetMapping("record")
     public ResponseEntity<List<ItemRecordDto>> getAllRecord(HttpServletRequest request) {
         Integer teachUser = (Integer) request.getAttribute("userNo");
-        if (userService.getUserInfo(teachUser).getUserType().equals(0)) {
+        if (userService.getUserInfo(teachUser).getUserType().equals(1)) {
             List<ItemRecordDto> allRecord =  sponsorShipService.getAllRecord();
             return new ResponseEntity<>(allRecord, HttpStatus.OK);
         } else {

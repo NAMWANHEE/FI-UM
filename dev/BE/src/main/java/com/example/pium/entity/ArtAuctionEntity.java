@@ -37,7 +37,6 @@ public class ArtAuctionEntity {
     @Column(name = "created_time")
     private BigInteger createdTime;
 
-    @NotNull
     @Column(name = "image_path")
     private String imagePath;
 
