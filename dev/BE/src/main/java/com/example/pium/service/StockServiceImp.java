@@ -67,7 +67,7 @@ public class StockServiceImp {
         StockEventEntity stockEventEntity = getStockType(stockNo); // StockNo가 1인 엔터티를 가져옵니다.
         Long nowTime = System.currentTimeMillis() / 1000;
         int searchTime = (int) Math.floor( (nowTime - startTime) / 60);
-        List<StockDataEntity> stockList = stockDataRepository.findByStockNoAndSearchNoLessThanOrderBySearchNoDesc(stockEventEntity, searchTime, PageRequest.of(0, 20));
+        List<StockDataEntity> stockList = stockDataRepository.findByStockNoAndSearchNoLessThanEqualOrderBySearchNoDesc(stockEventEntity, searchTime, PageRequest.of(0, 20));
         List<StockDataDto> stockDto = new ArrayList<>();
         for (StockDataEntity stockDetail : stockList) {
             StockDataDto stockDataDto = makeDtoData(stockDetail);
