@@ -9,9 +9,9 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
-
 @Service
 @RequiredArgsConstructor
 public class StockServiceImp {
@@ -73,6 +73,7 @@ public class StockServiceImp {
             StockDataDto stockDataDto = makeDtoData(stockDetail);
             stockDto.add(stockDataDto);
         }
+        Collections.reverse(stockDto);
         return stockDto;
     }
 
