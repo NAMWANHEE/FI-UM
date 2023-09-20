@@ -11,6 +11,8 @@ import java.util.List;
 
 public class ChildCapitalDto {
 
+    private Integer userNo;
+
     private String userName;
 
     private Integer point;

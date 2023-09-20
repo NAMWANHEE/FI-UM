@@ -227,6 +227,14 @@ public class UserController {
         return new ResponseEntity<>(returnMessageDto, HttpStatus.OK);
     }
 
+    @PutMapping("profile-image")
+    public  ResponseEntity<ReturnMessageDto> changeImage(HttpServletRequest request, @RequestBody UserImageDto userImage) {
+        Integer userNo = (Integer) request.getAttribute("userNo");
+        userService.changeImage(userNo, userImage.getImagePath());
+        ReturnMessageDto returnMessageDto = new ReturnMessageDto();
+        returnMessageDto.setMsg("변경이 완료되었습니다.");
+        return new ResponseEntity<>(returnMessageDto, HttpStatus.OK);
+    }
 
 }
 
