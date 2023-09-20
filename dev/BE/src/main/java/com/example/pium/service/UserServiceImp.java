@@ -253,6 +253,7 @@ public class UserServiceImp {
         userInfoDto.setUserType(user.getUserType());
         userInfoDto.setUserNme(user.getUserName());
         userInfoDto.setJoinDate(user.getJoinDate());
+        userInfoDto.setImagePath(user.getImagePath());
         userInfoDto.setPhoneNumber(user.getPhoneNumber());
         userInfoDto.setPoint(user.getPoint());
         userInfoDto.setPrimed1(user.getIsPrimed1());

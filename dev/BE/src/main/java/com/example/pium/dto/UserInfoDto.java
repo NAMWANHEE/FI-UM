@@ -20,6 +20,8 @@ public class UserInfoDto {
 
     private String phoneNumber;
 
+    private String imagePath;
+
     private Integer point;
 
     private boolean isPrimed1;
