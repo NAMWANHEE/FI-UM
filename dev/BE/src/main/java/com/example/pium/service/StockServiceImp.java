@@ -258,4 +258,20 @@ public class StockServiceImp {
         }
         return allNews;
     }
+
+    public List<StockTradeDetailDto> getTradeDetail(Integer stockNo) {
+        List<StockTradeEntity> findTrade = stockTradeRepository.findTop10ByStockNoOrderByTradeNoDesc(stockEventRepository.findById(stockNo).get(), PageRequest.of(0, 10));
+        List<StockTradeDetailDto> detailTrade = new ArrayList<>();
+        for (StockTradeEntity eachTrade : findTrade) {
+            StockTradeDetailDto tmpDto = new StockTradeDetailDto();
+            tmpDto.setTradeTime(eachTrade.getTradeTime());
+            if (eachTrade.getTradePrice() < 0) {
+                tmpDto.setStockCount(-eachTrade.getTradeCount());
+            } else {
+                tmpDto.setStockCount(eachTrade.getTradeCount());
+            }
+            detailTrade.add(tmpDto);
+        }
+        return detailTrade;
+    }
 }

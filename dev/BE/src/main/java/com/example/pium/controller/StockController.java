@@ -106,5 +106,9 @@ public class StockController {
         return detailNews;
     }
 
-
+    @GetMapping("trade/{stockNo}")
+    public List<StockTradeDetailDto> getTradeDetail(@PathVariable("stockNo") Integer stockNo) {
+        List<StockTradeDetailDto> detailTrade = stockService.getTradeDetail(stockNo);
+        return detailTrade;
+    }
 }

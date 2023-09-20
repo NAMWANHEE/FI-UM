@@ -34,6 +34,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .excludePathPatterns("/stock/news")
                 .excludePathPatterns("/stock/news/**")
                 .excludePathPatterns("/stock/king")
+                .excludePathPatterns("/stock/trade/**")
                 .excludePathPatterns("/stock/chart/**")
                 .excludePathPatterns("/swagger-ui/**")
                 .excludePathPatterns("/v2/api-docs")
