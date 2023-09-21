@@ -18,5 +18,15 @@
 }
 
 .newsWrapper {
-  width: 10%;
+  width: 30%;
+}
+
+.accordionHeader {
+  background-color: #aadaff;
+  font-size: 1.3rem;
+  padding: 0.3rem 0;
+}
+.accordionHeader:hover {
+  background-color: #3579d4;
+  color: #f2f2f2;
 }

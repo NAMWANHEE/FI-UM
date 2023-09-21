@@ -1,15 +1,17 @@
 import { useState, useCallback, MouseEvent, useEffect } from 'react';
-import { convertClassName, convertClassNameList, loremData } from '@/utils';
+import { convertClassName, convertClassNameList } from '@/utils';
 import styles from './StockDetailPage.module.scss';
 import useModal from '@/hooks/useModal';
 import { Button, LineChart } from '@/components/atoms';
 import { Modal, ModalStock } from '@/components/molecules';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
-import { Stock, StockAccount } from '@/types';
+import { News, Stock, StockAccount, TradeHistory } from '@/types';
 import { useParams } from 'react-router-dom';
 import {
   getStockChartQuery,
   getStockMyAccountQuery,
+  getStockNewsQuery,
+  getTradeHistoryQuery,
   postStockBuyingQuery,
   postStockSellingQuery,
 } from '@/api/queries/stock';
@@ -23,6 +25,7 @@ const StockDetailPage = ({ className }: StockDetailPageProps): JSX.Element => {
   const [label, setLabel] = useState('매도');
   const [chartData, setChartData] = useState<any | undefined>();
   const { detail } = useParams<{ detail: string }>();
+  const [news, setNews] = useState<News[] | null>(null);
 
   const onModal = useCallback((e: MouseEvent<HTMLButtonElement>) => {
     setLabel(e.currentTarget.value);
@@ -36,6 +39,21 @@ const StockDetailPage = ({ className }: StockDetailPageProps): JSX.Element => {
   const { data: stockChart, status: isStockChartLoading } = useQuery<Stock[]>(
     getStockChartQuery(Number(detail)),
   );
+
+  const { data: stockNews, status: isStockNewsLoading } = useQuery<
+    News[],
+    string
+  >(getStockNewsQuery(Number(detail)));
+  useEffect(() => {
+    if (isStockNewsLoading === 'success') {
+      setNews(stockNews);
+    }
+  }, [isStockNewsLoading]);
+
+  const { data: tradeHistory, status: isTradeHistoryLoading } = useQuery<
+    TradeHistory[],
+    string
+  >(getTradeHistoryQuery(Number(detail)));
 
   useEffect(() => {
     if (isStockChartLoading === 'success' && stockChart) {
@@ -116,7 +134,8 @@ const StockDetailPage = ({ className }: StockDetailPageProps): JSX.Element => {
       )}
     >
       <div className={convertClassNameList(styles['stock-detail-page__news'])}>
-        {loremData}
+        {news &&
+          `${news[0].newsTitle} ${news[0].newsContent} ${news[0].newsTitle} ${news[0].newsContent} ${news[0].newsTitle} ${news[0].newsContent} `}
       </div>
       <div className="flex-container">
         {isStockChartLoading === 'success' ? (
@@ -133,13 +152,30 @@ const StockDetailPage = ({ className }: StockDetailPageProps): JSX.Element => {
         <div
           className={convertClassNameList(styles['stock-detail-page__content'])}
         >
-          <div
-            className={convertClassNameList(
-              styles['stock-detail-page__content--prev-news'],
-            )}
-          >
-            news
+          <div className={styles.tradeHistory}>
+            <div className={styles.tradeHistoryTitle}>최근 거래 내역</div>
+            <div>
+              {tradeHistory &&
+                tradeHistory.map((item, idx) => {
+                  const date = new Date(item.tradeTime);
+                  return (
+                    <div key={idx} className={styles.tradeHistoryWrapper}>
+                      <div>{item.stockCount < 0 ? '매도' : '매수'}</div>
+                      <div>{item.stockCount}</div>
+                      <div>{`${date.getDate()}일 ${date.getHours()}시 ${date.getMinutes()}분`}</div>
+                    </div>
+                  );
+                })}
+            </div>
           </div>
+          {isStockChartLoading === 'success' &&
+            isMyStockLoading === 'success' && (
+              <div className={styles.myStock}>
+                <p>내가 갖고있는 수량: {myStock.stockCount}</p>
+                <p>평균 단가: {myStock.stockAverage}</p>
+                <p>현재 가격: {stockChart[stockChart.length - 1].nowPrice}</p>
+              </div>
+            )}
           <div
             className="
             flex-container jc-space-between"

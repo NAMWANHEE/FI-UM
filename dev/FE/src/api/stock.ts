@@ -1,9 +1,11 @@
 import {
   MyStock,
+  News,
   Stock,
   StockAccount,
   StockMyAccount,
   StockRanking,
+  TradeHistory,
 } from '@/types';
 import { api, authApi } from '.';
 
@@ -50,6 +52,24 @@ const postStockSelling = async (
   return await authApi.post(`stock/selling`, stockAccount);
 };
 
+// 최신 뉴스 전체 조회
+const getRecentNews = async (): Promise<News[]> => {
+  return await api.get('stock/news').then(({ data }) => data);
+};
+
+// 세부 종목별 뉴스 조회
+const getStockNews = async ({
+  queryKey: [_, stockNo],
+}: any): Promise<News[]> => {
+  return await api.get(`stock/news/${stockNo}`).then(({ data }) => data);
+};
+
+// 주식 최근 거래 내역
+const getTradeHistory = async ({
+  queryKey: [_, stockNo],
+}: any): Promise<TradeHistory[]> => {
+  return await api.get(`stock/trade/${stockNo}`).then(({ data }) => data);
+};
 export {
   getMyStocks,
   getStocks,
@@ -58,4 +78,7 @@ export {
   getStockMyAccount,
   postStockBuying,
   postStockSelling,
+  getRecentNews,
+  getStockNews,
+  getTradeHistory,
 };

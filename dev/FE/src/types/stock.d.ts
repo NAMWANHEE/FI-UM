@@ -39,6 +39,20 @@ interface StockAccount {
   count: number;
 }
 
+interface News {
+  newsNo: number;
+  newsTitle: string;
+  newsContent: string;
+  searchNo: number;
+  stockNo: number;
+  stockName: string;
+}
+
+interface TradeHistory {
+  stockCount: number;
+  tradeTime: number;
+}
+
 export type {
   Stock,
   StockRanking,
@@ -46,4 +60,6 @@ export type {
   StockMyAccount,
   StockDetail,
   StockAccount,
+  News,
+  TradeHistory,
 };

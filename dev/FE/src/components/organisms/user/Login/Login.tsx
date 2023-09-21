@@ -113,6 +113,7 @@ const Login = ({ className, signUp }: LoginProps): JSX.Element => {
   const signUpMutation = useMutation(userSignup, {
     onSuccess: (data) => {
       alert('회원가입 되었습니다.');
+      navigate('/login');
       console.log(data);
     },
     onError: (err) => {
@@ -130,10 +131,7 @@ const Login = ({ className, signUp }: LoginProps): JSX.Element => {
 
   const loginMutation = useMutation(userLogin, {
     onSuccess: (data) => {
-      console.log(data);
       sessionStorage.setItem('user', JSON.stringify(data));
-      console.log(data.data);
-
       setUserInfo(data.data);
       alert('로그인 성공!!');
       navigate('/');
@@ -197,16 +195,17 @@ const Login = ({ className, signUp }: LoginProps): JSX.Element => {
           </div>
         ),
       )}
-
-      <Button
-        className={convertClassNameList(
-          'bg-blue white',
-          styles['login__item'],
-          styles['login__item--button'],
-        )}
-        label={!signUp ? '로그인' : '회원가입'}
-        onClick={signUp ? handleSignUpClick : handleLoginClick}
-      />
+      <div className={convertClassNameList(styles['login__item'])}>
+        <Button
+          className={convertClassNameList(
+            'bg-blue white',
+            styles['login__item'],
+            styles['login__item--button'],
+          )}
+          label={!signUp ? '로그인' : '회원가입'}
+          onClick={signUp ? handleSignUpClick : handleLoginClick}
+        />
+      </div>
     </div>
   );
 };

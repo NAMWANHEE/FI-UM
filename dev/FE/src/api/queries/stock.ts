@@ -7,6 +7,9 @@ import {
   getStockMyAccount,
   postStockBuying,
   postStockSelling,
+  getRecentNews,
+  getStockNews,
+  getTradeHistory,
 } from '../stock';
 
 // 내 주식 확인
@@ -47,6 +50,30 @@ const postStockSellingQuery = (stockAccount: StockAccount) => {
   return { mutationFn: () => postStockSelling(stockAccount) };
 };
 
+// 최신 뉴스 전체 조회
+const getRecentNewsQuery = () => {
+  return {
+    queryKey: ['getRecentNews'],
+    queryFn: getRecentNews,
+  };
+};
+
+// 세부 종목별 뉴스 조회
+const getStockNewsQuery = (stockNo: number) => {
+  return {
+    queryKey: ['getStockNews', stockNo],
+    queryFn: getStockNews,
+  };
+};
+
+// 주식 최근 거래 내역 조회
+const getTradeHistoryQuery = (stockNo: number) => {
+  return {
+    queryKey: ['getTradeHistory', stockNo],
+    queryFn: getTradeHistory,
+  };
+};
+
 export {
   getMyStocksQuery,
   getStocksQuery,
@@ -55,4 +82,7 @@ export {
   getStockMyAccountQuery,
   postStockBuyingQuery,
   postStockSellingQuery,
+  getRecentNewsQuery,
+  getStockNewsQuery,
+  getTradeHistoryQuery,
 };
