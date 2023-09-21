@@ -207,6 +207,12 @@ public class UserServiceImp {
 
     }
 
+    public void updateBalanceSheetPoint(Integer userNo, Integer amount){
+        BalanceSheetEntity balanceSheetEntity = balanceSheetRepository.findByUserNo(userRepository.findByUserNo(userNo).get()).get();
+        balanceSheetEntity.setPoint(balanceSheetEntity.getPoint()+amount);
+        balanceSheetRepository.save(balanceSheetEntity);
+    }
+
     public boolean checkRefreshToken(String token){
 
         if(refreshTokenRedisRepository.findByRefreshToken(token) == null) return false; // 리프레시 토큰이 유효하다면 true 아니라면 false 반환
