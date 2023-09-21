@@ -67,6 +67,8 @@ public class TossPayController {
             }).body(BodyInserters.fromValue(params)).retrieve().bodyToMono(PaymentSuccessDto.class).subscribe(data -> {
                 System.out.println("응답");
                 System.out.println(data);
+            }, error -> {
+                System.out.println("에러");
             });
             user.setPoint(user.getPoint()+amount);
             userService.save(user);
