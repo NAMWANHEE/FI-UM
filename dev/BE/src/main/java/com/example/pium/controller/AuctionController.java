@@ -29,12 +29,14 @@ public class AuctionController {
     private final UserServiceImp userService;
     @GetMapping
     public ResponseEntity<List<AuctionDto>> getOnGoingList() {
+        log.info("request to /api/v1/auction [Method: GET]");
         List<AuctionDto> auctionList = auctionService.makeOnGoingList();
         return ResponseEntity.ok(auctionList);
     }
 
     @PostMapping
     public ResponseEntity<ReturnMessageDto> postAuction(HttpServletRequest request, @RequestBody RGSAuctionDto rgsAuctionDto) {
+        log.info("request to /api/v1/auction [Method: POST]");
         Integer postUser = (Integer) request.getAttribute("userNo");
         Boolean checkAuction = auctionService.postAuction(postUser, rgsAuctionDto);
         ReturnMessageDto returnMessageDto = new ReturnMessageDto();
@@ -54,6 +56,7 @@ public class AuctionController {
 
     @PutMapping("{auctionNo}")
     public ResponseEntity<ReturnMessageDto> modifyAuctionDetail(@PathVariable("auctionNo") Integer auctionNo, @RequestBody RGSAuctionDto rgsAuctionDto) {
+        log.info("request to /api/v1/auction/{auctionNo} [Method: PUT]");
         ReturnMessageDto returnMessageDto = new ReturnMessageDto();
         if (rgsAuctionDto.getTitle().length() <2 | rgsAuctionDto.getContent().length() < 2) {
             returnMessageDto.setMsg("입력정보를 다시 확인하세요.");
@@ -70,12 +73,14 @@ public class AuctionController {
 
     @GetMapping("detail/{auctionNo}")
     public ResponseEntity<AuctionDto> getAuctionDetail(@PathVariable("auctionNo") Integer auctionNo) {
+        log.info("request to /api/v1/auction/detail [Method: GET]");
         AuctionDto auctionDetail = auctionService.convertToAuctionDto(auctionNo);
         return ResponseEntity.ok(auctionDetail);
     }
 
     @PostMapping("bid/{auctionNo}")
     public ResponseEntity<ReturnMessageDto> modifyAuctionPrice(HttpServletRequest request, @PathVariable("auctionNo") Integer auctionNo, @RequestBody RGSAuctionDto rgsAuctionDto) {
+        log.info("request to /api/v1/auction/bid/{auctionNo} [Method: POST]");
         ArtAuctionEntity artAuctionEntity = auctionService.getAuctionInfo(auctionNo);
         Integer buyer = (Integer) request.getAttribute("userNo");
         Integer seller = artAuctionEntity.getUserNo().getUserNo();
@@ -109,6 +114,7 @@ public class AuctionController {
 
     @GetMapping("purchase")
     public ResponseEntity<List<UserAuctionDto>> getPurchaseArt(HttpServletRequest request) {
+        log.info("request to /api/v1/auction/purchase [Method: GET]");
         Integer buyer = (Integer) request.getAttribute("userNo");
         List<UserAuctionDto> purchaseData = auctionService.getPurchaseArt(buyer);
         return new ResponseEntity<>(purchaseData, HttpStatus.OK);
