@@ -18,6 +18,7 @@ public class TokenCheckInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception{
         String [] arr = request.getRequestURI().split("/");
+        System.out.println(request.getHeader("X-ACCESS-TOKEN"));
         if(request.getMethod().equals("OPTIONS")) {
             return true;
         }
