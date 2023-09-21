@@ -4,10 +4,13 @@ import { Footer, Navbar } from './components/molecules';
 import { checkConditionClassName, convertClassNameList } from './utils';
 import useModal from './hooks/useModal';
 import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 
 const App = () => {
   const { isOpen } = useModal();
   console.log('isOpen', isOpen);
+
+  const location = useLocation();
 
   useEffect(() => {
     window.addEventListener('scroll', () => {
@@ -30,9 +33,13 @@ const App = () => {
         checkConditionClassName(!isOpen, styles['scrolling']),
       )}
     >
-      <Navbar className={styles['app__navbar']} />
+      {!location.pathname.includes('toss') && (
+        <Navbar className={styles['app__navbar']} />
+      )}
       <Router className={styles['app__main']} />
-      <Footer className={styles['app__footer']} />
+      {!location.pathname.includes('toss') && (
+        <Footer className={styles['app__footer']} />
+      )}
     </div>
   );
 };

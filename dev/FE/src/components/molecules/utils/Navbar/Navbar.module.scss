@@ -25,6 +25,17 @@
       margin: 0.7rem;
       color: #666;
     }
+    &--payment {
+      padding: 0.3rem 0.5rem;
+      border: 1px solid #7ae6e9;
+      border-radius: 4px;
+      color: #7ae6e9;
+      background-color: #fff;
+    }
+    &--payment:hover {
+      color: #f2f2f2;
+      background-color: #7ae6e9;
+    }
   }
   .login {
     border: 1px solid #3579d4;
@@ -32,16 +43,28 @@
     border-radius: 4px;
     padding: 0.3rem 0.5rem;
   }
+  .login:hover {
+    color: #f2f2f2;
+    background-color: #3579d4;
+  }
   .signup {
     border: 1px solid #d48100;
     color: #d48100;
     border-radius: 4px;
     padding: 0.3rem 0.5rem;
   }
+  .signup:hover {
+    color: #f2f2f2;
+    background-color: #d48100;
+  }
   .logout {
     border: 1px solid #ed2926;
     color: #ed2926;
     border-radius: 4px;
     padding: 0.3rem 0.5rem;
+  }
+  .logout:hover {
+    color: #f2f2f2;
+    background-color: #ed2926;
   }
 }

@@ -1,11 +1,11 @@
 import { convertClassName, convertClassNameList, imgUrl } from '@/utils';
 import styles from './Navbar.module.scss';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import useAuth from '@/hooks/useAuth';
 import { USER_TYPE } from '@/constants';
 import { useMemo, useCallback, MouseEvent } from 'react';
 import { useMutation } from '@tanstack/react-query';
-import { Text } from '@/components/atoms';
+import { Button, Text } from '@/components/atoms';
 import { userLogout } from '@/api/user';
 
 interface NavbarProps {
@@ -26,6 +26,12 @@ const Navbar = ({ className }: NavbarProps): JSX.Element => {
     e.preventDefault();
     mutation.mutate();
   }, []);
+
+  const location = useLocation();
+  console.log(location);
+  const openPayment = () => {
+    window.open('/tosspay', '_blank', 'width=800, height=800');
+  };
 
   const links = useMemo(() => {
     if (!userInfo)
@@ -135,6 +141,15 @@ const Navbar = ({ className }: NavbarProps): JSX.Element => {
             <Text className="text-lg" text="갤러리" />
           </div>
         </Link>,
+        <Button
+          key="payment"
+          className={convertClassNameList(
+            styles['navbar__menu--item'],
+            styles['navbar__menu--payment'],
+          )}
+          label="충전"
+          onClick={openPayment}
+        />,
         <Link
           key="profile"
           className={convertClassNameList(

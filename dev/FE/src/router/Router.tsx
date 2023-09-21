@@ -1,6 +1,7 @@
 import {
   AuctionDetailPage,
   AuctionPage,
+  CheckoutPage,
   CreatePage,
   DepositPage,
   FundingPage,
@@ -12,6 +13,7 @@ import {
   StockDetailPage,
   StockPage,
 } from '@/pages';
+import TossSuccessPage from '@/pages/TossPaymentPage/TossSuccessPage';
 import { Route, Routes, Outlet } from 'react-router-dom';
 
 const Router = ({ className }: { className?: string }) => {
@@ -32,6 +34,8 @@ const Router = ({ className }: { className?: string }) => {
           <Route path="profile/:userNo" element={<ProfilePage />} />
           <Route path="gallery" element={<GalleryPage />} />
           <Route path="gallery/:detail" element={<GalleryDetailPage />} />
+          <Route path="tosspay" element={<CheckoutPage />} />
+          <Route path="tosspay/success" element={<TossSuccessPage />} />
         </Route>
       </Routes>
     </div>

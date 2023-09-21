@@ -11,3 +11,4 @@ export { default as SignUpPage } from '@/pages/SignUpPage/SignUpPage';
 export { default as MainPage } from '@/pages/MainPage/MainPage';
 export { default as StockPage } from '@/pages/StockPage/StockPage';
 export { default as StockDetailPage } from '@/pages/StockDetailPage/StockDetailPage';
+export { default as CheckoutPage } from '@/pages/TossPaymentPage/CheckoutPage';
