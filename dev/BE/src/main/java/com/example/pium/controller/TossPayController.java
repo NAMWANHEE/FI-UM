@@ -64,7 +64,7 @@ public class TossPayController {
                 httpHeaders.setBasicAuth(encodedAuthKey);
                 httpHeaders.setContentType(MediaType.APPLICATION_JSON);
                 httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-            }).body(BodyInserters.fromValue(params)).retrieve().bodyToMono(PaymentSuccessDto.class);
+            }).body(BodyInserters.fromValue(params)).retrieve().bodyToMono(PaymentSuccessDto.class).subscribe(msg -> System.out.println(msg));
             user.setPoint(user.getPoint()+amount);
             userService.save(user);
             userService.updateBalanceSheetPoint(userNo,amount);
