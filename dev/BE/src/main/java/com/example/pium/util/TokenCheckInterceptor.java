@@ -5,6 +5,7 @@ import com.example.pium.exception.InterceptorExceptionEnum;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
@@ -12,13 +13,15 @@ import javax.servlet.http.HttpServletResponse;
 import java.util.Arrays;
 
 @RequiredArgsConstructor
+@Slf4j
 public class TokenCheckInterceptor implements HandlerInterceptor {
 
     private final JwtTokenProvider jwtTokenProvider;
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception{
         String [] arr = request.getRequestURI().split("/");
-        System.out.println(request.getHeader("X-ACCESS-TOKEN"));
+        log.info(request.getRequestURI());
+        log.info(request.getHeader("X-ACCESS-TOKEN"));
         if(request.getMethod().equals("OPTIONS")) {
             return true;
         }
