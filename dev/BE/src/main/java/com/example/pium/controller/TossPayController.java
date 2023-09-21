@@ -9,6 +9,7 @@ import com.example.pium.service.UserServiceImp;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -57,14 +58,14 @@ public class TossPayController {
                 }).body(BodyInserters.fromValue(params)).retrieve().bodyToMono(PaymentSuccessDto.class).block();
                 user.setCash(user.getCash()+amount);
                 userService.save(user);
-                msg = "성공";
+                return ResponseEntity.ok("성공");
             }
             catch (Exception e){
-                msg = "실패";
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body("실패");
             }
 
 
-            return ResponseEntity.ok(msg);
+
 
 
 
