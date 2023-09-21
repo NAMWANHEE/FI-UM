@@ -39,6 +39,8 @@ public class StockController {
 
     @GetMapping("my-account/{stockNo}")
     public StockAccountDto getDetailStockAccount(HttpServletRequest request, @PathVariable("stockNo") Integer stockNo) {
+        log.info("요청왔다!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+        log.info(String.valueOf(stockNo));
         Integer myUser = (Integer) request.getAttribute("userNo");
         StockAccountDto myAccountDetail = stockService.getDetailAccount(stockNo, myUser);
         return myAccountDetail;
