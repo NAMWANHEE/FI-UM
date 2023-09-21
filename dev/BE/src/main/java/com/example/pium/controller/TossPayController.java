@@ -6,8 +6,6 @@ import com.example.pium.dto.PaymentSuccessDto;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.tomcat.util.json.JSONParser;
-import org.springframework.boot.configurationprocessor.json.JSONException;
-import org.springframework.boot.configurationprocessor.json.JSONObject;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -44,7 +42,7 @@ public class TossPayController {
 
 
     @GetMapping("success")
-    public ResponseEntity<?> paymentResult(@RequestParam(value = "orderId") String orderId, @RequestParam(value = "paymentKey") String paymentKey, @RequestParam(value = "amount") int amount, @RequestParam(value = "paymentType") String paymentType) throws IOException, JSONException {
+    public ResponseEntity<?> paymentResult(@RequestParam(value = "orderId") String orderId, @RequestParam(value = "paymentKey") String paymentKey, @RequestParam(value = "amount") int amount, @RequestParam(value = "paymentType") String paymentType) {
 
         Map<String,String> params = new HashMap<>();
         params.put("orderId",orderId);
@@ -64,17 +62,7 @@ public class TossPayController {
                 }
         );
 
-//        HttpEntity<MultiValueMap<String,String>> entity = new HttpEntity<>(params,headers);
-//        params.put("orderId",orderId);
-//        params.put("amount",amount);
-//        PaymentSuccessDto result = null;
-//        try{
-//            result = restTemplate.postForObject(tossPaymentConfig.getURL(), new HttpEntity<>(params,headers),PaymentSuccessDto.class);
-//        }
-//        catch (Exception e){
-//            e.printStackTrace();
-//        }
-//        System.out.println(result);
+
 
         return ResponseEntity.ok("GOOD");
     }
