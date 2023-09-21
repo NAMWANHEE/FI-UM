@@ -46,32 +46,23 @@ public class TossPayController {
         log.info("orderId : "+ orderId);
         log.info("paymentKey : "+ paymentKey);
         log.info("amount : "+ amount);
-//        String encodedAuthKey = new String(
-//                Base64.getEncoder().encode((tossPaymentConfig.getTESTSECRETKEY() + ":").getBytes(StandardCharsets.UTF_8)));
         String encodedAuthKey = new String(
-                Base64.getEncoder().encode(("test_sk_24xLea5zVAWlebwXlZ28QAMYNwW6" + ":").getBytes(StandardCharsets.UTF_8)));
-        System.out.println(encodedAuthKey);
+                Base64.getEncoder().encode((tossPaymentConfig.getTESTSECRETKEY() + ":").getBytes(StandardCharsets.UTF_8)));
 
-        Mono<PaymentSuccessDto> paymentSuccessDto = WebClient.create(tossPaymentConfig.getURL()).post().headers(httpHeaders -> {
-                httpHeaders.setBasicAuth(encodedAuthKey);
-                httpHeaders.setContentType(MediaType.APPLICATION_JSON);
-                httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
-            }).body(BodyInserters.fromValue(params)).retrieve().bodyToMono(PaymentSuccessDto.class);
+            try{
+                PaymentSuccessDto paymentSuccessDto = WebClient.create(tossPaymentConfig.getURL()).post().headers(httpHeaders -> {
+                    httpHeaders.setBasicAuth(encodedAuthKey);
+                    httpHeaders.setContentType(MediaType.APPLICATION_JSON);
+                    httpHeaders.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
+                }).body(BodyInserters.fromValue(params)).retrieve().bodyToMono(PaymentSuccessDto.class).block();
+                user.setCash(user.getCash()+amount);
+                userService.save(user);
+                msg = "성공";
+            }
+            catch (Exception e){
+                msg = "실패";
+            }
 
-        try{
-            PaymentSuccessDto savedPaymentDto = paymentSuccessDto.block();
-            System.out.println(savedPaymentDto);
-            user.setCash(user.getCash()+amount);
-            userService.save(user);
-//            userService.updateBalanceSheetPoint(userNo,amount);
-//            PointTypeEntity pointType = pointService.getPointType("캐시");
-//            pointService.makePointRecord(user,pointType,amount);
-            msg = "성공";
-        }
-        catch (Exception e){
-            System.out.println(e.getMessage());
-            msg = "실패";
-        }
 
             return ResponseEntity.ok(msg);
 
