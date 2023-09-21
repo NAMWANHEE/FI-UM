@@ -63,6 +63,7 @@ public class TokenCheckInterceptor implements HandlerInterceptor {
             if(uri.contains("/token")) { // 토큰 발급
                 return true;
             }
+            log.info("권한없음!!!!!!!! "+request.getRequestURI());
             throw new InterceptorException(InterceptorExceptionEnum.UNAUTHORIZED);
         }
 
