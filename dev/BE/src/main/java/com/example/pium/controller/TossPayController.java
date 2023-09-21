@@ -50,6 +50,7 @@ public class TossPayController {
 
     @GetMapping("success")
     public ResponseEntity paymentResult(@RequestParam(value = "orderId") String orderId, @RequestParam(value = "paymentKey") String paymentKey, @RequestParam(value = "amount") int amount, HttpServletRequest request) {
+        log.info("성공요청");
         Integer userNo = (Integer) request.getAttribute("userNo");
         UserEntity user = userService.getUserInfo(userNo);
         Map<String,String> params = new HashMap<>();

@@ -10,15 +10,19 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Slf4j
 public class TokenCheckInterceptor implements HandlerInterceptor {
 
     private final JwtTokenProvider jwtTokenProvider;
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception{
+
         String [] arr = request.getRequestURI().split("/");
         if(request.getMethod().equals("OPTIONS")) {
             return true;
@@ -68,6 +72,7 @@ public class TokenCheckInterceptor implements HandlerInterceptor {
 
 
 
-        //return HandlerInterceptor.super.preHandle(request, response, handler);
+
     }
+
 }
