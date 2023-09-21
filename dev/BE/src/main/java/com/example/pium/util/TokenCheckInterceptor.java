@@ -20,8 +20,9 @@ public class TokenCheckInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception{
         String [] arr = request.getRequestURI().split("/");
-        log.info(request.getRequestURI());
-        log.info(request.getHeader("X-ACCESS-TOKEN"));
+        log.info("요청 주소 :" + request.getRequestURI());
+        log.info("JWT 토큰 :"+request.getHeader("X-ACCESS-TOKEN"));
+
         if(request.getMethod().equals("OPTIONS")) {
             return true;
         }
@@ -63,7 +64,7 @@ public class TokenCheckInterceptor implements HandlerInterceptor {
             if(uri.contains("/token")) { // 토큰 발급
                 return true;
             }
-            log.info("권한없음!!!!!!!! "+request.getRequestURI());
+            log.info("권한 없음!!!! "+ request.getHeader("X-ACCESS-TOKEN"));
             throw new InterceptorException(InterceptorExceptionEnum.UNAUTHORIZED);
         }
 
