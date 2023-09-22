@@ -15,9 +15,9 @@ public class InterceptorExceptionHandler {
     public ResponseEntity<InterceptorExceptionEntity> exceptionHandler(HttpServletRequest request, final RuntimeException e) {
         e.printStackTrace();
         return ResponseEntity
-                .status(InterceptorExceptionEnum.EXPIREDTOKEN.getStatus())
+                .status(InterceptorExceptionEnum.UNAUTHORIZED.getStatus())
                 .body(InterceptorExceptionEntity.builder()
-                        .errorCode(InterceptorExceptionEnum.EXPIREDTOKEN.getCode())
+                        .errorCode(InterceptorExceptionEnum.UNAUTHORIZED.getCode())
                         .errorMessage(e.getMessage())
                         .build());
     }
@@ -37,9 +37,9 @@ public class InterceptorExceptionHandler {
     public ResponseEntity<InterceptorExceptionEntity> exceptionHandler(HttpServletRequest request, final Exception e) {
         e.printStackTrace();
         return ResponseEntity
-                .status(InterceptorExceptionEnum.COUNTERFEIT.getStatus())
+                .status(InterceptorExceptionEnum.UNAUTHORIZED.getStatus())
                 .body(InterceptorExceptionEntity.builder()
-                        .errorCode(InterceptorExceptionEnum.COUNTERFEIT.getCode())
+                        .errorCode(InterceptorExceptionEnum.UNAUTHORIZED.getCode())
                         .errorMessage(e.getMessage())
                         .build());
     }
