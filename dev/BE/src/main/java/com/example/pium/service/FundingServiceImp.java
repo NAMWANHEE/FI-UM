@@ -76,12 +76,12 @@ public class FundingServiceImp {
         itemDetail.setFundingAmount(itemDetail.getFundingAmount()+money);
         itemListRepository.save(itemDetail);
 
-        // 포인트 추가
-        pointService.changePointTable(userData, -money);
+        // 포인트 추가 ===> 포인트 감소
+        pointService.changePointTable(userData, money);
 
         // 포인트 내역(포인트 획득)
         PointTypeEntity pointTypePoint = pointTypeRepository.findByPointType("펀딩").get();
-        pointService.makePointRecord(userData, pointTypePoint, -money);
+        pointService.makePointRecord(userData, pointTypePoint, money);
 
         // 재무상태표 반영
         setBalance(userData);
