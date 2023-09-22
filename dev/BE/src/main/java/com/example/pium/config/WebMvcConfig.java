@@ -28,7 +28,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .addPathPatterns("/user/child")
                 .addPathPatterns("/user/profile-image")
                 .addPathPatterns("/auction")
-                .addPathPatterns("/auction/bid/{auctionNo")
+                .addPathPatterns("/auction/bid/{auctionNo}")
                 .addPathPatterns("/auction/{auctionNo}")
                 .addPathPatterns("/auction/purchase")
                 .addPathPatterns("/bank/deposit")
