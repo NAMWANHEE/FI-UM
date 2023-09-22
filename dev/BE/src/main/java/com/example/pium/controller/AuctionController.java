@@ -39,8 +39,13 @@ public class AuctionController {
     public ResponseEntity<ReturnMessageDto> postAuction(HttpServletRequest request, @RequestBody RGSAuctionDto rgsAuctionDto) {
         log.info("request to /api/v1/auction [Method: POST]");
         Integer postUser = (Integer) request.getAttribute("userNo");
-        Boolean checkAuction = auctionService.postAuction(postUser, rgsAuctionDto);
+        Integer userType = (Integer) request.getAttribute("userType");
         ReturnMessageDto returnMessageDto = new ReturnMessageDto();
+        if(!userType.equals(2)){
+            returnMessageDto.setMsg("권한 없음.");
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(returnMessageDto);
+        }
+        Boolean checkAuction = auctionService.postAuction(postUser, rgsAuctionDto);
         if (rgsAuctionDto.getTitle().length() <2 | rgsAuctionDto.getContent().length() < 2) {
             returnMessageDto.setMsg("입력정보를 다시 확인하세요.");
             return new ResponseEntity<>(returnMessageDto, HttpStatus.BAD_REQUEST);
@@ -56,9 +61,14 @@ public class AuctionController {
     }
 
     @PutMapping("{auctionNo}")
-    public ResponseEntity<ReturnMessageDto> modifyAuctionDetail(@PathVariable("auctionNo") Integer auctionNo, @RequestBody RGSAuctionDto rgsAuctionDto) {
-        log.info("request to /api/v1/auction/{auctionNo} [Method: PUT]");
+    public ResponseEntity<ReturnMessageDto> modifyAuctionDetail(@PathVariable("auctionNo") Integer auctionNo, @RequestBody RGSAuctionDto rgsAuctionDto, HttpServletRequest request) {
+        Integer userNo = (Integer) request.getAttribute("userNo");
         ReturnMessageDto returnMessageDto = new ReturnMessageDto();
+        log.info("request to /api/v1/auction/{auctionNo} [Method: PUT]");
+        if(!auctionService.getAuctionInfo(auctionNo).getUserNo().getUserNo().equals(userNo)){
+            returnMessageDto.setMsg("권한 없음.");
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(returnMessageDto);
+        };
         if (rgsAuctionDto.getTitle().length() <2 | rgsAuctionDto.getContent().length() < 2) {
             returnMessageDto.setMsg("입력정보를 다시 확인하세요.");
             return new ResponseEntity<>(returnMessageDto, HttpStatus.BAD_REQUEST);

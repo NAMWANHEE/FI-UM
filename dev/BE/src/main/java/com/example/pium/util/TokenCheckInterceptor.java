@@ -2,6 +2,8 @@ package com.example.pium.util;
 
 import com.example.pium.exception.InterceptorException;
 import com.example.pium.exception.InterceptorExceptionEnum;
+import com.example.pium.repository.UserRepository;
+import com.example.pium.service.UserServiceImp;
 import io.jsonwebtoken.ExpiredJwtException;
 import io.jsonwebtoken.MalformedJwtException;
 import lombok.RequiredArgsConstructor;
@@ -19,6 +21,8 @@ import java.util.List;
 public class TokenCheckInterceptor implements HandlerInterceptor {
 
     private final JwtTokenProvider jwtTokenProvider;
+    private final UserServiceImp userService;
+
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception{
@@ -46,8 +50,10 @@ public class TokenCheckInterceptor implements HandlerInterceptor {
         if(jwtToken != null){
             try {
                 if(jwtTokenProvider.validateToken(jwtToken)) { // JWT 토큰이 유효하면
-                    log.info("유효한 ACCESS-TOKEN");
                     int userNo = jwtTokenProvider.getUserNo(jwtToken);
+                    int userType = userService.getUserInfo(userNo).getUserType();
+                    log.info("유효한 ACCESS-TOKEN | 유저 타입 : "+userType + " 유저 번호 : "+ userNo);
+                    request.setAttribute("userType",userType);
                     request.setAttribute("userNo",userNo);
                     return HandlerInterceptor.super.preHandle(request, response, handler);
                 }
