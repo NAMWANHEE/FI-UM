@@ -8,9 +8,16 @@ interface TableProps {
   data?: any;
   onClick?: any;
   size?: number;
+  checkPagination?: boolean;
 }
 
-const Table = ({ className, data, onClick, size }: TableProps): JSX.Element => {
+const Table = ({
+  className,
+  data,
+  onClick,
+  size,
+  checkPagination,
+}: TableProps): JSX.Element => {
   const columns = useMemo(() => {
     return Object.keys(data?.[0] || {}).map((snake) => {
       return {
@@ -96,73 +103,72 @@ const Table = ({ className, data, onClick, size }: TableProps): JSX.Element => {
         </tbody>
       </table>
 
-      <div
-        className="table-pagination"
-        style={{
-          margin: '5px',
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}
-      >
-        <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
-          {'<<'}
-        </button>
-        <button onClick={() => previousPage()} disabled={!canPreviousPage}>
-          이전
-        </button>
-        <span>
-          <strong
-            style={{ display: 'block', width: '100px', textAlign: 'center' }}
-          >
-            {pageIndex + 1} / {pageOptions.length}
-          </strong>
-        </span>
-        {/* <span>
-          Go to page:{' '}
-          <input
-            type="number"
-            defaultValue={pageIndex + 1}
-            onChange={(e) => {
-              const pageNumber = e.target.value
-                ? Number(e.target.value) - 1
-                : 0;
-              gotoPage(pageNumber);
+      {!checkPagination ? (
+        <>
+          <div
+            className="table-pagination"
+            style={{
+              margin: '5px',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
             }}
-            style={{ width: '50px' }}
-          />
-        </span> */}
-        <button onClick={() => nextPage()} disabled={!canNextPage}>
-          다음
-        </button>
-        <button onClick={() => gotoPage(pageCount - 1)} disabled={!canNextPage}>
-          {'>>'}
-        </button>
-      </div>
-      <div
-        className="table-pagesize"
-        style={{
-          margin: '5px',
-          display: 'flex',
-          justifyContent: 'flex-end',
-          alignItems: 'center',
-        }}
-      >
-        {!size ? (
-          <select
-            value={pageSize}
-            onChange={(e) => setPageSize(Number(e.target.value))}
           >
-            {[10, 25, 50].map((pageSize) => (
-              <option key={pageSize} value={pageSize}>
-                {pageSize}개 씩 보기
-              </option>
-            ))}
-          </select>
-        ) : (
-          ''
-        )}
-      </div>
+            <button onClick={() => gotoPage(0)} disabled={!canPreviousPage}>
+              {'<<'}
+            </button>
+            <button onClick={() => previousPage()} disabled={!canPreviousPage}>
+              이전
+            </button>
+            <span>
+              <strong
+                style={{
+                  display: 'block',
+                  width: '100px',
+                  textAlign: 'center',
+                }}
+              >
+                {pageIndex + 1} / {pageOptions.length}
+              </strong>
+            </span>
+            <button onClick={() => nextPage()} disabled={!canNextPage}>
+              다음
+            </button>
+            <button
+              onClick={() => gotoPage(pageCount - 1)}
+              disabled={!canNextPage}
+            >
+              {'>>'}
+            </button>
+          </div>
+          <div
+            className="table-pagesize"
+            style={{
+              margin: '5px',
+              display: 'flex',
+              justifyContent: 'flex-end',
+              alignItems: 'center',
+            }}
+          >
+            {!size ? (
+              <select
+                value={pageSize}
+                onChange={(e) => setPageSize(Number(e.target.value))}
+              >
+                {[10, 25, 50].map((pageSize) => (
+                  <option key={pageSize} value={pageSize}>
+                    {pageSize}개 씩 보기
+                  </option>
+                ))}
+              </select>
+            ) : (
+              ''
+            )}
+          </div>
+        </>
+      ) : (
+        ''
+      )}
     </div>
   );
 };

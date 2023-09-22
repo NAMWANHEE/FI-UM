@@ -4,7 +4,7 @@ import styles from './StockDetailPage.module.scss';
 import useModal from '@/hooks/useModal';
 import { Button, LineChart } from '@/components/atoms';
 import { Modal, ModalStock } from '@/components/molecules';
-import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { useMutation, useQuery } from '@tanstack/react-query';
 import { News, Stock, StockAccount, TradeHistory } from '@/types';
 import { useParams } from 'react-router-dom';
 import {
@@ -32,9 +32,11 @@ const StockDetailPage = ({ className }: StockDetailPageProps): JSX.Element => {
     openToggle();
   }, []);
 
-  const { data: myStock, status: isMyStockLoading } = useQuery(
-    getStockMyAccountQuery(Number(detail)),
-  );
+  const {
+    data: myStock,
+    status: isMyStockLoading,
+    refetch: refetchMyStock,
+  } = useQuery(getStockMyAccountQuery(Number(detail)));
 
   const { data: stockChart, status: isStockChartLoading } = useQuery<Stock[]>(
     getStockChartQuery(Number(detail)),
@@ -50,9 +52,10 @@ const StockDetailPage = ({ className }: StockDetailPageProps): JSX.Element => {
     }
   }, [isStockNewsLoading]);
 
-  const { data: tradeHistory } = useQuery<TradeHistory[], string>(
-    getTradeHistoryQuery(Number(detail)),
-  );
+  const { data: tradeHistory, refetch: refetchTradeHistory } = useQuery<
+    TradeHistory[],
+    string
+  >(getTradeHistoryQuery(Number(detail)));
 
   useEffect(() => {
     if (isStockChartLoading === 'success' && stockChart) {
@@ -82,26 +85,20 @@ const StockDetailPage = ({ className }: StockDetailPageProps): JSX.Element => {
     price: 0,
     count: 0,
   });
-  const queryClient = useQueryClient();
 
   // 주식 구매 함수
   const stockBuyingMutaion = useMutation(
     postStockBuyingQuery(stockAccount).mutationFn,
     {
-      onSuccess: (res) => {
-        console.log(res);
-        console.log('매수 성공');
-        queryClient.invalidateQueries(['getStockMyAccount']);
+      onSuccess: () => {
+        refetchMyStock();
+        refetchTradeHistory();
         closeToggle();
       },
-      onError: (err) => {
-        console.log(err);
-        console.log('매수 실패');
-      },
+      onError: () => {},
     },
   );
   const handleStockBuying = () => {
-    console.log(stockAccount);
     stockBuyingMutaion.mutate();
   };
 
@@ -109,16 +106,12 @@ const StockDetailPage = ({ className }: StockDetailPageProps): JSX.Element => {
   const stockSellingMutation = useMutation(
     postStockSellingQuery(stockAccount).mutationFn,
     {
-      onSuccess: (res) => {
-        console.log(res);
-        console.log('매도 성공');
-        queryClient.invalidateQueries(['getStockMyAccount']);
+      onSuccess: () => {
+        refetchMyStock();
+        refetchTradeHistory();
         closeToggle();
       },
-      onError: (err) => {
-        console.log(err);
-        console.log('매도 실패');
-      },
+      onError: () => {},
     },
   );
   const handleStockSelling = () => {
@@ -151,21 +144,45 @@ const StockDetailPage = ({ className }: StockDetailPageProps): JSX.Element => {
         <div
           className={convertClassNameList(styles['stock-detail-page__content'])}
         >
-          <div className={styles.tradeHistory}>
-            <div className={styles.tradeHistoryTitle}>최근 거래 내역</div>
-            <div>
-              {tradeHistory &&
-                tradeHistory.map((item, idx) => {
-                  const date = new Date(item.tradeTime);
-                  return (
-                    <div key={idx} className={styles.tradeHistoryWrapper}>
-                      <div>{item.stockCount < 0 ? '매도' : '매수'}</div>
-                      <div>{item.stockCount}</div>
-                      <div>{`${date.getDate()}일 ${date.getHours()}시 ${date.getMinutes()}분`}</div>
-                    </div>
-                  );
-                })}
+          <div className={styles.tradeHistoryTitle}>최근 매매 내역</div>
+          <div>
+            <div
+              className={convertClassNameList(
+                styles.tradeHistoryWrapper,
+                styles.tradeHistoryWrapper__title,
+              )}
+            >
+              <div className={styles.tradeHistory__item__1}>종류</div>
+              <div className={styles.tradeHistory__item__2}>수량</div>
+              <div className={styles.tradeHistory__item__3}>시간</div>
             </div>
+            {tradeHistory &&
+              tradeHistory.map((item, idx) => {
+                const date = new Date(item.tradeTime);
+                return (
+                  <div
+                    key={idx}
+                    className={convertClassNameList(
+                      styles['tradeHistoryWrapper'],
+                      styles[`tradeHistoryWrapper__${idx % 2}`],
+                    )}
+                  >
+                    <div className={styles.tradeHistory__item__1}>
+                      {item.stockCount < 0 ? (
+                        <span className={styles.tradeSell}>매도</span>
+                      ) : (
+                        <span className={styles.tradeBuy}>매수</span>
+                      )}
+                    </div>
+                    <div className={styles.tradeHistory__item__2}>
+                      {item.stockCount < 0 ? -item.stockCount : item.stockCount}
+                    </div>
+                    <div
+                      className={styles.tradeHistory__item__3}
+                    >{`${date.getDate()}일 ${date.getHours()}시 ${date.getMinutes()}분`}</div>
+                  </div>
+                );
+              })}
           </div>
           {isStockChartLoading === 'success' &&
             isMyStockLoading === 'success' && (

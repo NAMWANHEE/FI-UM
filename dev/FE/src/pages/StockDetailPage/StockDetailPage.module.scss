@@ -3,9 +3,7 @@
     width: 100%;
     margin-top: 1rem;
     margin-bottom: 1rem;
-    // display: flex;
     text-overflow: clip;
-    // overflow: hidden;
     white-space: nowrap;
     animation: text_slider 8s linear infinite;
     font-size: 1.5rem;
@@ -46,14 +44,11 @@
     }
   }
 }
-.tradeHistory {
-  border: 1px solid black;
-  border-radius: 8px;
-}
 
 .tradeHistoryTitle {
   text-align: center;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
+  font-weight: 600;
   box-sizing: border-box;
   padding: 0.5rem 0;
 }
@@ -63,9 +58,46 @@
   justify-content: space-evenly;
   align-items: center;
   height: 2rem;
-
-  div {
+  text-align: center;
+  &__0 {
+    background-color: #fff;
   }
+  &__1 {
+    background-color: #f2f2f2;
+  }
+  &__title {
+    background-color: #04aa6d;
+    color: #fff;
+    font-weight: 500;
+  }
+}
+
+.tradeHistory__item__1 {
+  height: 100%;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  width: 25%;
+  line-height: 2rem;
+  .tradeSell {
+    color: #3579d4;
+  }
+  .tradeBuy {
+    color: red;
+  }
+}
+.tradeHistory__item__2 {
+  width: 25%;
+  height: 100%;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  line-height: 2rem;
+}
+.tradeHistory__item__3 {
+  width: 50%;
+  height: 100%;
+  line-height: 2rem;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
 }
 
 @keyframes text_slider {
