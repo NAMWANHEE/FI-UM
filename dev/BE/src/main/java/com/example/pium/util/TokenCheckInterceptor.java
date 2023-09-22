@@ -51,7 +51,7 @@ public class TokenCheckInterceptor implements HandlerInterceptor {
                     request.setAttribute("userNo",userNo);
                     return HandlerInterceptor.super.preHandle(request, response, handler);
                 }
-                throw new InterceptorException(InterceptorExceptionEnum.EXPIREDTOKEN);
+                throw new InterceptorException(InterceptorExceptionEnum.UNAUTHORIZED);
                 //throw new InterceptorException(InterceptorExceptionEnum.UNAUTHORIZED);
             } catch (MalformedJwtException e) { // 위조 시도
 
