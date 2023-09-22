@@ -207,7 +207,6 @@ public class StockServiceImp {
     }
 
     public List<StockRankingDto> getRankerData(RankingDto rankingDto){
-        System.out.println(rankingDto);
         List<StockRankingDto> rankerDto = new ArrayList<>();
         StockRankingDto tmpDto1 = new StockRankingDto();
         tmpDto1.setUserName(rankingDto.getNo1());

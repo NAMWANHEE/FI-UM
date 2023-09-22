@@ -25,6 +25,7 @@ public class PointController {
     // 나의 포인트 사용내역 조회
     @GetMapping
     public ResponseEntity<List<ChildPointInterface>>getPointRecord(HttpServletRequest request){
+        log.info("request to /api/v1/point [Method: GET]");
         Integer userNo = (Integer) request.getAttribute("userNo");
         return ResponseEntity.ok(pointService.getPointRecord(userNo));
     }

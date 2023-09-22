@@ -125,7 +125,6 @@ public class UserServiceImp {
                 .collect(Collectors.toList());
 
         List<UserDepositSavingDto> userDepositSavingDtoList = new ArrayList<>();
-        System.out.println(nlist.size());
         for(UserDepositSavingInterface u : nlist){
             UserDepositSavingDto userDepositSavingDto = new UserDepositSavingDto();
             userDepositSavingDto.setSavingBalance(u.getSavingBalance());

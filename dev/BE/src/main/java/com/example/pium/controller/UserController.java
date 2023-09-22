@@ -71,7 +71,6 @@ public class UserController {
     public ResponseEntity<List<UserDepositSavingDto>> getUserDepositSaving(HttpServletRequest request){
         log.info("request to /api/v1/user/deposit-saving [Method: GET]");
         Integer userNo = (Integer) request.getAttribute("userNo");
-        System.out.println(userNo);
         List<UserDepositSavingDto> userDepositSavingInterface = userService.getUserDepositSaving(userNo);
         return ResponseEntity.ok(userDepositSavingInterface);
     }
@@ -87,10 +86,12 @@ public class UserController {
         if(!check){
             userService.registRival(userNo,rivalNo);
             returnMessageDto.setMsg("등록 성공");
+            log.info("유저번호 : "+userNo+" 님이 "+rivalNo+" 님을 라이벌로 등록하였습니다.");
             return ResponseEntity.ok(returnMessageDto);
         }
         else{
             returnMessageDto.setMsg("이미 등록된 라이벌이 있습니다.");
+            log.error("이미 등록된 라이벌이 있습니다.");
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(returnMessageDto);
         }
 
@@ -125,7 +126,6 @@ public class UserController {
     @GetMapping("total-capital")
     public List<ChildCapitalDto> getChildCapital(HttpServletRequest request){
         log.info("request to /api/v1/user/total-capital [Method: GET]");
-        Integer userNo = (Integer) request.getAttribute("userNo");
         Long startTime =  System.currentTimeMillis()-(1000*60*60*2) ;
 
         return userService.getTotalCapital(startTime);
@@ -137,7 +137,7 @@ public class UserController {
         log.info("request to /api/v1/user [Method: GET]");
         Integer userNo = (Integer) request.getAttribute("userNo");
         int type = userService.getType(userNo);
-
+        log.info("조회한 유저 타입 : "+type);
         // 아이들 or 원장쌤
        if(type == 2 || type == 1){
             ChildUserDto childUserDto = userService.getChildData(userNo);
@@ -201,10 +201,12 @@ public class UserController {
         ReturnMessageDto returnMessageDto = new ReturnMessageDto();
         if(signUpDto.getUserId().length() < 4 || signUpDto.getPassword().length() < 8  || signUpDto.getUserName().length() < 2){
            returnMessageDto.setMsg("입력 정보를 확인하세요.");
+           log.error("입력 정보 에러 ==> 아이디 길이 또는 패스워드 길이 또는 이름 길이를 확인하세요.");
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(returnMessageDto);
         }
         if(userService.isUserIdExist(signUpDto.getUserId())){
             returnMessageDto.setMsg("아이디 중복.");
+            log.error("아이디 중복");
             return ResponseEntity.status(HttpStatus.FORBIDDEN).body(returnMessageDto);
         }
         UserEntity userEntity = UserEntity.builder()
@@ -217,7 +219,7 @@ public class UserController {
                 .build();
 
         userService.save(userEntity);
-
+        log.info("회원가입 완료");
         returnMessageDto.setMsg("회원 가입이 성공적으로 완료되었습니다.");
         return ResponseEntity.ok(returnMessageDto);
 

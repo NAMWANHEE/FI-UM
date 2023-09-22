@@ -72,8 +72,8 @@ public class JwtTokenProvider {
 
 
     //토큰에서 값 추출
-    public String getUserNo(String token) {
-        return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getSubject();
+    public Integer getUserNo(String token) {
+        return Integer.valueOf(Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token).getBody().getSubject());
     }
 
     //유효한 토큰인지 확인

@@ -29,7 +29,7 @@ public class ImageUploadController {
 
     @PostMapping("/image")
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
-        log.info("request to /api/v1//image");
+        log.info("request to /api/v1//image [Method: POST]");
         try {
             // 원래 파일의 확장자 가져오기
             String originalFilename = file.getOriginalFilename();
@@ -56,7 +56,7 @@ public class ImageUploadController {
 
     @GetMapping("/image/{filename:.+}")
     public ResponseEntity<Resource> serveFile(@PathVariable String filename) {
-        log.info("request to /api/v1//image/{filename}");
+        log.info("request to /api/v1//image/{filename} [Method: GET]");
         Path file = Paths.get(UPLOAD_DIR).resolve(filename);
         try {
             Resource resource = new UrlResource(file.toUri());

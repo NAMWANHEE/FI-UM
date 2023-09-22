@@ -30,9 +30,10 @@ import java.util.Map;
 @RestController
 @Slf4j
 public class TossPayController {
+
     private final TossPaymentConfig tossPaymentConfig;
     private final UserServiceImp userService;
-    private final PointServiceImp pointService;
+
 
     @GetMapping("success")
     public ResponseEntity paymentResult(@RequestParam(value = "orderId") String orderId, @RequestParam(value = "paymentKey") String paymentKey, @RequestParam(value = "amount") int amount, HttpServletRequest request) {
@@ -43,10 +44,6 @@ public class TossPayController {
         params.put("orderId",orderId);
         params.put("amount",String.valueOf(amount));
         params.put("paymentKey",paymentKey);
-        String msg = "";
-        log.info("orderId : "+ orderId);
-        log.info("paymentKey : "+ paymentKey);
-        log.info("amount : "+ amount);
         String encodedAuthKey = new String(
                 Base64.getEncoder().encode((tossPaymentConfig.getTESTSECRETKEY() + ":").getBytes(StandardCharsets.UTF_8)));
 
@@ -58,9 +55,11 @@ public class TossPayController {
                 }).body(BodyInserters.fromValue(params)).retrieve().bodyToMono(PaymentSuccessDto.class).block();
                 user.setCash(user.getCash()+amount);
                 userService.save(user);
+                log.info("충전금액 : "+amount+" 충전 성공");
                 return ResponseEntity.ok("성공");
             }
             catch (Exception e){
+                log.error("충전 실패");
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body("실패");
             }
 

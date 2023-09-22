@@ -32,6 +32,7 @@ public class FollowController {
     // 팔로우 등록/취소
     @PostMapping
     public ResponseEntity<ReturnMessageDto> following(@RequestHeader HttpHeaders header, @RequestBody UserNoDto userNoDto){
+        log.info("request to /api/v1/following [Method: [POST]");
         String refreshToken = header.getFirst("X-ACCESS-TOKEN");
         int userNo = Integer.valueOf(jwtTokenProvider.getUserNo(refreshToken));
         int followingUserNo = userNoDto.getUserNo();
@@ -42,6 +43,7 @@ public class FollowController {
     // 내가 팔로우 하는 아이들 목록 조회
     @GetMapping
     public ResponseEntity<List<ChildUserInterface>> checkFollowing(HttpServletRequest request){
+        log.info("request to /api/v1/following [Method: GET]");
         Integer userNo = (Integer) request.getAttribute("userNo");
         List<ChildUserInterface> childUserDtoList = followService.getFollowing(userNo);
         return ResponseEntity.ok(childUserDtoList);

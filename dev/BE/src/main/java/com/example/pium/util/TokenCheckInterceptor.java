@@ -46,7 +46,8 @@ public class TokenCheckInterceptor implements HandlerInterceptor {
         if(jwtToken != null){
             try {
                 if(jwtTokenProvider.validateToken(jwtToken)) { // JWT 토큰이 유효하면
-                    int userNo = Integer.valueOf(jwtTokenProvider.getUserNo(jwtToken));
+                    log.info("유효한 ACCESS-TOKEN");
+                    int userNo = jwtTokenProvider.getUserNo(jwtToken);
                     request.setAttribute("userNo",userNo);
                     return HandlerInterceptor.super.preHandle(request, response, handler);
                 }
@@ -57,8 +58,8 @@ public class TokenCheckInterceptor implements HandlerInterceptor {
                 throw new InterceptorException(InterceptorExceptionEnum.COUNTERFEIT);
 
             } catch (ExpiredJwtException e) { // 만료된 토큰
-                log.error("만료된 토큰");
-                throw new InterceptorException(InterceptorExceptionEnum.EXPIREDTOKEN);
+                log.error("ACCESS-TOKEN 만료");
+                throw new InterceptorException(InterceptorExceptionEnum.UNAUTHORIZED);
 
             }
         } else { // 토큰이 없음
@@ -66,7 +67,7 @@ public class TokenCheckInterceptor implements HandlerInterceptor {
             if(uri.contains("/token")) { // 토큰 발급
                 return true;
             }
-            log.error("권한 없음!!!! "+ request.getHeader("X-ACCESS-TOKEN"));
+            log.error("권한(토큰) 없음!!!! ");
             throw new InterceptorException(InterceptorExceptionEnum.UNAUTHORIZED);
         }
 

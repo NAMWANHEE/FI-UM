@@ -7,6 +7,7 @@ import com.example.pium.entity.RankingEntity;
 import com.example.pium.entity.UserEntity;
 import com.example.pium.repository.*;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
@@ -15,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+@Slf4j
 @Component
 @RequiredArgsConstructor
 public class Scheduler {
@@ -29,7 +31,7 @@ public class Scheduler {
 
     @Scheduled(cron ="0 0 0 * * *")
     public void deposit(){
-        System.out.println("예금 이자 시작");
+        log.info("예금 이자 지급");
         // 각 사람별 , 은행별 이자율과 우대 이자율, 현재 예금중인 금액과 24시간이내에 변동된 금액 반환
         List<DepositAll> depositAllList = depositRepository.findAllDeposit(System.currentTimeMillis() - (24 * 60 * 60 * 1000));
         for(DepositAll deposit: depositAllList){
@@ -77,7 +79,6 @@ public class Scheduler {
 
                 }
             }
-            System.out.println(interest);
             // 재무상태표 업데이트
             BalanceSheetEntity balanceSheet = balanceSheetRepository.findByUserNo(user).get();
             balanceSheet.setDepositIncome(interest);
@@ -97,6 +98,7 @@ public class Scheduler {
 
     @Scheduled(cron ="0 0 0 * * *")
     public void saving(){
+        log.info("적금 이자 지급");
         List<SavingAll> savingAllList = savingRepository.findAllSaving(); // 모든 적금 리스트 => 적금금액, 적금일, 고객, 이자율, 우대이자율, 은행명
         for(SavingAll savingAll : savingAllList){
             if(savingAll.getCreateSaving().longValueExact() >= System.currentTimeMillis()-(1000*60*60*24*7)) continue;
@@ -144,6 +146,7 @@ public class Scheduler {
 
     @Scheduled(cron ="0 0 0 * * *")
     public void ranking(){
+        log.info("랭킹 초기화");
         // 주식왕
         List<Rank> stockRankList = balanceSheetRepository.getStockRanking();
         RankingEntity rankingEntity = rankingRepository.findByRankingType("주식");

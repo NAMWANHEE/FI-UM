@@ -25,6 +25,7 @@ public class DonationController {
     // 기부하기
     @PostMapping
     public ResponseEntity<ReturnMessageDto> doDonation(HttpServletRequest request, @RequestBody DonationDto donationDto){
+        log.info("request to /api/v1/donation [Method: POST]");
         Integer userNo = (Integer) request.getAttribute("userNo");
         boolean check = donationService.donate(userNo, donationDto.getDonationMoney());
         ReturnMessageDto returnMessageDto = new ReturnMessageDto();

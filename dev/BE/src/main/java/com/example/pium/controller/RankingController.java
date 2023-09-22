@@ -22,6 +22,7 @@ public class RankingController {
     private final RankingServiceImp rankingService;
     @GetMapping
     public ResponseEntity<List<RankingDto>> getRankingList() {
+        log.info("request to /api/v1/ranking [Method: GET]");
         List<RankingDto> rankingList = rankingService.makeDto();
         return ResponseEntity.ok(rankingList);
     }

@@ -28,6 +28,7 @@ public class BankController {
 
     @PostMapping("saving")
     public ResponseEntity<ReturnMessageDto> makeSaving(HttpServletRequest request, @RequestParam String option, @RequestBody MoneyDto savingMoney) {
+        log.info("request to /api/v1/bank/saving [Method: POST]");
         Integer postUser = (Integer) request.getAttribute("userNo");
         Boolean checkSavingAccount = bankService.checkSaving(postUser, option);
 
@@ -51,6 +52,7 @@ public class BankController {
 
     @PostMapping("deposit")
     public ResponseEntity<ReturnMessageDto> makeDeposit(HttpServletRequest request, @RequestParam String option, @RequestBody MoneyDto depositMoney) {
+        log.info("request to /api/v1/bank/deposit [Method: POST]");
         Integer postUser = (Integer) request.getAttribute("userNo");
         ReturnMessageDto returnMessageDto = new ReturnMessageDto();
         // 보유 포인트가 예금을 더 넣을 수 있는 금액인지 여부 파악 (인출이여도 상관없음)
@@ -66,6 +68,7 @@ public class BankController {
 
     @GetMapping("deposit")
     public ResponseEntity<List<DepositAccountDto>> getDeposit(HttpServletRequest request) {
+        log.info("request to /api/v1/bank/deposit [Method: GET]");
         Integer postUser = (Integer) request.getAttribute("userNo");
         List<DepositAccountDto> depositList = bankService.getDepositList(postUser);
         return new ResponseEntity<>(depositList, HttpStatus.OK);
@@ -73,6 +76,7 @@ public class BankController {
 
     @GetMapping("checkPrime")
     public ResponseEntity<ReturnMessageDto> checkPrime(HttpServletRequest request, @RequestParam String option) {
+        log.info("request to /api/v1/bank/checkPrime [Method: GET]");
         Integer checkUser = (Integer) request.getAttribute("userNo");
         ReturnMessageDto returnMessageDto = new ReturnMessageDto();
         UserEntity userData = userService.getUserInfo(checkUser);

@@ -25,12 +25,14 @@ public class FundingController {
 
     @GetMapping
     public ResponseEntity<List<MyFundingDto>> getFunding() {
+        log.info("request to /api/v1/funding [Method: GET]");
         List<MyFundingDto> getProgress = fundingService.getFunding();
         return new ResponseEntity<>(getProgress, HttpStatus.OK);
     }
 
     @PostMapping("{itemNo}")
     public ResponseEntity<ReturnMessageDto> postFunding(HttpServletRequest request, @PathVariable("itemNo") Integer itemNo, @RequestBody MoneyDto money) {
+        log.info("request to /api/v1/funding/{itemNo} [Method: GET]");
         Integer childUser = (Integer) request.getAttribute("userNo");
         ReturnMessageDto returnMessageDto = new ReturnMessageDto();
         if (fundingService.checkFundingNow(itemNo, money.getMoney())) {
@@ -38,6 +40,7 @@ public class FundingController {
                 if (userService.getUserInfo(childUser).getUserType() == 2) {
                     fundingService.postFunding(childUser, itemNo, money.getMoney());
                     returnMessageDto.setMsg("정상적으로 펀딩되였습니다.");
+                    log.info("펀딩 금액 : "+money +"원 펀딩 되었습니다.");
                     return new ResponseEntity<>(returnMessageDto, HttpStatus.OK);
                 } else {
                     returnMessageDto.setMsg("펀딩가능한 대상이 아닙니다.");
@@ -45,16 +48,19 @@ public class FundingController {
                 }
             } else {
                 returnMessageDto.setMsg("보유 포인트가 부족합니다.");
+                log.info("보유 포인트 부족으로 펀딩 불가.");
                 return new ResponseEntity<>(returnMessageDto, HttpStatus.BAD_REQUEST);
             }
         } else  {
             returnMessageDto.setMsg("남은 펀딩금액보다 펀딩금액이 큽니다.");
+            log.info("남은 펀딩금액이 펀딩하려는 금액보다 작습니다.");
             return new ResponseEntity<>(returnMessageDto, HttpStatus.NOT_ACCEPTABLE);
         }
     }
 
     @GetMapping("progress")
     public ResponseEntity<FundingProgressDto> getFundingProgress(HttpServletRequest request) {
+        log.info("request to /api/v1/funding/progress [Method: GET]");
         Integer teachUser = (Integer) request.getAttribute("userNo");
         if (userService.getUserInfo(teachUser).getUserType() == 0) {
             FundingProgressDto getProgress = fundingService.getFundingProgress();
@@ -66,6 +72,7 @@ public class FundingController {
 
     @GetMapping("myFunding")
     public ResponseEntity<List<MyFundingDto>> getMyFunding(HttpServletRequest request) {
+        log.info("request to /api/v1/funding/myFunding [Method: GET]");
         Integer childUser = (Integer) request.getAttribute("userNo");
         List<MyFundingDto> getProgress = fundingService.getMyFunding(childUser);
         return new ResponseEntity<>(getProgress, HttpStatus.OK);
@@ -73,6 +80,7 @@ public class FundingController {
 
     @GetMapping("record")
     public ResponseEntity<List<ItemRecordDto>> getAllRecord(HttpServletRequest request) {
+        log.info("request to /api/v1/funding/record [Method: GET]");
         if (userService.getUserInfo((Integer) request.getAttribute("userNo")).getUserType().equals(1)) {
             List<ItemRecordDto> allRecord =  fundingService.getAllRecord();
             return new ResponseEntity<>(allRecord, HttpStatus.OK);
