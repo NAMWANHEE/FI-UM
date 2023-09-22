@@ -25,10 +25,16 @@ public class DonationController {
     // 기부하기
     @PostMapping
     public ResponseEntity<ReturnMessageDto> doDonation(HttpServletRequest request, @RequestBody DonationDto donationDto){
+        Integer userType = (Integer) request.getAttribute("userType");
         log.info("request to /api/v1/donation [Method: POST]");
-        Integer userNo = (Integer) request.getAttribute("userNo");
-        boolean check = donationService.donate(userNo, donationDto.getDonationMoney());
         ReturnMessageDto returnMessageDto = new ReturnMessageDto();
+        Integer userNo = (Integer) request.getAttribute("userNo");
+        if(!userType.equals(2)){
+            log.error("권한 없음.");
+            returnMessageDto.setMsg("권한 없음.");
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(returnMessageDto);
+        }
+        boolean check = donationService.donate(userNo, donationDto.getDonationMoney());
         if(check){
 
             returnMessageDto.setMsg("기부완료");

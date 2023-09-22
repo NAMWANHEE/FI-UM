@@ -40,19 +40,31 @@ public class StockController {
     }
 
     @GetMapping("my-account/{stockNo}")
-    public StockAccountDto getDetailStockAccount(HttpServletRequest request, @PathVariable("stockNo") Integer stockNo) {
+    public ResponseEntity<StockAccountDto> getDetailStockAccount(HttpServletRequest request, @PathVariable("stockNo") Integer stockNo) {
         log.info("request to /api/v1/stock/my-account/{stockNo} [Method: GET]");
+        Integer userType = (Integer) request.getAttribute("userType");
         Integer myUser = (Integer) request.getAttribute("userNo");
+        if(!userType.equals(2)){
+            log.error("권한 없음.");
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(null);
+        }
         StockAccountDto myAccountDetail = stockService.getDetailAccount(stockNo, myUser);
-        return myAccountDetail;
+        return ResponseEntity.ok(myAccountDetail);
     }
 
     @PostMapping("buying")
     public ResponseEntity<ReturnMessageDto> buyStock(HttpServletRequest request, @RequestBody StockTradeDto stockTradeDto) {
         log.info("request to /api/v1/stock/buying [Method: POST]");
         Integer buyUser = (Integer) request.getAttribute("userNo");
-        Boolean checkPrice = stockService.getStockNow(stockTradeDto.getStockNo(), stockTradeDto.getPrice());
+        Integer userType = (Integer) request.getAttribute("userType");
         ReturnMessageDto returnMessageDto = new ReturnMessageDto();
+        if(!userType.equals(2)){
+            log.error("권한 없음.");
+            returnMessageDto.setMsg("권한 없음.");
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(returnMessageDto);
+        }
+        Boolean checkPrice = stockService.getStockNow(stockTradeDto.getStockNo(), stockTradeDto.getPrice());
+
         // 현재 금액이 구매하려고 하는 금액과 일치하는지 여부
         if (checkPrice) {
             Integer price = stockTradeDto.getPrice() * stockTradeDto.getCount();
@@ -78,8 +90,14 @@ public class StockController {
     public ResponseEntity<ReturnMessageDto> sellStock(HttpServletRequest request, @RequestBody StockTradeDto stockTradeDto) {
         log.info("request to /api/v1/stock/selling [Method: POST]");
         Integer sellUser = (Integer) request.getAttribute("userNo");
-        Boolean checkPrice = stockService.getStockNow(stockTradeDto.getStockNo(), stockTradeDto.getPrice());
+        Integer userType = (Integer) request.getAttribute("userType");
         ReturnMessageDto returnMessageDto = new ReturnMessageDto();
+        if(!userType.equals(2)){
+            log.error("권한 없음.");
+            returnMessageDto.setMsg("권한 없음.");
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(returnMessageDto);
+        }
+        Boolean checkPrice = stockService.getStockNow(stockTradeDto.getStockNo(), stockTradeDto.getPrice());
         if (checkPrice) {
             stockService.sellStock(stockTradeDto, sellUser);
             returnMessageDto.setMsg("판매가 완료되었습니다.");
@@ -93,10 +111,15 @@ public class StockController {
     }
 
     @GetMapping("my-stock")
-    public List<StockStatusDto> getMyStatus(HttpServletRequest request) {
+    public ResponseEntity<List<StockStatusDto>> getMyStatus(HttpServletRequest request) {
         log.info("request to /api/v1/stock/my-stock [Method: GET]");
+        Integer userType = (Integer) request.getAttribute("userType");
+        if(!userType.equals(2)){
+            log.error("권한 없음.");
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(null);
+        }
         Integer myUser = (Integer) request.getAttribute("userNo");
-        return stockService.getMyAccount(myUser);
+        return ResponseEntity.ok(stockService.getMyAccount(myUser));
     }
 
     @GetMapping("king")

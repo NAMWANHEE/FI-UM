@@ -1,10 +1,12 @@
 package com.example.pium.controller;
 
+import com.example.pium.dto.ReturnMessageDto;
 import com.example.pium.entity.UserEntity;
 import com.example.pium.service.UserServiceImp;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.server.ResponseStatusException;
 import javax.servlet.http.HttpServletRequest;
 
@@ -35,10 +37,15 @@ public class ReviewBoardController {
 
 
     @PostMapping
-    public ReviewBoardDto createReview(HttpServletRequest request, @RequestBody ReviewBoardDto reviewDto) {
+    public ResponseEntity<ReviewBoardDto> createReview(HttpServletRequest request, @RequestBody ReviewBoardDto reviewDto) {
         log.info("request to /api/v1/reviews [Method: POST]");
         Integer postUserNo = (Integer) request.getAttribute("userNo");
-        return reviewService.createReview(postUserNo, reviewDto);
+        Integer userType = (Integer) request.getAttribute("userType");
+        if(!userType.equals(1)){
+            log.error("권한 없음.");
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(null);
+        }
+        return ResponseEntity.ok(reviewService.createReview(postUserNo, reviewDto));
     }
 
 
@@ -58,16 +65,29 @@ public class ReviewBoardController {
     }
 
     @PutMapping("/{id}")
-    public ReviewBoardEntity updateReview(@PathVariable int id, @RequestBody ReviewBoardEntity review) {
+    public ResponseEntity<ReviewBoardEntity> updateReview(@PathVariable int id, @RequestBody ReviewBoardEntity review,HttpServletRequest request) {
         log.info("request to /api/v1/reviews/{id} [Method: PUT]");
+        Integer userType = (Integer) request.getAttribute("userType");
+        if(!userType.equals(1)){
+            log.error("권한 없음.");
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(null);
+        }
         review.setReviewNo(id); // Make sure the ID is set based on the path variable
-        return reviewService.updateReview(review);
+        return ResponseEntity.ok(reviewService.updateReview(review));
     }
 
     @DeleteMapping("/{id}")
-    public String deleteReview(@PathVariable int id) {
+    public ResponseEntity<ReturnMessageDto> deleteReview(@PathVariable int id,HttpServletRequest request) {
         log.info("request to /api/v1/reviews/{id} [Method: DELETE]");
+        Integer userType = (Integer) request.getAttribute("userType");
+        ReturnMessageDto returnMessageDto = new ReturnMessageDto();
+        if(!userType.equals(1)){
+            log.error("권한 없음.");
+            returnMessageDto.setMsg("권한 없음.");
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(returnMessageDto);
+        }
         reviewService.deleteReview(id);
-        return "Deleted review with ID: " + id;
+        returnMessageDto.setMsg("Deleted review with ID: " + id);
+        return ResponseEntity.ok(returnMessageDto);
     }
 }

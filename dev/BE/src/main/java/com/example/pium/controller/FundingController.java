@@ -35,9 +35,10 @@ public class FundingController {
         log.info("request to /api/v1/funding/{itemNo} [Method: GET]");
         Integer childUser = (Integer) request.getAttribute("userNo");
         ReturnMessageDto returnMessageDto = new ReturnMessageDto();
+
         if (fundingService.checkFundingNow(itemNo, money.getMoney())) {
             if (userService.checkValidPoint(childUser, money.getMoney())) {
-                if (userService.getUserInfo(childUser).getUserType() == 2) {
+                if (userService.getUserInfo(childUser).getUserType().equals(2)) {
                     fundingService.postFunding(childUser, itemNo, money.getMoney());
                     returnMessageDto.setMsg("정상적으로 펀딩되였습니다.");
                     log.info("펀딩 금액 : "+money +"원 펀딩 되었습니다.");
@@ -62,10 +63,12 @@ public class FundingController {
     public ResponseEntity<FundingProgressDto> getFundingProgress(HttpServletRequest request) {
         log.info("request to /api/v1/funding/progress [Method: GET]");
         Integer teachUser = (Integer) request.getAttribute("userNo");
-        if (userService.getUserInfo(teachUser).getUserType() == 0) {
+
+        if (userService.getUserInfo(teachUser).getUserType().equals(1)) {
             FundingProgressDto getProgress = fundingService.getFundingProgress();
             return new ResponseEntity<>(getProgress, HttpStatus.OK);
         } else {
+            log.error("권한 없음.");
             return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
         }
     }
@@ -73,6 +76,11 @@ public class FundingController {
     @GetMapping("myFunding")
     public ResponseEntity<List<MyFundingDto>> getMyFunding(HttpServletRequest request) {
         log.info("request to /api/v1/funding/myFunding [Method: GET]");
+        Integer userType = (Integer) request.getAttribute("userType");
+        if(!userType.equals(2)){
+            log.error("권한 없음.");
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(null);
+        }
         Integer childUser = (Integer) request.getAttribute("userNo");
         List<MyFundingDto> getProgress = fundingService.getMyFunding(childUser);
         return new ResponseEntity<>(getProgress, HttpStatus.OK);
@@ -85,6 +93,7 @@ public class FundingController {
             List<ItemRecordDto> allRecord =  fundingService.getAllRecord();
             return new ResponseEntity<>(allRecord, HttpStatus.OK);
         } else {
+            log.error("권한 없음.");
             return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
         }
     }

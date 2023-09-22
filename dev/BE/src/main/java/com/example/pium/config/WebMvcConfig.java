@@ -20,7 +20,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
         registry.addInterceptor(new TokenCheckInterceptor(jwtTokenProvider,userService))
                 .addPathPatterns("/donation")
                 .addPathPatterns("/user/logout")
-                .addPathPatterns("/user/artist/{userNo}")
                 .addPathPatterns("/user")
                 .addPathPatterns("/user/total-capital")
                 .addPathPatterns("/user/capital/{userNo}")
@@ -54,7 +53,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .addPathPatterns("/stock/selling")
                 .addPathPatterns("/quiz")
                 .addPathPatterns("/reviews")
-                .addPathPatterns("/reviews/{reviewNo}")
+                .addPathPatterns("/reviews/{id}")
                 .addPathPatterns("/stock/my-account");
 
 

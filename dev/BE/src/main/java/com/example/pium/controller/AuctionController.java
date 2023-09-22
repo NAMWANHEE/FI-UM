@@ -42,6 +42,7 @@ public class AuctionController {
         Integer userType = (Integer) request.getAttribute("userType");
         ReturnMessageDto returnMessageDto = new ReturnMessageDto();
         if(!userType.equals(2)){
+            log.error("권한 없음.");
             returnMessageDto.setMsg("권한 없음.");
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(returnMessageDto);
         }
@@ -55,7 +56,7 @@ public class AuctionController {
                 return new ResponseEntity<>(returnMessageDto, HttpStatus.OK);
             } else  {
                 returnMessageDto.setMsg("이미 경매물품이 등록되어있습니다.");
-                return new ResponseEntity<>(returnMessageDto, HttpStatus.NOT_ACCEPTABLE);
+                return new ResponseEntity<>(returnMessageDto, HttpStatus.FORBIDDEN);
             }
         }
     }
@@ -66,6 +67,7 @@ public class AuctionController {
         ReturnMessageDto returnMessageDto = new ReturnMessageDto();
         log.info("request to /api/v1/auction/{auctionNo} [Method: PUT]");
         if(!auctionService.getAuctionInfo(auctionNo).getUserNo().getUserNo().equals(userNo)){
+            log.error("권한 없음.");
             returnMessageDto.setMsg("권한 없음.");
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(returnMessageDto);
         };
@@ -92,10 +94,16 @@ public class AuctionController {
     @PostMapping("bid/{auctionNo}")
     public ResponseEntity<ReturnMessageDto> modifyAuctionPrice(HttpServletRequest request, @PathVariable("auctionNo") Integer auctionNo, @RequestBody RGSAuctionDto rgsAuctionDto) {
         log.info("request to /api/v1/auction/bid/{auctionNo} [Method: POST]");
+        ReturnMessageDto returnMessageDto = new ReturnMessageDto();
+        Integer userType = (Integer) request.getAttribute("userType");
+        if(userType.equals(2)){
+            log.error("권한 없음.");
+            returnMessageDto.setMsg("권한 없음");
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(returnMessageDto);
+        }
         ArtAuctionEntity artAuctionEntity = auctionService.getAuctionInfo(auctionNo);
         Integer buyer = (Integer) request.getAttribute("userNo");
         Integer seller = artAuctionEntity.getUserNo().getUserNo();
-        ReturnMessageDto returnMessageDto = new ReturnMessageDto();
         Integer bidPrice = rgsAuctionDto.getAuctionPrice();
         UserEntity user = userService.getUserInfo(buyer);
         if(user.getPoint() < bidPrice){
@@ -133,6 +141,11 @@ public class AuctionController {
 
     @GetMapping("purchase")
     public ResponseEntity<List<UserAuctionDto>> getPurchaseArt(HttpServletRequest request) {
+        Integer userType = (Integer) request.getAttribute("userType");
+        if(userType.equals(2)){
+            log.error("권한 없음.");
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(null);
+        }
         log.info("request to /api/v1/auction/purchase [Method: GET]");
         Integer buyer = (Integer) request.getAttribute("userNo");
         List<UserAuctionDto> purchaseData = auctionService.getPurchaseArt(buyer);

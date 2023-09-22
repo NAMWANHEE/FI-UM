@@ -70,6 +70,11 @@ public class UserController {
     @GetMapping("deposit-saving")
     public ResponseEntity<List<UserDepositSavingDto>> getUserDepositSaving(HttpServletRequest request){
         log.info("request to /api/v1/user/deposit-saving [Method: GET]");
+        Integer userType = (Integer)request.getAttribute("userType");
+        if(!userType.equals(2)){
+            log.error("권한 없음");
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(null);
+        }
         Integer userNo = (Integer) request.getAttribute("userNo");
         List<UserDepositSavingDto> userDepositSavingInterface = userService.getUserDepositSaving(userNo);
         return ResponseEntity.ok(userDepositSavingInterface);
@@ -79,6 +84,11 @@ public class UserController {
     @PostMapping("rival")
     public ResponseEntity<ReturnMessageDto> registRival(HttpServletRequest request, @RequestBody UserNoDto userNoDto){
         log.info("request to /api/v1/user/rival [Method: POST]");
+        Integer userType = (Integer)request.getAttribute("userType");
+        if(!userType.equals(2)){
+            log.error("권한 없음");
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(null);
+        }
         Integer userNo = (Integer) request.getAttribute("userNo");
         Integer rivalNo = userNoDto.getUserNo();
         boolean check = userService.existRival(userNo);
@@ -101,10 +111,17 @@ public class UserController {
     @PutMapping("rival")
     public ResponseEntity<ReturnMessageDto> updateRival(HttpServletRequest request, @RequestBody UserNoDto userNoDto){
         log.info("request to /api/v1/user/rival [Method: PUT]");
+
+        Integer userType = (Integer)request.getAttribute("userType");
+        ReturnMessageDto returnMessageDto = new ReturnMessageDto();
+        if(!userType.equals(2)){
+            returnMessageDto.setMsg("권한 없음");
+            log.error("권한 없음");
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(returnMessageDto);
+        }
         Integer userNo = (Integer) request.getAttribute("userNo");
         Integer rivalNo = userNoDto.getUserNo();
         userService.updateRival(userNo,rivalNo);
-        ReturnMessageDto returnMessageDto = new ReturnMessageDto();
         returnMessageDto.setMsg("변경 완료");
         return ResponseEntity.ok(returnMessageDto);
 
@@ -114,9 +131,15 @@ public class UserController {
     @DeleteMapping("rival")
     public ResponseEntity<ReturnMessageDto> deleteRival(HttpServletRequest request){
         log.info("request to /api/v1/user/rival [Method: DELETE]");
+        ReturnMessageDto returnMessageDto = new ReturnMessageDto();
+        Integer userType = (Integer)request.getAttribute("userType");
+        if(!userType.equals(2)){
+            returnMessageDto.setMsg("권한 없음");
+            log.error("권한 없음");
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(returnMessageDto);
+        }
         Integer userNo = (Integer) request.getAttribute("userNo");
         userService.deleteRival(userNo);
-        ReturnMessageDto returnMessageDto = new ReturnMessageDto();
         returnMessageDto.setMsg("해제 완료");
         return ResponseEntity.ok(returnMessageDto);
 
@@ -124,11 +147,16 @@ public class UserController {
 
     // 전체 아이들의 자산 현황
     @GetMapping("total-capital")
-    public List<ChildCapitalDto> getChildCapital(HttpServletRequest request){
+    public ResponseEntity<List<ChildCapitalDto>> getChildCapital(HttpServletRequest request){
         log.info("request to /api/v1/user/total-capital [Method: GET]");
+        Integer userType = (Integer)request.getAttribute("userType");
+        if(!userType.equals(1)){
+            log.error("권한 없음");
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(null);
+        }
         Long startTime =  System.currentTimeMillis()-(1000*60*60*2) ;
 
-        return userService.getTotalCapital(startTime);
+        return ResponseEntity.ok(userService.getTotalCapital(startTime));
     }
 
     // 개인 정보 조회
@@ -153,8 +181,13 @@ public class UserController {
 
     // 특정 아이의 재무상태표 조회
     @GetMapping("capital/{userNo}")
-    public ResponseEntity<UserBalanceSheetInterface> getUserBalanceSheet(@PathVariable("userNo") Integer userNo){
+    public ResponseEntity<UserBalanceSheetInterface> getUserBalanceSheet(@PathVariable("userNo") Integer userNo, HttpServletRequest request){
         log.info("request to /api/v1/user/capital/{userNo} [Method: GET]");
+        Integer userType = (Integer)request.getAttribute("userType");
+        if(!userType.equals(1)){
+            log.error("권한 없음");
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(null);
+        }
         UserBalanceSheetInterface userBalanceSheetInterface = userService.getUserBalanceSheet(userNo);
         return ResponseEntity.ok(userBalanceSheetInterface);
     }
@@ -164,7 +197,6 @@ public class UserController {
     public List<UserAuctionDto> getAuctionList(@PathVariable("userNo") int artistNo){
         log.info("request to /api/v1/user/artist/{userNo} [Method: GET]");
         List<UserAuctionDto> auctionDtoList = userService.getAuctionList(artistNo);
-
         return auctionDtoList;
     }
 

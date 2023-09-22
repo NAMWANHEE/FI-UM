@@ -68,8 +68,14 @@ public class SponsorshipController {
     public ResponseEntity<ReturnMessageDto> postSupport(HttpServletRequest request, @PathVariable("itemNo") Integer itemNo, @RequestBody MoneyDto supportPrice) {
         log.info("request to /api/v1/sponsorship/support/{itemNo} [Method: POST]");
         Integer postUser = (Integer) request.getAttribute("userNo");
-        Boolean checkPrice = sponsorShipService.checkPrice(itemNo, supportPrice.getMoney());
         ReturnMessageDto returnMessageDto = new ReturnMessageDto();
+        Integer userType = (Integer) request.getAttribute("userType");
+        if(!userType.equals(3)){
+            log.error("권한 없음.");
+            returnMessageDto.setMsg("권한 없음.");
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(returnMessageDto);
+        }
+        Boolean checkPrice = sponsorShipService.checkPrice(itemNo, supportPrice.getMoney());
         if (checkPrice) {
             if (userService.checkValidCash(postUser, supportPrice.getMoney())){
                 sponsorShipService.postSupport(postUser, itemNo, supportPrice.getMoney());
@@ -92,10 +98,12 @@ public class SponsorshipController {
     public ResponseEntity<List<ItemRecordDto>> getAllRecord(HttpServletRequest request) {
         log.info("request to /api/v1/sponsorship/record [Method: GET]");
         Integer teachUser = (Integer) request.getAttribute("userNo");
+
         if (userService.getUserInfo(teachUser).getUserType().equals(1)) {
             List<ItemRecordDto> allRecord =  sponsorShipService.getAllRecord();
             return new ResponseEntity<>(allRecord, HttpStatus.OK);
         } else {
+            log.error("권한 없음.");
             return new ResponseEntity<>(null, HttpStatus.NOT_ACCEPTABLE);
         }
     }
@@ -104,8 +112,13 @@ public class SponsorshipController {
     public  ResponseEntity<List<ItemRecordDto>> getRecordDetail(HttpServletRequest request) {
         log.info("request to /api/v1/sponsorship/record/detail [Method: GET]");
         Integer supportUser = (Integer) request.getAttribute("userNo");
-            List<ItemRecordDto> allRecord =  sponsorShipService.getRecordDetail(supportUser);
-            return new ResponseEntity<>(allRecord, HttpStatus.OK);
+        Integer userType = (Integer) request.getAttribute("userType");
+        if(!userType.equals(3)){
+            log.error("권한 없음.");
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(null);
+        }
+        List<ItemRecordDto> allRecord =  sponsorShipService.getRecordDetail(supportUser);
+        return new ResponseEntity<>(allRecord, HttpStatus.OK);
     }
 
 

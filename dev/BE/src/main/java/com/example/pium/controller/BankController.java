@@ -30,9 +30,14 @@ public class BankController {
     public ResponseEntity<ReturnMessageDto> makeSaving(HttpServletRequest request, @RequestParam String option, @RequestBody MoneyDto savingMoney) {
         log.info("request to /api/v1/bank/saving [Method: POST]");
         Integer postUser = (Integer) request.getAttribute("userNo");
-        Boolean checkSavingAccount = bankService.checkSaving(postUser, option);
-
+        Integer userType = (Integer) request.getAttribute("userType");
         ReturnMessageDto returnMessageDto = new ReturnMessageDto();
+        if(!userType.equals(2)){
+            returnMessageDto.setMsg("권한 없음.");
+            log.error("권한 없음.");
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(returnMessageDto);
+        }
+        Boolean checkSavingAccount = bankService.checkSaving(postUser, option);
         // 이미 적금이 가입되어 있는지 여부 파악
         if (checkSavingAccount) {
             returnMessageDto.setMsg("이미 해당 은행 계좌가 존재합니다.");
@@ -54,7 +59,13 @@ public class BankController {
     public ResponseEntity<ReturnMessageDto> makeDeposit(HttpServletRequest request, @RequestParam String option, @RequestBody MoneyDto depositMoney) {
         log.info("request to /api/v1/bank/deposit [Method: POST]");
         Integer postUser = (Integer) request.getAttribute("userNo");
+        Integer userType = (Integer) request.getAttribute("userType");
         ReturnMessageDto returnMessageDto = new ReturnMessageDto();
+        if(!userType.equals(2)){
+            returnMessageDto.setMsg("권한 없음.");
+            log.error("권한 없음.");
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(returnMessageDto);
+        }
         // 보유 포인트가 예금을 더 넣을 수 있는 금액인지 여부 파악 (인출이여도 상관없음)
         if (userService.checkValidPoint(postUser, depositMoney.getMoney())) {
             bankService.makeDeposit(postUser, option, depositMoney.getMoney());
@@ -70,6 +81,11 @@ public class BankController {
     public ResponseEntity<List<DepositAccountDto>> getDeposit(HttpServletRequest request) {
         log.info("request to /api/v1/bank/deposit [Method: GET]");
         Integer postUser = (Integer) request.getAttribute("userNo");
+        Integer userType = (Integer) request.getAttribute("userType");
+        if(!userType.equals(2)){
+            log.error("권한 없음.");
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(null);
+        }
         List<DepositAccountDto> depositList = bankService.getDepositList(postUser);
         return new ResponseEntity<>(depositList, HttpStatus.OK);
     }
@@ -78,7 +94,13 @@ public class BankController {
     public ResponseEntity<ReturnMessageDto> checkPrime(HttpServletRequest request, @RequestParam String option) {
         log.info("request to /api/v1/bank/checkPrime [Method: GET]");
         Integer checkUser = (Integer) request.getAttribute("userNo");
+        Integer userType = (Integer) request.getAttribute("userType");
         ReturnMessageDto returnMessageDto = new ReturnMessageDto();
+        if(!userType.equals(2)){
+            returnMessageDto.setMsg("권한 없음.");
+            log.error("권한 없음.");
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(returnMessageDto);
+        }
         UserEntity userData = userService.getUserInfo(checkUser);
         if (bankService.checkBank(option).getBankNo().equals(1)) {
             if (userData.getIsPrimed1()) {

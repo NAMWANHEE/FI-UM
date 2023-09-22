@@ -10,7 +10,9 @@ import com.example.pium.service.UserServiceImp;
 import com.example.pium.util.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.bytebuddy.asm.Advice;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -31,12 +33,18 @@ public class FollowController {
 
     // 팔로우 등록/취소
     @PostMapping
-    public ResponseEntity<ReturnMessageDto> following(@RequestHeader HttpHeaders header, @RequestBody UserNoDto userNoDto){
+    public ResponseEntity<ReturnMessageDto> following(HttpServletRequest request, @RequestBody UserNoDto userNoDto){
         log.info("request to /api/v1/following [Method: [POST]");
-        String refreshToken = header.getFirst("X-ACCESS-TOKEN");
-        int userNo = Integer.valueOf(jwtTokenProvider.getUserNo(refreshToken));
+        Integer userType = (Integer) request.getAttribute("userType");
+        Integer userNo = (Integer) request.getAttribute("userNo");
+        ReturnMessageDto returnMessageDto = new ReturnMessageDto();
+        if(!userType.equals(3)){
+            log.error("권한 없음.");
+            returnMessageDto.setMsg("권한 없음");
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(returnMessageDto);
+        }
         int followingUserNo = userNoDto.getUserNo();
-        ReturnMessageDto returnMessageDto = followService.doFollowing(userNo, followingUserNo);
+        returnMessageDto.setMsg(followService.doFollowing(userNo, followingUserNo).getMsg());
         return ResponseEntity.ok(returnMessageDto);
     }
 
@@ -44,6 +52,13 @@ public class FollowController {
     @GetMapping
     public ResponseEntity<List<ChildUserInterface>> checkFollowing(HttpServletRequest request){
         log.info("request to /api/v1/following [Method: GET]");
+        Integer userType = (Integer) request.getAttribute("userType");
+        ReturnMessageDto returnMessageDto = new ReturnMessageDto();
+        if(!userType.equals(3)){
+            log.error("권한 없음.");
+            returnMessageDto.setMsg("권한 없음");
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(null);
+        }
         Integer userNo = (Integer) request.getAttribute("userNo");
         List<ChildUserInterface> childUserDtoList = followService.getFollowing(userNo);
         return ResponseEntity.ok(childUserDtoList);
