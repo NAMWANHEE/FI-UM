@@ -5,6 +5,7 @@ import com.example.pium.dto.RGSAuctionDto;
 import com.example.pium.dto.ReturnMessageDto;
 import com.example.pium.dto.UserAuctionDto;
 import com.example.pium.entity.ArtAuctionEntity;
+import com.example.pium.entity.UserEntity;
 import com.example.pium.service.AuctionServiceImp;
 import com.example.pium.service.UserServiceImp;
 import lombok.RequiredArgsConstructor;
@@ -85,6 +86,14 @@ public class AuctionController {
         Integer buyer = (Integer) request.getAttribute("userNo");
         Integer seller = artAuctionEntity.getUserNo().getUserNo();
         ReturnMessageDto returnMessageDto = new ReturnMessageDto();
+        Integer bidPrice = rgsAuctionDto.getAuctionPrice();
+        UserEntity user = userService.getUserInfo(buyer);
+        if(user.getPoint() < bidPrice){
+            returnMessageDto.setMsg("보유한 금액보다 높은 가격으로 입찰 시도.");
+            log.error("보유한 금액보다 높은 가격으로 입찰 시도.");
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(returnMessageDto);
+        }
+
         // 일단 낙찰자가 있는지 없는지 확인하여 구분 있으면 이미 판매된 상품 메세지
         if (artAuctionEntity.getWinner() == null) {
             // 현재 경매품에 등록된 금액보다 작거나 같으면 경매입찰을 할수 없는 로직 설정
