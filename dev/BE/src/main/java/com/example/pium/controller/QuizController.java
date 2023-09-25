@@ -4,6 +4,7 @@ package com.example.pium.controller;
 import com.example.pium.dto.QuizDto;
 import com.example.pium.dto.ReturnMessageDto;
 import com.example.pium.dto.projection.Quiz;
+import com.example.pium.entity.UserEntity;
 import com.example.pium.service.PointServiceImp;
 import com.example.pium.service.QuizService;
 import com.example.pium.service.UserServiceImp;
@@ -38,6 +39,14 @@ public class QuizController {
         log.info("request to /api/v1/quiz [Method: POST]");
         Integer userNo = (Integer) request.getAttribute("userNo");
         int answerCount = quizService.checkQuizList(quizDtoList,userNo);
+        if(answerCount >= 8){ // 퀴즈 8개 이상 맞추면 우대이자 적용
+            UserEntity user = userService.getUserInfo(userNo);
+            if(!user.getIsPrimed2()) {
+                user.setIsPrimed2(true);
+                userService.save(user);
+            }
+
+        }
         ReturnMessageDto returnMessageDto = new ReturnMessageDto();
         int point = 500;
         if(answerCount < 6) {

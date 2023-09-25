@@ -42,6 +42,9 @@ public class BankProductDataEntity {
     @Column(name="prime_condition")
     private String primeCondition;
 
+    @Column(name="description",columnDefinition = "TEXT")
+    private String description;
+
 
 }
 

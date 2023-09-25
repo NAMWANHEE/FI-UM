@@ -36,7 +36,7 @@ public class DonationController {
         }
         boolean check = donationService.donate(userNo, donationDto.getDonationMoney());
         if(check){
-
+            donationService.checkDonation(userNo); // 10만원이상 기부완료 시 우대 이자 적용
             returnMessageDto.setMsg("기부완료");
             return ResponseEntity.ok(returnMessageDto);
         }

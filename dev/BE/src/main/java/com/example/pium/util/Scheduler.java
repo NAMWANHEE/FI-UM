@@ -41,7 +41,7 @@ public class Scheduler {
             Integer recentMoney = deposit.getRecentMoney() == null ? 0 : deposit.getRecentMoney();
             if(deposit.getTotalMoney() == 0) continue; // 현재 예금 금액이 0원인 경우 패스
             Integer interest;
-            if(deposit.getBankName().equals("국민은행")){
+            if(deposit.getBankName().equals("햇살은행")){
                 if(user.getIsPrimed2()){ // 국민은행의 우대이자를 받는 경우
                     if(recentMoney < 0){ // 24 시간 이내에 출금한 돈이 더 많은 경우 그냥 현재 예금 금액에 이자+우대이자 해서 지급
                         interest = (int)(deposit.getTotalMoney() * ((deposit.getInterestRate()+deposit.getPrimeInterestRate())/100.0));
@@ -101,10 +101,10 @@ public class Scheduler {
         log.info("적금 이자 지급");
         List<SavingAll> savingAllList = savingRepository.findAllSaving(); // 모든 적금 리스트 => 적금금액, 적금일, 고객, 이자율, 우대이자율, 은행명
         for(SavingAll savingAll : savingAllList){
-            if(savingAll.getCreateSaving().longValueExact() >= System.currentTimeMillis()-(1000*60*60*24*7)) continue;
             UserEntity user = userRepository.findByUserNo(savingAll.getUserNo()).get();
             Integer interest;
-            if(savingAll.getBankName().equals("국민은행")){
+            if(savingAll.getBankName().equals("햇살은행")){
+                if(savingAll.getCreateSaving().longValueExact() >= System.currentTimeMillis()-(1000*60*60*24*7)) continue;
                 if(user.getIsPrimed2()){
                     interest = (int)(savingAll.getSavingBalance() * ((savingAll.getInterestRate()+savingAll.getPrimeInterestRate())/100.0));
                 }
@@ -113,6 +113,7 @@ public class Scheduler {
                 }
             }
             else{
+                if(savingAll.getCreateSaving().longValueExact() >= System.currentTimeMillis()-(1000*60*60*24*10)) continue;
                 if(user.getIsPrimed1()){
                     interest = (int)(savingAll.getSavingBalance() * ((savingAll.getInterestRate()+savingAll.getPrimeInterestRate())/100.0));
                 }

@@ -1,6 +1,7 @@
 package com.example.pium.service;
 
 import com.example.pium.dto.DepositAccountDto;
+import com.example.pium.dto.projection.BankInfo;
 import com.example.pium.entity.*;
 import com.example.pium.repository.*;
 import lombok.RequiredArgsConstructor;
@@ -111,4 +112,7 @@ public class BankServiceImp {
         return depositList;
     }
 
+    public List<BankInfo> getBankInfo(){
+        return bankProductDataRepository.getBankInfo();
+    }
 }

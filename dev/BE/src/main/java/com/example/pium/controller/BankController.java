@@ -3,6 +3,7 @@ package com.example.pium.controller;
 import com.example.pium.dto.DepositAccountDto;
 import com.example.pium.dto.MoneyDto;
 import com.example.pium.dto.ReturnMessageDto;
+import com.example.pium.dto.projection.BankInfo;
 import com.example.pium.entity.UserEntity;
 import com.example.pium.service.BankServiceImp;
 import com.example.pium.service.UserServiceImp;
@@ -119,5 +120,11 @@ public class BankController {
                 return new ResponseEntity<>(returnMessageDto, HttpStatus.NOT_ACCEPTABLE);
             }
         }
+    }
+
+    @GetMapping("bank-info")
+    public ResponseEntity<List<BankInfo>> bankInfo(){
+        List<BankInfo> bankInfoList = bankService.getBankInfo();
+        return ResponseEntity.ok(bankInfoList);
     }
 }

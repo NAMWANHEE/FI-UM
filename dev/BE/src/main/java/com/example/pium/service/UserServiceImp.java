@@ -144,7 +144,7 @@ public class UserServiceImp {
 
     public boolean checkPrime(Integer userNo, String bankName){
         UserEntity user = userRepository.findByUserNo(userNo).get();
-        if(bankName.equals("신한은행")){
+        if(bankName.equals("햇살은행")){
             if(user.getIsPrimed1()){
                 return true;
             }
@@ -152,7 +152,7 @@ public class UserServiceImp {
                 return false;
             }
         }
-        else if(bankName.equals("국민은행")){
+        else if(bankName.equals("유니콘은행")){
             if(user.getIsPrimed2()){
                 return true;
             }
