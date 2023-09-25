@@ -14,6 +14,7 @@ interface AuctionDetailMainProps {
   buyItClick: () => void;
   auctionPrice: number;
   instantPrice: number;
+  createdTime: number;
 }
 
 const AuctionDetailMain = ({
@@ -27,6 +28,7 @@ const AuctionDetailMain = ({
   buyItClick,
   auctionPrice,
   instantPrice,
+  createdTime,
 }: AuctionDetailMainProps) => {
   return (
     <div
@@ -47,6 +49,7 @@ const AuctionDetailMain = ({
           className={descriptionClassName}
           auctionPrice={auctionPrice}
           instantPrice={instantPrice}
+          createdTime={createdTime}
           auctionClick={auctionClick}
           buyItClick={buyItClick}
         />
