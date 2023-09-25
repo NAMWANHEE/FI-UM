@@ -112,7 +112,7 @@ public class BankServiceImp {
         return depositList;
     }
 
-    public List<BankInfo> getBankInfo(){
-        return bankProductDataRepository.getBankInfo();
+    public List<BankInfo> getBankInfo(Integer userNo){
+        return bankProductDataRepository.getBankInfo(userNo);
     }
 }

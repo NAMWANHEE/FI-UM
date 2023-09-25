@@ -34,6 +34,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .addPathPatterns("/bank/deposit")
                 .addPathPatterns("/bank/checkPrime")
                 .addPathPatterns("/funding/{itemNo}")
+                .addPathPatterns("/bank/bank-info")
                 .addPathPatterns("/funding/progress")
                 .addPathPatterns("/funding/myFunding")
                 .addPathPatterns("/funding/record")

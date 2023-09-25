@@ -1,5 +1,7 @@
 package com.example.pium.dto.projection;
 
+import java.math.BigInteger;
+
 public interface BankInfo {
 
     String getBankName();
@@ -11,6 +13,12 @@ public interface BankInfo {
     Integer getPrimeInterestRate();
 
     String getDescription();
+
+    Integer getDepositMoney();
+
+    Integer getSavingBalance();
+
+    BigInteger getCreateSaving();
 
 
 }

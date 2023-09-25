@@ -40,7 +40,7 @@ public class BankController {
         }
         Boolean checkSavingAccount = bankService.checkSaving(postUser, option);
         // 이미 적금이 가입되어 있는지 여부 파악
-        if (checkSavingAccount) {
+        if (!checkSavingAccount) {
             returnMessageDto.setMsg("이미 해당 은행 계좌가 존재합니다.");
             return new ResponseEntity<>(returnMessageDto, HttpStatus.NOT_ACCEPTABLE);
         } else {
@@ -123,8 +123,10 @@ public class BankController {
     }
 
     @GetMapping("bank-info")
-    public ResponseEntity<List<BankInfo>> bankInfo(){
-        List<BankInfo> bankInfoList = bankService.getBankInfo();
+    public ResponseEntity<List<BankInfo>> bankInfo(HttpServletRequest request){
+        log.info("request to /api/v1/bank/bank-info [Method: GET]");
+        Integer userNo = (Integer) request.getAttribute("userNo");
+        List<BankInfo> bankInfoList = bankService.getBankInfo(userNo);
         return ResponseEntity.ok(bankInfoList);
     }
 }
