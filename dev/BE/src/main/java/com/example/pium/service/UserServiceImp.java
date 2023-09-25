@@ -256,7 +256,7 @@ public class UserServiceImp {
         userInfoDto.setUserId(user.getUserId());
         userInfoDto.setUserNo(user.getUserNo());
         userInfoDto.setUserType(user.getUserType());
-        userInfoDto.setUserNme(user.getUserName());
+        userInfoDto.setUserName(user.getUserName());
         userInfoDto.setJoinDate(user.getJoinDate());
         userInfoDto.setImagePath(user.getImagePath());
         userInfoDto.setPhoneNumber(user.getPhoneNumber());

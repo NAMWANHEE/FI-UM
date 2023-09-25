@@ -169,11 +169,14 @@ public class UserController {
         // 아이들 or 원장쌤
        if(type == 2 || type == 1){
             ChildUserDto childUserDto = userService.getChildData(userNo);
+            System.out.println(childUserDto);
            return ResponseEntity.ok(childUserDto);
         }
         // 후원자
         else{
             SponsorUserInterface sponsorUserDto = userService.getSponsorData(userNo);
+            System.out.println(userNo);
+            System.out.println(sponsorUserDto);
            return ResponseEntity.ok(sponsorUserDto);
         }
 
