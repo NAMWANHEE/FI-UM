@@ -56,11 +56,22 @@ const StockDetailPage = ({ className }: StockDetailPageProps): JSX.Element => {
     TradeHistory[],
     string
   >(getTradeHistoryQuery(Number(detail)));
+  const date = new Date();
+  const hour = date.getHours();
+  const minutes = date.getMinutes() - (date.getMinutes() % 2);
+
+  const calculateTime = (idx: number): string => {
+    const calculatedMinute = minutes - (19 - idx) * 2;
+    if (calculatedMinute < 0) {
+      return `${hour - 1}시 ${60 + calculatedMinute}분`;
+    }
+    return `${hour}시 ${minutes - (19 - idx) * 2}분`;
+  };
 
   useEffect(() => {
     if (isStockChartLoading === 'success' && stockChart) {
       const newChartData = {
-        labels: stockChart.map((_, idx) => String(idx)),
+        labels: stockChart.map((_, idx) => calculateTime(idx)),
         datasets: [
           {
             type: 'line',
@@ -187,7 +198,7 @@ const StockDetailPage = ({ className }: StockDetailPageProps): JSX.Element => {
           {isStockChartLoading === 'success' &&
             isMyStockLoading === 'success' && (
               <div className={styles.myStock}>
-                <p>내가 갖고있는 수량: {myStock.stockCount}</p>
+                <p>내가 갖고있는 수량: {myStock.stockCount}주</p>
                 <p>평균 단가: {myStock.stockAverage}</p>
                 <p>현재 가격: {stockChart[stockChart.length - 1].nowPrice}</p>
               </div>
@@ -198,8 +209,8 @@ const StockDetailPage = ({ className }: StockDetailPageProps): JSX.Element => {
           >
             <Button
               className={convertClassNameList(
-                'bg-blue white',
                 styles['stock-detail-page__content--button'],
+                styles['stock-detail-page__content--button__sell'],
               )}
               label="매도"
               value="매도"
@@ -207,8 +218,8 @@ const StockDetailPage = ({ className }: StockDetailPageProps): JSX.Element => {
             />
             <Button
               className={convertClassNameList(
-                'bg-red white',
                 styles['stock-detail-page__content--button'],
+                styles['stock-detail-page__content--button__buy'],
               )}
               label="매수"
               value="매수"

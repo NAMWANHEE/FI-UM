@@ -33,7 +33,16 @@ const dummy: ChartData<'line', number[], string> = {
 const LineChart = ({ className, data }: LineChartProps): JSX.Element => {
   return (
     <div className={convertClassNameList(convertClassName(className, styles))}>
-      <Line data={data ?? dummy} />
+      <Line
+        options={{
+          plugins: {
+            legend: {
+              display: false,
+            },
+          },
+        }}
+        data={data ?? dummy}
+      />
     </div>
   );
 };

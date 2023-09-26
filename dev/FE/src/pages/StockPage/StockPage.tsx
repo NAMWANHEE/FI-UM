@@ -21,13 +21,11 @@ const StockPage = () => {
     Stock[],
     string
   >(['getStockInformation'], getStocks);
-  console.log(allStocks);
   const { data: stockKing, status: isStockKingLoading } = useQuery<
     StockRank[],
     string
   >(['getStockKing'], getStockKing);
   const { data: recentNews } = useQuery<News[], string>(getRecentNewsQuery());
-  console.log(recentNews, '뉴스');
   const navigate = useNavigate();
   return (
     <div className={styles.stockPage}>

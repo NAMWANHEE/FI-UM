@@ -5,7 +5,7 @@ import {
   priceFilter,
 } from '@/utils';
 import styles from './Navbar.module.scss';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import useAuth from '@/hooks/useAuth';
 import { USER_TYPE } from '@/constants';
 import { useMemo, useCallback, MouseEvent } from 'react';
@@ -32,8 +32,6 @@ const Navbar = ({ className }: NavbarProps): JSX.Element => {
     mutation.mutate();
   }, []);
 
-  const location = useLocation();
-  console.log(location);
   const openPayment = () => {
     window.open('/tosspay', '_blank', 'width=800, height=800');
   };

@@ -38,12 +38,9 @@ const getStockMyAccount = async ({
   return await authApi
     .get(`stock/my-account/${stockNo}`)
     .then((res) => {
-      console.log(res, '여기임?');
       return res.data;
     })
-    .catch((err) => {
-      console.log(err, '에러임?');
-    });
+    .catch(() => {});
 };
 
 // 주식 구매

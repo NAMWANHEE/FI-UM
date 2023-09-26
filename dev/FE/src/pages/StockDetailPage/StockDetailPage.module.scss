@@ -1,4 +1,14 @@
+@import '@/index.scss';
+
 .stock-detail-page {
+  margin: 0 10%;
+  @media screen and (max-width: 1000px) {
+    margin: 0 5%;
+  }
+  @media screen and (max-width: 800px) {
+    margin: 0;
+  }
+
   &__news {
     width: 100%;
     margin-top: 1rem;
@@ -11,6 +21,9 @@
 
   &__line-chart {
     width: 70%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
   }
 
   &__content {
@@ -41,6 +54,14 @@
       border: 0;
       border-radius: 5px;
       height: 2rem;
+      &__buy {
+        background-color: #fde8e7;
+        color: $red;
+      }
+      &__sell {
+        background-color: #aadaff;
+        color: $shinhan-blue;
+      }
     }
   }
 }
@@ -66,7 +87,8 @@
     background-color: #f2f2f2;
   }
   &__title {
-    background-color: #04aa6d;
+    // background-color: #04aa6d;
+    background-color: #58df7e;
     color: #fff;
     font-weight: 500;
   }

@@ -1,7 +1,7 @@
 import { convertClassName, convertClassNameList, eduBook } from '@/utils';
 import styles from './EducationPage.module.scss';
 import { Button } from '@/components/atoms';
-import { useCallback, useReducer } from 'react';
+import { useCallback, useReducer, useEffect } from 'react';
 
 interface EducationPageProps {
   className?: string;
@@ -19,7 +19,7 @@ const reducer = (state: number, action: ActionType): number => {
     case 'INCREMENT':
       return state + 1;
     case 'DECREMENT':
-      return state - 1;
+      return Math.max(state - 1, 0);
     case 'CHANGE':
       return action?.pageNo ?? state;
     default:
@@ -81,6 +81,29 @@ const EducationPage = ({ className }: EducationPageProps): JSX.Element => {
     [],
   );
 
+  useEffect(() => {
+    const handleKeydown = (e: KeyboardEvent) => {
+      switch (e.key) {
+        case 'ArrowRight': // 오른쪽 화살표
+          handlePageNoIncrement();
+          break;
+        case 'ArrowLeft': // 왼쪽 화살표
+          handlePageNoDecrement();
+          break;
+        default:
+          break;
+      }
+    };
+
+    // 이벤트 리스너 등록
+    window.addEventListener('keydown', handleKeydown);
+
+    // 컴포넌트 언마운트 시 이벤트 리스너 제거
+    return () => {
+      window.removeEventListener('keydown', handleKeydown);
+    };
+  }, [handlePageNoIncrement, handlePageNoDecrement]);
+
   return (
     <div
       className={convertClassNameList(
@@ -89,27 +112,35 @@ const EducationPage = ({ className }: EducationPageProps): JSX.Element => {
       )}
     >
       <div className={styles['education-page__index']}>
-        {indexList.map(({ titleNo, pageNo }) => (
+        <span className={styles['education-page__index__title']}>목차</span>
+        {indexList.map(({ titleNo, pageNo }, idx) => (
           <Button
+            key={pageNo}
+            className={convertClassNameList(
+              styles[`education-page__index__button`],
+              styles[
+                `education-page__index__button__${idx % 2 ? 'odd' : 'even'}`
+              ],
+            )}
             label={indexNameList[titleNo]}
             onClick={handlePageNoChange(pageNo)}
           />
         ))}
       </div>
+      <div className={styles['education-page__image']}>{eduBooks[pageNo]}</div>
       <div className={styles['education-page__pagination']}>
         <Button
           className={styles['education-page__pagination--button']}
           label={'이전'}
           onClick={handlePageNoDecrement}
         />
-        {pageNo}
+        {pageNo}쪽
         <Button
           className={styles['education-page__pagination--button']}
           label={'다음'}
           onClick={handlePageNoIncrement}
         />
       </div>
-      <div className={styles['education-page__image']}>{eduBooks[pageNo]}</div>
     </div>
   );
 };

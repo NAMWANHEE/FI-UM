@@ -28,6 +28,9 @@ const AuctionDetailPage = ({
   useEffect(() => {
     if (isAuctionLoading === 'success') {
       setAuctionPrice(auction.auctionPrice + 100);
+      getUserArtist({
+        queryKey: ['', auction.userNo],
+      }).then((res: any) => setArts(res.data));
     }
   }, [auction]);
 
@@ -65,12 +68,6 @@ const AuctionDetailPage = ({
   const { isOpen, closeToggle, openToggle } = useModal();
 
   const [arts, setArts] = useState();
-
-  useEffect(() => {
-    getUserArtist({
-      queryKey: ['', auction?.userNo],
-    }).then((res: any) => setArts(res.data));
-  }, [auction]);
 
   return (
     <div

@@ -28,7 +28,7 @@ const CreatorProfile = ({
         <Text className="text-lg" text="이 작가의 다른 작품" />
         <div className={styles['creator-profile_arts']}>
           {arts?.map((art) => (
-            <div className={styles['creator-profile_art']}>
+            <div key={art.imagePath} className={styles['creator-profile_art']}>
               <Image
                 src={art.imagePath}
                 className={styles['creator-profile_art__image']}
