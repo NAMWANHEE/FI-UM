@@ -43,7 +43,7 @@ public class DonationService {
     public void checkDonation(Integer userNo){
         UserEntity user = userRepository.findByUserNo(userNo).get();
         if(user.getIsPrimed1()) return; // 이미 우대이자를 받는 경우 패스
-        if(balanceSheetRepository.findByUserNo(user).get().getDonation()>=100000){
+        if(balanceSheetRepository.findByUserNo(user).getDonation()>=100000){
             user.setIsPrimed1(true);
             userRepository.save(user);
         }

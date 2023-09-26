@@ -7,6 +7,7 @@ import com.example.pium.entity.BankProductDataEntity;
 import com.example.pium.entity.DepositEntity;
 import com.example.pium.entity.UserEntity;
 import io.swagger.models.auth.In;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
@@ -18,8 +19,8 @@ import java.util.Optional;
 
 @Repository
 public interface DepositRepository extends JpaRepository<DepositEntity, Integer> {
-    @Query("SELECT d FROM DepositEntity d WHERE d.userNo = :user AND d.bankProductDataNo = :productData ORDER BY d.depositNo DESC")
     Optional<DepositEntity> findTopByUserNoAndBankProductDataNoOrderByDepositNoDesc(UserEntity user, BankProductDataEntity productData);
+
 
     List<DepositEntity> findAllByUserNo(UserEntity user);
 
