@@ -111,7 +111,7 @@ public class AuctionController {
             log.error("보유한 금액보다 높은 가격으로 입찰 시도.");
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(returnMessageDto);
         }
-
+        log.info(String.valueOf(artAuctionEntity));
         // 일단 낙찰자가 있는지 없는지 확인하여 구분 있으면 이미 판매된 상품 메세지
         if (artAuctionEntity.getWinner() == null) {
             log.info("낙찰자 없음");
