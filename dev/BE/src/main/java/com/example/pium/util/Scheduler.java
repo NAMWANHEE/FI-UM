@@ -36,25 +36,26 @@ public class Scheduler {
             UserEntity child = userRepository.findByUserNo(auctionClose.getChildNo()).get();
             UserEntity sponsor = userRepository.findByUserNo(auctionClose.getSponsorNo()).get();
             BalanceSheetEntity balanceSheetEntity = balanceSheetRepository.findByUserNo(child).get();
+
+            child.setPoint(child.getPoint()+auctionClose.getAuctionPrice());
+            balanceSheetEntity.setPoint(balanceSheetEntity.getPoint()+auctionClose.getAuctionPrice());
+            balanceSheetEntity.setAuctionIncome(balanceSheetEntity.getAuctionIncome()+auctionClose.getAuctionPrice());
             if(auctionClose.getSponsorNo() == null){
                 artAuction.setWinner(userRepository.findByUserId("admin").get()); //원장선생님으로 낙찰자 설정
-                child.setPoint(child.getPoint()+auctionClose.getAuctionPrice());
-                balanceSheetEntity.setPoint(balanceSheetEntity.getPoint()+auctionClose.getAuctionPrice());
-                balanceSheetEntity.setAuctionIncome(balanceSheetEntity.getAuctionIncome()+auctionClose.getAuctionPrice());
                 PointRecordEntity pointRecordEntity = PointRecordEntity.builder().userNo(child).pointTypeNo(pointTypeRepository.findByPointType("경매").get()).pointChange(auctionClose.getAuctionPrice()).changedTime(BigInteger.valueOf(System.currentTimeMillis())).build();
                 pointRecordRepository.save(pointRecordEntity);
             }
             else{
                 artAuction.setWinner(userRepository.findByUserNo(sponsor.getUserNo()).get());
-                child.setPoint(child.getPoint()+auctionClose.getAuctionPrice());
-                balanceSheetEntity.setPoint(balanceSheetEntity.getPoint()+auctionClose.getAuctionPrice());
-                balanceSheetEntity.setAuctionIncome(balanceSheetEntity.getAuctionIncome()+auctionClose.getAuctionPrice());
                 PointRecordEntity pointRecordEntity = PointRecordEntity.builder().userNo(child).pointTypeNo(pointTypeRepository.findByPointType("경매").get()).pointChange(auctionClose.getAuctionPrice()).changedTime(BigInteger.valueOf(System.currentTimeMillis())).build();
                 pointRecordRepository.save(pointRecordEntity);
                 sponsor.setPoint(sponsor.getPoint()-auctionClose.getAuctionPrice());
                 PointRecordEntity pointRecordEntity2 = PointRecordEntity.builder().userNo(sponsor).pointTypeNo(pointTypeRepository.findByPointType("경매").get()).pointChange(-auctionClose.getAuctionPrice()).changedTime(BigInteger.valueOf(System.currentTimeMillis())).build();
                 pointRecordRepository.save(pointRecordEntity2);
             }
+            balanceSheetRepository.save(balanceSheetEntity);
+            userRepository.save(child);
+            userRepository.save(sponsor);
         }
     }
 
