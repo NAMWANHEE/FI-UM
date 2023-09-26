@@ -111,10 +111,12 @@ public class StockServiceImp {
 
     public void setBalance(UserEntity user,Integer price1, Integer price2, String type){
         BalanceSheetEntity sellerBalance = balanceSheetRepository.findByUserNo(user);
-        sellerBalance.setStock(price1);
         sellerBalance.setPoint(user.getPoint());
         if (type == "판매") {
+            sellerBalance.setStock(sellerBalance.getStock()-price1);
             sellerBalance.setStockIncome(sellerBalance.getStockIncome()+ price2);
+        } else {
+            sellerBalance.setStock(sellerBalance.getStock()+price1);
         }
         balanceSheetRepository.save(sellerBalance);
     }
@@ -152,10 +154,9 @@ public class StockServiceImp {
         }
         // 포인트 내역에 -로 추가, 총포인트에서 차감
         setPoint(user, price);
-        StockAccountEntity stockAccount = stockAccountOpt.get();
 
         //재무상태표 주식 추가
-        setBalance(user, (stockAccount.getStockCount()*stockAccount.getStockAverage()), price, "구매");
+        setBalance(user, price, price, "구매");
 
         // 거래 내역 추가
         makeTradeRecord(user, stockData, stockTradeDto.getCount(), stockTradeDto.getPrice());
@@ -167,7 +168,7 @@ public class StockServiceImp {
         StockAccountEntity stockAccount = stockAccountRepository.findByUserNoAndStockNo(user, stockData).get();
         Integer price = stockTradeDto.getCount() * stockTradeDto.getPrice();
         Integer netPrice = ((stockTradeDto.getPrice() - stockAccount.getStockAverage()) * stockTradeDto.getCount());
-        Integer restPrice = (stockAccount.getStockCount() - stockTradeDto.getCount()) * stockAccount.getStockAverage();
+        Integer restPrice = stockTradeDto.getCount() * stockAccount.getStockAverage();
         if (stockAccount.getStockCount() - stockTradeDto.getCount() == 0) {
             stockAccount.setStockAverage(0);
         }
