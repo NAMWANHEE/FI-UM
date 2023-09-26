@@ -50,13 +50,14 @@ public class Scheduler {
             child.setPoint(child.getPoint()+auctionClose.getAuctionPrice());
             balanceSheetEntity.setPoint(balanceSheetEntity.getPoint()+auctionClose.getAuctionPrice());
             balanceSheetEntity.setAuctionIncome(balanceSheetEntity.getAuctionIncome()+auctionClose.getAuctionPrice());
+            artAuctionRepository.save(artAuction);
             balanceSheetRepository.save(balanceSheetEntity);
             userRepository.save(child);
             userRepository.save(sponsor);
         }
     }
 
-    @Scheduled(cron ="0 0 0 * * *")
+    @Scheduled(cron ="0 * * * * *")
     public void deposit(){
         log.info("예금 이자 지급");
         // 각 사람별 , 은행별 이자율과 우대 이자율, 현재 예금중인 금액과 24시간이내에 변동된 금액 반환
