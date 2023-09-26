@@ -65,7 +65,7 @@ const AuctionDescription = ({
         <Text className="text-lg" text="남은 시간" /> :
         <Text
           className="blue"
-          text={`${hours}시 ${minutes}분 ${seconds}초 남았습니다.`}
+          text={`${hours}시간 ${minutes}분 ${seconds}초 남았습니다.`}
         />
       </div>
       <div className={styles.buttonWrapper}>

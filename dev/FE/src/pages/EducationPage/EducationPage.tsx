@@ -2,6 +2,7 @@ import { convertClassName, convertClassNameList, eduBook } from '@/utils';
 import styles from './EducationPage.module.scss';
 import { Button } from '@/components/atoms';
 import { useCallback, useReducer, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 interface EducationPageProps {
   className?: string;
@@ -81,6 +82,11 @@ const EducationPage = ({ className }: EducationPageProps): JSX.Element => {
     [],
   );
 
+  const navigate = useNavigate();
+  const handleGoQuiz = () => {
+    navigate('quiz');
+  };
+
   useEffect(() => {
     const handleKeydown = (e: KeyboardEvent) => {
       switch (e.key) {
@@ -144,6 +150,7 @@ const EducationPage = ({ className }: EducationPageProps): JSX.Element => {
               onClick={handlePageNoChange(pageNo)}
             />
           ))}
+          <button onClick={handleGoQuiz}>퀴즈 풀러 가기</button>
         </div>
         <div className={styles['education-page__image']}>
           {eduBooks[pageNo]}

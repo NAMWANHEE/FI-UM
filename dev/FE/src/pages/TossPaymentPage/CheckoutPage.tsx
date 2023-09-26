@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import {
   PaymentWidgetInstance,
   loadPaymentWidget,
+  // ANONYMOUS,
 } from '@tosspayments/payment-widget-sdk';
 import { nanoid } from 'nanoid';
 import styles from './CheckoutPage.module.scss';
@@ -9,7 +10,9 @@ import styles from './CheckoutPage.module.scss';
 // import '../App.css';
 
 const selector = '#payment-widget';
-const clientKey = 'test_ck_Z1aOwX7K8mevlzZnZPA8yQxzvNPG';
+// const clientKey = 'test_ck_Z1aOwX7K8mevlzZnZPA8yQxzvNPG';
+// const clientKey = 'test_ck_6BYq7GWPVv5gmjp5pG73NE5vbo1d';
+const clientKey = 'test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq';
 const customerKey = 'YbX2HuSlsC9uVJW6NMRMj';
 
 const CheckoutPage = () => {
@@ -65,6 +68,10 @@ const CheckoutPage = () => {
     );
   }, [price]);
 
+  // 유저 정보
+  const userProfile = JSON.parse(sessionStorage.getItem('user') as string).data;
+  const userName = userProfile.userName;
+
   return (
     <div>
       <h1 className={styles.header}>캐시 충전</h1>
@@ -93,8 +100,8 @@ const CheckoutPage = () => {
               await paymentWidget
                 ?.requestPayment({
                   orderId: nanoid(),
-                  orderName: '토스 티셔츠 외 2건',
-                  customerName: '김토스',
+                  orderName: '피움 캐시 충전',
+                  customerName: userName,
                   customerEmail: 'customer123@gmail.com',
                   successUrl: `${window.location.origin}/tosspay/success`,
                   failUrl: `${window.location.origin}/fail`,

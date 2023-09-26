@@ -20,6 +20,15 @@ const AuctionPage = ({ className }: AuctionPageProps): JSX.Element => {
   const { userInfo } = useAuth();
   const userType = userInfo?.userType ?? 3;
   console.log(auctions);
+  const currentTime = Date.now();
+  const checkTimeFunction = (createdTime: number): boolean => {
+    const checkTime = currentTime - createdTime;
+    const day = 60 * 60 * 24 * 1000;
+    if (checkTime < day) {
+      return true;
+    }
+    return false;
+  };
 
   const handleMoveAuctionDetail = (auctionNo: number, auction: Auction) => {
     navigate(`/auction/${auctionNo}`, { state: auction });

@@ -9,3 +9,4 @@ export * from './review';
 export * from './image';
 export * from './ranking';
 export * from './deposit';
+export * from './quiz';

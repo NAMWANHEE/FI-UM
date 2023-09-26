@@ -54,6 +54,7 @@ interface UserInfo {
   isPrimed2: boolean;
   rival?: number;
   tokenResponse?: { accessToken: string; refreshToken: string };
+  quiz: boolean;
 }
 
 interface SponsorProfile {

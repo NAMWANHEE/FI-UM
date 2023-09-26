@@ -12,6 +12,7 @@ import {
   ProfilePage,
   StockDetailPage,
   StockPage,
+  QuizPage,
 } from '@/pages';
 import EducationPage from '@/pages/EducationPage/EducationPage';
 import TossSuccessPage from '@/pages/TossPaymentPage/TossSuccessPage';
@@ -38,6 +39,7 @@ const Router = ({ className }: { className?: string }) => {
           <Route path="tosspay" element={<CheckoutPage />} />
           <Route path="tosspay/success" element={<TossSuccessPage />} />
           <Route path="education" element={<EducationPage />} />
+          <Route path="education/quiz" element={<QuizPage />} />
         </Route>
       </Routes>
     </div>
