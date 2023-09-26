@@ -27,7 +27,7 @@ public class Scheduler {
     private final RankingRepository rankingRepository;
     private final ArtAuctionRepository artAuctionRepository;
 
-    @Scheduled(cron ="0 0 0 * * *")
+    @Scheduled(cron ="0 * * * * *")
     public void Auction(){
         log.info("경매 시간 지난 갱매 물품 낙찰 ");
         List<AuctionClose> auctionCloseList = artAuctionRepository.getAuctionCloseList();
@@ -36,7 +36,6 @@ public class Scheduler {
             UserEntity child = userRepository.findByUserNo(auctionClose.getChildNo()).get();
             UserEntity sponsor = userRepository.findByUserNo(auctionClose.getSponsorNo()).get();
             BalanceSheetEntity balanceSheetEntity = balanceSheetRepository.findByUserNo(child).get();
-
             child.setPoint(child.getPoint()+auctionClose.getAuctionPrice());
             balanceSheetEntity.setPoint(balanceSheetEntity.getPoint()+auctionClose.getAuctionPrice());
             balanceSheetEntity.setAuctionIncome(balanceSheetEntity.getAuctionIncome()+auctionClose.getAuctionPrice());
