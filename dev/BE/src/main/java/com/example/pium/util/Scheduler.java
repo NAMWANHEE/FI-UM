@@ -25,7 +25,7 @@ public class Scheduler {
     private final RankingRepository rankingRepository;
     private final ArtAuctionRepository artAuctionRepository;
 
-    @Scheduled(cron ="0 * * * * *")
+    @Scheduled(cron ="0 0 0 * * *")
     public void Auction(){
         log.info("경매 시간 지난 갱매 물품 낙찰 ");
         List<AuctionClose> auctionCloseList = artAuctionRepository.getAuctionCloseList();
@@ -67,7 +67,8 @@ public class Scheduler {
             Integer userNo = deposit.getUserNo();
             UserEntity user = userRepository.findByUserNo(userNo).get();
             Integer recentMoney = deposit.getRecentMoney() == null ? 0 : deposit.getRecentMoney();
-            if(deposit.getTotalMoney() == 0) continue; // 현재 예금 금액이 0원인 경우 패스
+            if(deposit.getTotalMoney().equals(0)) continue; // 현재 예금 금액이 0원인 경우 패스
+            if(deposit.getTotalMoney().equals(recentMoney)) continue;; // 현재 총 예금금액이 24시간 이내에 예금한 금액일 경우 패스
             Integer interest;
             if(deposit.getBankName().equals("햇살은행")){
                 if(user.getIsPrimed2()){ // 국민은행의 우대이자를 받는 경우
