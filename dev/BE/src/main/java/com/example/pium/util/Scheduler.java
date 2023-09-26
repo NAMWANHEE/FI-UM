@@ -35,7 +35,7 @@ public class Scheduler {
             ArtAuctionEntity artAuction = artAuctionRepository.findByAuctionNo(auctionClose.getAuctionNo()).get();
             UserEntity child = userRepository.findByUserNo(auctionClose.getChildNo()).get();
             UserEntity sponsor = userRepository.findByUserNo(auctionClose.getSponsorNo()).get();
-            BalanceSheetEntity balanceSheetEntity = balanceSheetRepository.findByUserNo(child).get();
+            BalanceSheetEntity balanceSheetEntity = balanceSheetRepository.findByUserNo(child).orElseGet(null);
             child.setPoint(child.getPoint()+auctionClose.getAuctionPrice());
             balanceSheetEntity.setPoint(balanceSheetEntity.getPoint()+auctionClose.getAuctionPrice());
             balanceSheetEntity.setAuctionIncome(balanceSheetEntity.getAuctionIncome()+auctionClose.getAuctionPrice());
