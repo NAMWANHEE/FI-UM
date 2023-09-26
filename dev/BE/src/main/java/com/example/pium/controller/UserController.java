@@ -187,7 +187,7 @@ public class UserController {
     public ResponseEntity<UserBalanceSheetInterface> getUserBalanceSheet(@PathVariable("userNo") Integer userNo, HttpServletRequest request){
         log.info("request to /api/v1/user/capital/"+userNo+" [Method: GET]");
         Integer userType = (Integer)request.getAttribute("userType");
-        if(!userType.equals(1)){
+        if(!userType.equals(1) && !userType.equals(2)){
             log.error("권한 없음");
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(null);
         }
