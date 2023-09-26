@@ -23,7 +23,7 @@ public class DonationService {
 
     public boolean donate(Integer userNo, Integer money){
         UserEntity user = userRepository.findByUserNo(userNo).get();
-        BalanceSheetEntity balanceSheetEntity = balanceSheetRepository.findByUserNo(user).get();
+        BalanceSheetEntity balanceSheetEntity = balanceSheetRepository.findByUserNo(user);
         PointTypeEntity pointType = pointTypeRepository.findByPointType("기부").get();
         if(user.getPoint() >= money){
             user.setPoint(user.getPoint()-money);

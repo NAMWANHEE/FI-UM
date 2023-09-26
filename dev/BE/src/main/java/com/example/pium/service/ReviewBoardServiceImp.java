@@ -7,6 +7,8 @@ import com.example.pium.repository.ReviewBoardRepository;
 import com.example.pium.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.math.BigInteger;
 import java.util.List;
 
 @Service
@@ -31,7 +33,7 @@ public class ReviewBoardServiceImp implements ReviewBoardService {
         review.setContent(reviewDto.getContent());
         review.setUserNo(user);
         review.setImagePath(reviewDto.getImagePath());
-        review.setCreateTime(reviewDto.getCreateTime());
+        review.setCreateTime(BigInteger.valueOf(System.currentTimeMillis()));
         // 기타 필요한 필드들도 여기서 변환
 
         ReviewBoardEntity savedEntity = reviewBoardRepository.save(review);

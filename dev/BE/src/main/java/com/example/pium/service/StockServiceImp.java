@@ -110,7 +110,7 @@ public class StockServiceImp {
     }
 
     public void setBalance(UserEntity user,Integer price1, Integer price2, String type){
-        BalanceSheetEntity sellerBalance = balanceSheetRepository.findByUserNo(user).get();
+        BalanceSheetEntity sellerBalance = balanceSheetRepository.findByUserNo(user);
         sellerBalance.setStock(price1);
         sellerBalance.setPoint(user.getPoint());
         if (type == "판매") {

@@ -207,7 +207,7 @@ public class UserServiceImp {
     }
 
     public void updateBalanceSheetPoint(Integer userNo, Integer amount){
-        BalanceSheetEntity balanceSheetEntity = balanceSheetRepository.findByUserNo(userRepository.findByUserNo(userNo).get()).get();
+        BalanceSheetEntity balanceSheetEntity = balanceSheetRepository.findByUserNo(userRepository.findByUserNo(userNo).get());
         balanceSheetEntity.setPoint(balanceSheetEntity.getPoint()+amount);
         balanceSheetRepository.save(balanceSheetEntity);
     }
@@ -225,17 +225,10 @@ public class UserServiceImp {
             Integer userNo = user.getUserNo();
             UserEntity userEntity = userRepository.findByUserNo(userNo).get();
             ChildCapitalDto childCapitalDto = new ChildCapitalDto();
-            Optional<BalanceSheetEntity> balanceSheetOptional = balanceSheetRepository.findByUserNo(userEntity);
-            if (balanceSheetOptional.isPresent()) {
-                BalanceSheetEntity balanceSheetEntity = balanceSheetOptional.get();
-                childCapitalDto.setPoint(balanceSheetEntity.getPoint());
-                childCapitalDto.setDepositMoney(balanceSheetEntity.getDeposit());
-                childCapitalDto.setStockMoney(balanceSheetEntity.getStock());
-            } else {
-                childCapitalDto.setPoint(0);
-                childCapitalDto.setDepositMoney(0);
-                childCapitalDto.setStockMoney(0);
-            }
+            BalanceSheetEntity balanceSheetOptional = balanceSheetRepository.findByUserNo(userEntity);
+            childCapitalDto.setPoint(balanceSheetOptional.getPoint());
+            childCapitalDto.setDepositMoney(balanceSheetOptional.getDeposit());
+            childCapitalDto.setStockMoney(balanceSheetOptional.getStock());
             childCapitalDto.setUserNo(userEntity.getUserNo());
             childCapitalDto.setUserName(userEntity.getUserName());
             childCapitalDto.setFundingMoney(sponsorFundingHistoryRepository.findFundingHistory(userNo).orElse(0));

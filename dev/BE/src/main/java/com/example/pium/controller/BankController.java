@@ -33,7 +33,7 @@ public class BankController {
         Integer postUser = (Integer) request.getAttribute("userNo");
         Integer userType = (Integer) request.getAttribute("userType");
         ReturnMessageDto returnMessageDto = new ReturnMessageDto();
-        if(!userType.equals(2)){
+        if(!userType.equals(2) || (option != "햇살은행" && option != "유니콘은행")){
             returnMessageDto.setMsg("권한 없음.");
             log.error("권한 없음.");
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(returnMessageDto);
@@ -62,7 +62,7 @@ public class BankController {
         Integer postUser = (Integer) request.getAttribute("userNo");
         Integer userType = (Integer) request.getAttribute("userType");
         ReturnMessageDto returnMessageDto = new ReturnMessageDto();
-        if(!userType.equals(2)){
+        if(!userType.equals(2) || (option != "햇살은행" && option != "유니콘은행")){
             returnMessageDto.setMsg("권한 없음.");
             log.error("권한 없음.");
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(returnMessageDto);

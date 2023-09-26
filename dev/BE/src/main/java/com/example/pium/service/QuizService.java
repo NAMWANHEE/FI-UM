@@ -44,7 +44,7 @@ public class QuizService {
     }
 
     public void updateBalanceSheet(Integer userNo, Integer point){
-        BalanceSheetEntity balanceSheetEntity = balanceSheetRepository.findByUserNo(userRepository.findByUserNo(userNo).get()).get();
+        BalanceSheetEntity balanceSheetEntity = balanceSheetRepository.findByUserNo(userRepository.findByUserNo(userNo).get());
         balanceSheetEntity.setPoint(balanceSheetEntity.getPoint()+point);
         balanceSheetEntity.setQuizIncome(balanceSheetEntity.getQuizIncome()+point);
         balanceSheetRepository.save(balanceSheetEntity);

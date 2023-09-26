@@ -5,6 +5,7 @@ import com.example.pium.dto.projection.AuctionRank;
 import com.example.pium.dto.projection.Rank;
 import com.example.pium.dto.projection.StockRank;
 import com.example.pium.entity.BalanceSheetEntity;
+import com.example.pium.entity.BankProductDataEntity;
 import com.example.pium.entity.UserEntity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -15,7 +16,8 @@ import java.util.Optional;
 
 @Repository
 public interface BalanceSheetRepository extends JpaRepository<BalanceSheetEntity, Integer> {
-    Optional<BalanceSheetEntity> findByUserNo(UserEntity userNo);
+
+    BalanceSheetEntity findByUserNo(UserEntity user);
 
     // 예금을 현재 들고 있는 아이의 고유번호를 반환하는 리스트
     @Query(value = "select b from BalanceSheetEntity as b where b.deposit > 0")

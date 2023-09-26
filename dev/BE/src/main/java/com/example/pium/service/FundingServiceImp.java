@@ -56,7 +56,7 @@ public class FundingServiceImp {
     }
 
     public void setBalance(UserEntity user){
-        BalanceSheetEntity sellerBalance = balanceSheetRepository.findByUserNo(user).get();
+        BalanceSheetEntity sellerBalance = balanceSheetRepository.findByUserNo(user);
         sellerBalance.setPoint(user.getPoint());
         balanceSheetRepository.save(sellerBalance);
     }

@@ -108,7 +108,7 @@ public class AuctionServiceImp {
         pointService.changePointTable(seller, -price);
 
         // 재무상태표에 반영
-        BalanceSheetEntity sellerBalance = balanceSheetRepository.findByUserNo(seller).get();
+        BalanceSheetEntity sellerBalance = balanceSheetRepository.findByUserNo(seller);
         sellerBalance.setAuctionIncome(sellerBalance.getAuctionIncome()+price);
         balanceSheetRepository.save(sellerBalance);
     }
