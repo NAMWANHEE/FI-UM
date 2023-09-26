@@ -9,9 +9,7 @@ import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Stack;
+import java.util.*;
 
 @Slf4j
 @Component
@@ -35,10 +33,17 @@ public class Scheduler {
             ArtAuctionEntity artAuction = artAuctionRepository.findByAuctionNo(auctionClose.getAuctionNo()).get();
             UserEntity child = userRepository.findByUserNo(auctionClose.getChildNo()).get();
             UserEntity sponsor = userRepository.findByUserNo(auctionClose.getSponsorNo()).get();
-            BalanceSheetEntity balanceSheetEntity = balanceSheetRepository.findByUserNo(child).orElseGet(null);
+            Optional<BalanceSheetEntity> balanceSheetEntity = balanceSheetRepository.findByUserNo(child);
+            BalanceSheetEntity balanceSheet;
+            if(balanceSheetEntity.isPresent()){
+                balanceSheet = balanceSheetEntity.get();
+            }
+            else{
+                throw new NoSuchElementException();
+            }
             child.setPoint(child.getPoint()+auctionClose.getAuctionPrice());
-            balanceSheetEntity.setPoint(balanceSheetEntity.getPoint()+auctionClose.getAuctionPrice());
-            balanceSheetEntity.setAuctionIncome(balanceSheetEntity.getAuctionIncome()+auctionClose.getAuctionPrice());
+            balanceSheet.setPoint(balanceSheet.getPoint()+auctionClose.getAuctionPrice());
+            balanceSheet.setAuctionIncome(balanceSheet.getAuctionIncome()+auctionClose.getAuctionPrice());
             if(auctionClose.getSponsorNo() == null){
                 artAuction.setWinner(userRepository.findByUserId("admin").get()); //원장선생님으로 낙찰자 설정
                 PointRecordEntity pointRecordEntity = PointRecordEntity.builder().userNo(child).pointTypeNo(pointTypeRepository.findByPointType("경매").get()).pointChange(auctionClose.getAuctionPrice()).changedTime(BigInteger.valueOf(System.currentTimeMillis())).build();
@@ -52,7 +57,7 @@ public class Scheduler {
                 PointRecordEntity pointRecordEntity2 = PointRecordEntity.builder().userNo(sponsor).pointTypeNo(pointTypeRepository.findByPointType("경매").get()).pointChange(-auctionClose.getAuctionPrice()).changedTime(BigInteger.valueOf(System.currentTimeMillis())).build();
                 pointRecordRepository.save(pointRecordEntity2);
             }
-            balanceSheetRepository.save(balanceSheetEntity);
+            balanceSheetRepository.save(balanceSheet);
             userRepository.save(child);
             userRepository.save(sponsor);
         }
