@@ -256,7 +256,9 @@ public class UserServiceImp {
         userInfoDto.setPoint(user.getPoint());
         userInfoDto.setPrimed1(user.getIsPrimed1());
         userInfoDto.setPrimed2(user.getIsPrimed2());
+        userInfoDto.setCash(user.getCash());
         userInfoDto.setRival(user.getRival());
+
 
         return userInfoDto;
     }

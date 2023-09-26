@@ -31,4 +31,6 @@ public class UserInfoDto {
     private Integer rival;
 
     private TokenResponseDto tokenResponse;
+
+    private Integer cash;
 }

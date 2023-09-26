@@ -1,10 +1,7 @@
 package com.example.pium.util;
 
 import com.example.pium.dto.projection.*;
-import com.example.pium.entity.BalanceSheetEntity;
-import com.example.pium.entity.PointRecordEntity;
-import com.example.pium.entity.RankingEntity;
-import com.example.pium.entity.UserEntity;
+import com.example.pium.entity.*;
 import com.example.pium.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,6 +25,38 @@ public class Scheduler {
     private final PointTypeRepository pointTypeRepository;
     private final SavingRepository savingRepository;
     private final RankingRepository rankingRepository;
+    private final ArtAuctionRepository artAuctionRepository;
+
+    @Scheduled(cron ="0 0 0 * * *")
+    public void Auction(){
+        log.info("경매 시간 지난 갱매 물품 낙찰 ");
+        List<AuctionClose> auctionCloseList = artAuctionRepository.getAuctionCloseList();
+        for(AuctionClose auctionClose: auctionCloseList){
+            ArtAuctionEntity artAuction = artAuctionRepository.findByAuctionNo(auctionClose.getAuctionNo()).get();
+            UserEntity child = userRepository.findByUserNo(auctionClose.getChildNo()).get();
+            UserEntity sponsor = userRepository.findByUserNo(auctionClose.getSponsorNo()).get();
+            BalanceSheetEntity balanceSheetEntity = balanceSheetRepository.findByUserNo(child).get();
+            if(auctionClose.getSponsorNo() == null){
+                artAuction.setWinner(userRepository.findByUserId("admin").get()); //원장선생님으로 낙찰자 설정
+                child.setPoint(child.getPoint()+auctionClose.getAuctionPrice());
+                balanceSheetEntity.setPoint(balanceSheetEntity.getPoint()+auctionClose.getAuctionPrice());
+                balanceSheetEntity.setAuctionIncome(balanceSheetEntity.getAuctionIncome()+auctionClose.getAuctionPrice());
+                PointRecordEntity pointRecordEntity = PointRecordEntity.builder().userNo(child).pointTypeNo(pointTypeRepository.findByPointType("경매").get()).pointChange(auctionClose.getAuctionPrice()).changedTime(BigInteger.valueOf(System.currentTimeMillis())).build();
+                pointRecordRepository.save(pointRecordEntity);
+            }
+            else{
+                artAuction.setWinner(userRepository.findByUserNo(sponsor.getUserNo()).get());
+                child.setPoint(child.getPoint()+auctionClose.getAuctionPrice());
+                balanceSheetEntity.setPoint(balanceSheetEntity.getPoint()+auctionClose.getAuctionPrice());
+                balanceSheetEntity.setAuctionIncome(balanceSheetEntity.getAuctionIncome()+auctionClose.getAuctionPrice());
+                PointRecordEntity pointRecordEntity = PointRecordEntity.builder().userNo(child).pointTypeNo(pointTypeRepository.findByPointType("경매").get()).pointChange(auctionClose.getAuctionPrice()).changedTime(BigInteger.valueOf(System.currentTimeMillis())).build();
+                pointRecordRepository.save(pointRecordEntity);
+                sponsor.setPoint(sponsor.getPoint()-auctionClose.getAuctionPrice());
+                PointRecordEntity pointRecordEntity2 = PointRecordEntity.builder().userNo(sponsor).pointTypeNo(pointTypeRepository.findByPointType("경매").get()).pointChange(-auctionClose.getAuctionPrice()).changedTime(BigInteger.valueOf(System.currentTimeMillis())).build();
+                pointRecordRepository.save(pointRecordEntity2);
+            }
+        }
+    }
 
     @Scheduled(cron ="0 0 0 * * *")
     public void deposit(){
