@@ -41,7 +41,7 @@ public class BankController {
         }
         Boolean checkSavingAccount = bankService.checkSaving(postUser, option);
         // 이미 적금이 가입되어 있는지 여부 파악
-        if (!checkSavingAccount) {
+        if (checkSavingAccount) {
             returnMessageDto.setMsg("이미 해당 은행 계좌가 존재합니다.");
             return new ResponseEntity<>(returnMessageDto, HttpStatus.NOT_ACCEPTABLE);
         } else {

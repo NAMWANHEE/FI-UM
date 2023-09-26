@@ -25,7 +25,7 @@ public class Scheduler {
     private final RankingRepository rankingRepository;
     private final ArtAuctionRepository artAuctionRepository;
 
-    @Scheduled(cron ="0 * * * * *")
+    @Scheduled(cron ="0 0 0 * * *")
     public void Auction(){
         log.info("경매 시간 지난 갱매 물품 낙찰 ");
         List<AuctionClose> auctionCloseList = artAuctionRepository.getAuctionCloseList();
@@ -57,7 +57,7 @@ public class Scheduler {
         }
     }
 
-    @Scheduled(cron ="0 * * * * *")
+    @Scheduled(cron ="0 0 0 * * *")
     public void deposit(){
         log.info("예금 이자 지급");
         // 각 사람별 , 은행별 이자율과 우대 이자율, 현재 예금중인 금액과 24시간이내에 변동된 금액 반환

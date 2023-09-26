@@ -33,4 +33,6 @@ public class UserInfoDto {
     private TokenResponseDto tokenResponse;
 
     private Integer cash;
+
+    private Boolean quiz;
 }

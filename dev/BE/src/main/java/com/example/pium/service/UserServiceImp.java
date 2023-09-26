@@ -15,6 +15,7 @@ import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
 import java.math.BigInteger;
+import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -30,6 +31,7 @@ public class UserServiceImp {
     private final PointRecordRepository pointRecordRepository;
     private final BalanceSheetRepository balanceSheetRepository;
     private final SponsorFundingHistoryRepository sponsorFundingHistoryRepository;
+    private final QuizRecordRepository quizRecordRepository;
 
     public void save(UserEntity userEntity){
         userRepository.save(userEntity);
@@ -245,7 +247,19 @@ public class UserServiceImp {
 
     public UserInfoDto setUserInfo(UserEntity user){
 
+        QuizRecord quizRecord = quizRecordRepository.getQuizRecord(user.getUserNo());
         UserInfoDto userInfoDto = new UserInfoDto();
+        if(quizRecord == null){
+            userInfoDto.setQuiz(false);
+        }
+        else{
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+            long timeInMillis = quizRecord.getSolveTime().longValue();
+            String curTime = sdf.format(new Date(timeInMillis));
+            if(curTime.equals(sdf.format(new Date()))){
+                userInfoDto.setQuiz(true);
+            };
+        }
         userInfoDto.setUserId(user.getUserId());
         userInfoDto.setUserNo(user.getUserNo());
         userInfoDto.setUserType(user.getUserType());
@@ -258,6 +272,7 @@ public class UserServiceImp {
         userInfoDto.setPrimed2(user.getIsPrimed2());
         userInfoDto.setCash(user.getCash());
         userInfoDto.setRival(user.getRival());
+
 
 
         return userInfoDto;
