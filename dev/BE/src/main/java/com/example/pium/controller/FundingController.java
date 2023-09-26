@@ -32,7 +32,7 @@ public class FundingController {
 
     @PostMapping("{itemNo}")
     public ResponseEntity<ReturnMessageDto> postFunding(HttpServletRequest request, @PathVariable("itemNo") Integer itemNo, @RequestBody MoneyDto money) {
-        log.info("request to /api/v1/funding/{itemNo} [Method: GET]");
+        log.info("request to /api/v1/funding/"+itemNo+" [Method: GET]");
         Integer childUser = (Integer) request.getAttribute("userNo");
         ReturnMessageDto returnMessageDto = new ReturnMessageDto();
 

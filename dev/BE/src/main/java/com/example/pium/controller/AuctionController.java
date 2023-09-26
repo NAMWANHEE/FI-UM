@@ -65,7 +65,7 @@ public class AuctionController {
     public ResponseEntity<ReturnMessageDto> modifyAuctionDetail(@PathVariable("auctionNo") Integer auctionNo, @RequestBody RGSAuctionDto rgsAuctionDto, HttpServletRequest request) {
         Integer userNo = (Integer) request.getAttribute("userNo");
         ReturnMessageDto returnMessageDto = new ReturnMessageDto();
-        log.info("request to /api/v1/auction/{auctionNo} [Method: PUT]");
+        log.info("request to /api/v1/auction/"+auctionNo+"  [Method: PUT]");
         if(!auctionService.getAuctionInfo(auctionNo).getUserNo().getUserNo().equals(userNo)){
             log.error("권한 없음.");
             returnMessageDto.setMsg("권한 없음.");
@@ -86,14 +86,14 @@ public class AuctionController {
 
     @GetMapping("detail/{auctionNo}")
     public ResponseEntity<AuctionDto> getAuctionDetail(@PathVariable("auctionNo") Integer auctionNo) {
-        log.info("request to /api/v1/auction/detail [Method: GET]");
+        log.info("request to /api/v1/auction/detail/"+auctionNo+" [Method: GET]");
         AuctionDto auctionDetail = auctionService.convertToAuctionDto(auctionNo);
         return ResponseEntity.ok(auctionDetail);
     }
 
     @PostMapping("bid/{auctionNo}")
     public ResponseEntity<ReturnMessageDto> modifyAuctionPrice(HttpServletRequest request, @PathVariable("auctionNo") Integer auctionNo, @RequestBody RGSAuctionDto rgsAuctionDto) {
-        log.info("request to /api/v1/auction/bid/{auctionNo} [Method: POST]");
+        log.info("request to /api/v1/auction/bid/"+auctionNo+"  [Method: POST]");
         ReturnMessageDto returnMessageDto = new ReturnMessageDto();
         Integer userType = (Integer) request.getAttribute("userType");
         if(userType.equals(2)){
@@ -114,6 +114,7 @@ public class AuctionController {
 
         // 일단 낙찰자가 있는지 없는지 확인하여 구분 있으면 이미 판매된 상품 메세지
         if (artAuctionEntity.getWinner() == null) {
+            log.info("낙찰자 없음");
             // 현재 경매품에 등록된 금액보다 작거나 같으면 경매입찰을 할수 없는 로직 설정
             if (artAuctionEntity.getAuctionPrice() >= rgsAuctionDto.getAuctionPrice()) {
                 returnMessageDto.setMsg("현재 금액보다 낮거나 같은 금액으로 입찰 시도하였음.");
@@ -134,6 +135,7 @@ public class AuctionController {
                 return new ResponseEntity<>(returnMessageDto, HttpStatus.OK);
             }
         } else {
+            log.info("낙찰자 있음.");
             returnMessageDto.setMsg("이미 판매 완료된 상품입니다.");
             return new ResponseEntity<>(returnMessageDto, HttpStatus.BAD_REQUEST);
         }

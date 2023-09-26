@@ -185,7 +185,7 @@ public class UserController {
     // 특정 아이의 재무상태표 조회
     @GetMapping("capital/{userNo}")
     public ResponseEntity<UserBalanceSheetInterface> getUserBalanceSheet(@PathVariable("userNo") Integer userNo, HttpServletRequest request){
-        log.info("request to /api/v1/user/capital/{userNo} [Method: GET]");
+        log.info("request to /api/v1/user/capital/"+userNo+" [Method: GET]");
         Integer userType = (Integer)request.getAttribute("userType");
         if(!userType.equals(1)){
             log.error("권한 없음");
@@ -198,7 +198,7 @@ public class UserController {
     // 특정 아이의 예술품(경매품) 전체 조회
     @GetMapping("artist/{userNo}")
     public List<UserAuctionDto> getAuctionList(@PathVariable("userNo") int artistNo){
-        log.info("request to /api/v1/user/artist/{userNo} [Method: GET]");
+        log.info("request to /api/v1/user/artist/"+artistNo+" [Method: GET]");
         List<UserAuctionDto> auctionDtoList = userService.getAuctionList(artistNo);
         return auctionDtoList;
     }

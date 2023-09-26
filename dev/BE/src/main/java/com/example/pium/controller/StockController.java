@@ -34,14 +34,14 @@ public class StockController {
 
     @GetMapping("chart/{stockNo}")
     public List<StockDataDto> getStockDetail(@PathVariable("stockNo") Integer stockNo) {
-        log.info("request to /api/v1/stock/chart/{stockNo} [Method: GET]");
+        log.info("request to /api/v1/stock/chart/"+stockNo+" [Method: GET]");
         List<StockDataDto> stockDetailDto = stockService.getDetailData(stockNo);
         return stockDetailDto;
     }
 
     @GetMapping("my-account/{stockNo}")
     public ResponseEntity<StockAccountDto> getDetailStockAccount(HttpServletRequest request, @PathVariable("stockNo") Integer stockNo) {
-        log.info("request to /api/v1/stock/my-account/{stockNo} [Method: GET]");
+        log.info("request to /api/v1/stock/my-account/"+stockNo+" [Method: GET]");
         Integer userType = (Integer) request.getAttribute("userType");
         Integer myUser = (Integer) request.getAttribute("userNo");
         if(!userType.equals(2)){
@@ -138,14 +138,14 @@ public class StockController {
 
     @GetMapping("news/{stockNo}")
     public List<StockNewsDto> getAllNews(@PathVariable("stockNo") Integer stockNo) {
-        log.info("request to /api/v1/stock/news/{stockNo} [Method: GET]");
+        log.info("request to /api/v1/stock/news/"+stockNo+"  [Method: GET]");
         List<StockNewsDto> detailNews = stockService.getDetailNews(stockNo);
         return detailNews;
     }
 
     @GetMapping("trade/{stockNo}")
     public List<StockTradeDetailDto> getTradeDetail(@PathVariable("stockNo") Integer stockNo) {
-        log.info("request to /api/v1/stock/trade/{stockNo} [Method: GET]");
+        log.info("request to /api/v1/stock/trade/"+stockNo+" [Method: GET]");
         List<StockTradeDetailDto> detailTrade = stockService.getTradeDetail(stockNo);
         return detailTrade;
     }

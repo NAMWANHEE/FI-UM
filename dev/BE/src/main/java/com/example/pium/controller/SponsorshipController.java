@@ -49,7 +49,7 @@ public class SponsorshipController {
 
     @PutMapping("{itemNo}")
     public ResponseEntity<ReturnMessageDto> changeItemDetail(HttpServletRequest request,@PathVariable("itemNo") Integer itemNo, @RequestBody NewItemDto postInformation) {
-        log.info("request to /api/v1/sponsorship/{itemNo} [Method: PUT]");
+        log.info("request to /api/v1/sponsorship/"+itemNo+"  [Method: PUT]");
         Integer teachUser = (Integer) request.getAttribute("userNo");
         ReturnMessageDto returnMessageDto = new ReturnMessageDto();
         if (userService.getUserInfo(teachUser).getUserType().equals(1)) {
@@ -66,7 +66,7 @@ public class SponsorshipController {
 
     @PostMapping("support/{itemNo}")
     public ResponseEntity<ReturnMessageDto> postSupport(HttpServletRequest request, @PathVariable("itemNo") Integer itemNo, @RequestBody MoneyDto supportPrice) {
-        log.info("request to /api/v1/sponsorship/support/{itemNo} [Method: POST]");
+        log.info("request to /api/v1/sponsorship/support/"+itemNo+"  [Method: POST]");
         Integer postUser = (Integer) request.getAttribute("userNo");
         ReturnMessageDto returnMessageDto = new ReturnMessageDto();
         Integer userType = (Integer) request.getAttribute("userType");
