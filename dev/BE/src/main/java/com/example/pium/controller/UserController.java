@@ -55,6 +55,15 @@ public class UserController {
         }
     }
 
+    @GetMapping("user-info")
+    public ResponseEntity<UserInfoDto> userInfo(HttpServletRequest request){
+        log.info("request to /api/v1/user/user-info [Method: GET]");
+        Integer userNo = (Integer)request.getAttribute("userNo");
+        UserEntity user = userService.getUserInfo(userNo);
+        UserInfoDto userInfoDto = userService.setUserInfo(user);
+        return ResponseEntity.ok(userInfoDto);
+    }
+
     // 유저 로그아웃
     @PostMapping("logout")
     public ResponseEntity<ReturnMessageDto> logout(HttpServletRequest request){
