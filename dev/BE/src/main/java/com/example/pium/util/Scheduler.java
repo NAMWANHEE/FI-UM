@@ -25,7 +25,7 @@ public class Scheduler {
     private final RankingRepository rankingRepository;
     private final ArtAuctionRepository artAuctionRepository;
 
-    @Scheduled(cron ="0 0 0 * * *")
+    @Scheduled(cron ="0 * * * * *")
     public void Auction(){
         log.info("경매 시간 지난 갱매 물품 낙찰 ");
         List<AuctionClose> auctionCloseList = artAuctionRepository.getAuctionCloseList();
