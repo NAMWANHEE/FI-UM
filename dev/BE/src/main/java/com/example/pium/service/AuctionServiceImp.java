@@ -57,7 +57,6 @@ public class AuctionServiceImp {
     public AuctionDto convertToAuctionDto(Integer auctionNo) {
         ArtAuctionEntity beforeDetail = artAuctionRepository.findByAuctionNo(auctionNo).get();
         AuctionDto dto = new AuctionDto();
-        System.out.println(beforeDetail.getUserNo());
         dto.setAuctionNo(beforeDetail.getAuctionNo());
         dto.setUserNo(beforeDetail.getUserNo().getUserNo());
         dto.setTitle(beforeDetail.getTitle());
@@ -101,7 +100,6 @@ public class AuctionServiceImp {
 
     public void changePoint(UserEntity buyer, UserEntity seller, Integer price){
         PointTypeEntity pointType = pointTypeRepository.findByPointType("경매").get();
-        log.info(String.valueOf(pointType));
         // 입찰자의 포인트 감소, 판매자 포인트 증가 내역 추가
         pointService.makePointRecord(buyer, pointType, -price);
         pointService.makePointRecord(seller, pointType, price);
@@ -109,7 +107,6 @@ public class AuctionServiceImp {
         pointService.changePointTable(buyer, price);
         pointService.changePointTable(seller, -price);
 
-        System.out.println(seller);
         // 재무상태표에 반영
         BalanceSheetEntity sellerBalance = balanceSheetRepository.findByUserNo(seller).get();
         sellerBalance.setAuctionIncome(sellerBalance.getAuctionIncome()+price);

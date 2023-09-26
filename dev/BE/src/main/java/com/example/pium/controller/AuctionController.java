@@ -111,10 +111,8 @@ public class AuctionController {
             log.error("보유한 금액보다 높은 가격으로 입찰 시도.");
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(returnMessageDto);
         }
-        log.info(String.valueOf(artAuctionEntity));
         // 일단 낙찰자가 있는지 없는지 확인하여 구분 있으면 이미 판매된 상품 메세지
         if (artAuctionEntity.getWinner() == null) {
-            log.info("낙찰자 없음");
             // 현재 경매품에 등록된 금액보다 작거나 같으면 경매입찰을 할수 없는 로직 설정
             if (artAuctionEntity.getAuctionPrice() >= rgsAuctionDto.getAuctionPrice()) {
                 returnMessageDto.setMsg("현재 금액보다 낮거나 같은 금액으로 입찰 시도하였음.");
@@ -135,7 +133,6 @@ public class AuctionController {
                 return new ResponseEntity<>(returnMessageDto, HttpStatus.OK);
             }
         } else {
-            log.info("낙찰자 있음.");
             returnMessageDto.setMsg("이미 판매 완료된 상품입니다.");
             return new ResponseEntity<>(returnMessageDto, HttpStatus.BAD_REQUEST);
         }

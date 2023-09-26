@@ -8,9 +8,9 @@ import org.springframework.context.annotation.Configuration;
 @Getter
 public class TossPaymentConfig {
 
-    private final String TESTCLIENTKEY = "test_ck_Z1aOwX7K8mevlzZnZPA8yQxzvNPG";
+    private final String TESTCLIENTKEY = "test_ck_D5GePWvyJnrK0W0k6q8gLzN97Eoq";//"test_ck_Z1aOwX7K8mevlzZnZPA8yQxzvNPG";
 
-    private final String TESTSECRETKEY = "test_sk_PBal2vxj81Pv9NAPJgJr5RQgOAND";
+    private final String TESTSECRETKEY = "test_sk_zXLkKEypNArWmo50nX3lmeaxYG5R";//"test_sk_PBal2vxj81Pv9NAPJgJr5RQgOAND";
 
     private final String SUCCESSURL = "http://j9a308.p.ssafy.io:8000/api/v1/toss/success";
 
