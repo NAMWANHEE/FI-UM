@@ -1,5 +1,6 @@
 package com.example.pium.repository;
 
+import com.example.pium.dto.FundingRankingDto;
 import com.example.pium.dto.MyFundingDto;
 import com.example.pium.entity.ItemListEntity;
 import com.example.pium.entity.SponsorFundingHistoryEntity;
@@ -36,6 +37,15 @@ public interface SponsorFundingHistoryRepository extends JpaRepository<SponsorFu
 
     @Query(value = "select sum(price) as fundingMoney from sponsor_funding_history group by user_no having user_no = :userNo",nativeQuery = true)
     Optional<Integer> findFundingHistory(Integer userNo);
+
+    @Query("SELECT new com.example.pium.dto.FundingRankingDto(u.userName, SUM(f.price)) " +
+            "FROM SponsorFundingHistoryEntity f " +
+            "JOIN f.userNo u " +
+            "WHERE f.itemNo.itemNo = :itemNo " +
+            "GROUP BY u.userName " +
+            "ORDER BY SUM(f.price) DESC")
+    List<FundingRankingDto> findTop3FundersByItem(Integer itemNo, Pageable pageable);
+
 }
 
 

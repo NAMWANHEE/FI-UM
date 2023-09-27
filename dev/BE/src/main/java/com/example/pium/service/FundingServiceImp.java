@@ -9,6 +9,7 @@ import com.example.pium.repository.ItemListRepository;
 import com.example.pium.repository.PointTypeRepository;
 import com.example.pium.repository.SponsorFundingHistoryRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -52,6 +53,9 @@ public class FundingServiceImp {
 
     public List<MyFundingDto> getFunding() {
         List<MyFundingDto> getData = itemListRepository.findFunding();
+        for (MyFundingDto eachDto : getData) {
+            eachDto.setFundingRanking(sponsorFundingHistoryRepository.findTop3FundersByItem(eachDto.getItemNo(), PageRequest.of(0, 3)));
+        }
         return getData;
     }
 

@@ -123,11 +123,11 @@ public class UserServiceImp {
 
         List<UserDepositSavingInterface> list1 = userRepository.findByUserDeposit(userNo);
         List<UserDepositSavingInterface> list2 = userRepository.findByUserSaving(userNo);
-        List<UserDepositSavingInterface> nlist = Stream.concat(list1.stream(), list2.stream())
+        List<UserDepositSavingInterface> nList = Stream.concat(list1.stream(), list2.stream())
                 .collect(Collectors.toList());
 
         List<UserDepositSavingDto> userDepositSavingDtoList = new ArrayList<>();
-        for(UserDepositSavingInterface u : nlist){
+        for(UserDepositSavingInterface u : nList){
             UserDepositSavingDto userDepositSavingDto = new UserDepositSavingDto();
             userDepositSavingDto.setSavingBalance(u.getSavingBalance());
             userDepositSavingDto.setBankName(u.getBankName());

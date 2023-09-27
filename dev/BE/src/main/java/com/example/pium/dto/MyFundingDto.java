@@ -2,6 +2,8 @@ package com.example.pium.dto;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class MyFundingDto {
     private Integer itemNo;
@@ -10,6 +12,7 @@ public class MyFundingDto {
     private Integer itemUnitPrice;
     private Integer itemCount;
     private Integer fundingAmount;
+    private List<FundingRankingDto> fundingRanking;
 
     public MyFundingDto(Integer itemNo, String itemName, String imagePath, Integer itemUnitPrice, Integer itemCount, Integer fundingAmount) {
         this.itemNo = itemNo;
