@@ -41,7 +41,7 @@ public interface SponsorFundingHistoryRepository extends JpaRepository<SponsorFu
     @Query("SELECT new com.example.pium.dto.FundingRankingDto(u.userName, SUM(f.price)) " +
             "FROM SponsorFundingHistoryEntity f " +
             "JOIN f.userNo u " +
-            "WHERE f.itemNo.itemNo = :itemNo " +
+            "WHERE f.itemNo.itemNo = :itemNo And f.price > 0" +
             "GROUP BY u.userName " +
             "ORDER BY SUM(f.price) DESC")
     List<FundingRankingDto> findTop3FundersByItem(Integer itemNo, Pageable pageable);
