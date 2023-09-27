@@ -3,6 +3,8 @@ package com.example.pium.dto;
 import lombok.Data;
 import lombok.extern.java.Log;
 
+import java.util.List;
+
 @Data
 public class ItemListDto {
     private Integer itemNo;
@@ -14,5 +16,5 @@ public class ItemListDto {
     private Integer sponsorshipAmount;
     private Integer fundingAmount;
     private Boolean isCompleted;
-    private String bestFunding;
+    private List<FundingRankingDto> fundingRanking;
 }

@@ -46,12 +46,7 @@ public class SponsorShipServiceImp {
             tmpDto.setSponsorshipAmount(eachEntity.getSponsorshipAmount());
             tmpDto.setFundingAmount(eachEntity.getFundingAmount());
             tmpDto.setIsCompleted(eachEntity.getIsCompleted());
-            UserEntity bestFunding = findTopFunderForItem(eachEntity);
-            if (bestFunding != null) {
-                tmpDto.setBestFunding(bestFunding.getUserName());
-            } else {
-                tmpDto.setBestFunding("");
-            }
+            tmpDto.setFundingRanking(sponsorFundingHistoryRepository.findTop3FundersByItem(tmpDto.getItemNo(), PageRequest.of(0, 3)));
             allItemDto.add(tmpDto);
         }
         return allItemDto;
