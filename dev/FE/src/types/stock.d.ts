@@ -22,9 +22,9 @@ interface StockDetail {
 }
 
 interface StockRanking {
-  userName: string;
-  imagePath: string;
-  stockList: MyStock[];
+  userName: string | null;
+  imagePath: string | null;
+  stockList: MyStock[] | null;
 }
 
 interface StockMyAccount {

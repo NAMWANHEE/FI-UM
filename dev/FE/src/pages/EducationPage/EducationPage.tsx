@@ -150,7 +150,9 @@ const EducationPage = ({ className }: EducationPageProps): JSX.Element => {
               onClick={handlePageNoChange(pageNo)}
             />
           ))}
-          <button onClick={handleGoQuiz}>퀴즈 풀러 가기</button>
+          <button className={styles.goQuizButton} onClick={handleGoQuiz}>
+            퀴즈 풀러 가기
+          </button>
         </div>
         <div className={styles['education-page__image']}>
           {eduBooks[pageNo]}

@@ -4,18 +4,18 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import styles from './QuizPage.module.scss';
-// import useAuth from '@/hooks/useAuth';
+import useAuth from '@/hooks/useAuth';
 import { convertClassNameList } from '@/utils';
 
 const QuizPage = () => {
-  //   const userInfo = useAuth().userInfo;
+  const userInfo = useAuth().userInfo;
   const navigate = useNavigate();
-  //   useEffect(() => {
-  //     if (userInfo?.quiz) {
-  //       alert('퀴즈는 하루에 한번만 할 수 있습니다.');
-  //       navigate('/education');
-  //     }
-  //   }, [userInfo]);
+  useEffect(() => {
+    if (userInfo?.quiz) {
+      alert('퀴즈는 하루에 한번만 할 수 있습니다.');
+      navigate('/education');
+    }
+  }, [userInfo]);
   const [popUpWindow, setPopUpWindow] = useState<boolean>(false);
   const [popUpContent, setPopUpContent] = useState<string>('정답 입니다.');
 
@@ -39,10 +39,6 @@ const QuizPage = () => {
   }, [quizList]);
 
   const checkAnswer = (idx: number, submit: boolean): boolean => {
-    // console.log(submit, quizList[idx], '확인');
-    // console.log(quizList, '리스트');
-    console.log(answer, '정답지');
-    console.log(submit === answer[idx].answer, '???');
     if (answer[idx].answer === submit) {
       setCorrectAnswer(correctAnswer + 1);
       setPopUpContent('정답입니다!');

@@ -22,10 +22,10 @@ const StockPage = () => {
     Stock[],
     string
   >(['getStockInformation'], getStocks);
-  const { data: stockKing, status: isStockKingLoading } = useQuery<
-    StockRank[],
-    string
-  >(['getStockKing'], getStockKing);
+  const { data: stockKing } = useQuery<StockRank[], Error>(
+    ['getStockKing'],
+    getStockKing,
+  );
   const { data: recentNews } = useQuery<News[], string>(getRecentNewsQuery());
   const navigate = useNavigate();
 
@@ -117,18 +117,20 @@ const StockPage = () => {
         </div>
         <div className={styles.rankingWrapper}>
           <div className={styles.rankingWrapper__title}>주식 랭킹왕</div>
-          {isStockKingLoading === 'success'
-            ? stockKing.map((item) => {
-                return (
-                  <StockRanking
-                    className={styles.rankingItem}
-                    key={item.userName}
-                    title={item.userName}
-                    stockList={item.stockList}
-                  />
-                );
-              })
-            : ''}
+          {stockKing &&
+            stockKing.map((item) => {
+              if (item.userName === null || item.stockList === null) {
+                return '';
+              }
+              return (
+                <StockRanking
+                  className={styles.rankingItem}
+                  key={item.userName}
+                  title={item.userName}
+                  stockList={item.stockList}
+                />
+              );
+            })}
         </div>
       </div>
     </>
