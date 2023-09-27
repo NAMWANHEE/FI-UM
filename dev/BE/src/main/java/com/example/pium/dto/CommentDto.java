@@ -11,6 +11,8 @@ public class CommentDto {
 
     private String userName;
 
+    private Integer userNo;
+
     private String comment;
 
     private BigInteger createTime;

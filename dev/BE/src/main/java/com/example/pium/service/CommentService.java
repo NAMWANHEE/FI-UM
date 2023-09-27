@@ -13,6 +13,7 @@ import org.springframework.web.server.NotAcceptableStatusException;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -30,6 +31,7 @@ public class CommentService {
             CommentDto commentDto = new CommentDto();
             commentDto.setComment(r.getCommentContent());
             commentDto.setUserName(r.getUserNo().getUserName());
+            commentDto.setUserNo(r.getUserNo().getUserNo());
             commentDto.setCreateTime(r.getCreateTime());
             commentDto.setCommentNo(r.getCommentNo());
             commentDtoList.add(commentDto);
@@ -41,16 +43,18 @@ public class CommentService {
         ReviewCommentEntity reviewCommentEntity = ReviewCommentEntity.builder().commentContent(comment).reviewNo(reviewBoardRepository.findById(reviewNo).get()).createTime(BigInteger.valueOf(System.currentTimeMillis())).userNo(userRepository.findByUserNo(userNo).get()).build();
         reviewCommentRepository.save(reviewCommentEntity);
     }
-    public void putComments(Integer commentNo,String comment,Integer userNo){
+    public boolean putComments(Integer commentNo,String comment,Integer userNo){
         ReviewCommentEntity reviewCommentEntity = reviewCommentRepository.findById(commentNo).get();
-        if(!reviewCommentEntity.getUserNo().getUserNo().equals(userNo)) throw new NotAcceptableStatusException("권한 없음.");
+        if(!reviewCommentEntity.getUserNo().getUserNo().equals(userNo)) return false;
         reviewCommentEntity.setCommentContent(comment);
         reviewCommentRepository.save(reviewCommentEntity);
+        return true;
     }
 
-    public void deleteComments(Integer commentNo,Integer userNo, Integer userType){
+    public boolean deleteComments(Integer commentNo,Integer userNo, Integer userType){
         ReviewCommentEntity reviewCommentEntity = reviewCommentRepository.findById(commentNo).get();
-        if(!userType.equals(1) && !reviewCommentEntity.getUserNo().getUserNo().equals(userNo)) throw new NotAcceptableStatusException("권한 없음.");
+        if(!userType.equals(1) && !reviewCommentEntity.getUserNo().getUserNo().equals(userNo)) return false;
         reviewCommentRepository.delete(reviewCommentEntity);
+        return true;
     }
 }

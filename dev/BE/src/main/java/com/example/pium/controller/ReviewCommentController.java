@@ -7,6 +7,7 @@ import com.example.pium.service.CommentService;
 import io.swagger.models.Response;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -42,19 +43,29 @@ public class ReviewCommentController {
     public ResponseEntity<ReturnMessageDto> putComments(@PathVariable(value = "commentNo") Integer commentNo, HttpServletRequest request, @RequestBody CommentDto commentDto){
         Integer userNo = (Integer) request.getAttribute("userNo");
         String comment = commentDto.getComment();
-        commentService.putComments(commentNo,comment,userNo);
         ReturnMessageDto returnMessageDto = new ReturnMessageDto();
-        returnMessageDto.setMsg("수정 완료");
-        return ResponseEntity.ok(returnMessageDto);
+        if (commentService.putComments(commentNo,comment,userNo)){
+            returnMessageDto.setMsg("수정 완료");
+            return ResponseEntity.ok(returnMessageDto);
+        }
+        else{
+            returnMessageDto.setMsg("권한 없음");
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(returnMessageDto);
+        }
     }
 
     @DeleteMapping("/{commentNo}")
     public ResponseEntity<ReturnMessageDto> deleteComments(@PathVariable(value = "commentNo") Integer commentNo, HttpServletRequest request){
         Integer userNo = (Integer) request.getAttribute("userNo");
         Integer userType = (Integer) request.getAttribute("userType");
-        commentService.deleteComments(commentNo,userNo, userType);
         ReturnMessageDto returnMessageDto = new ReturnMessageDto();
-        returnMessageDto.setMsg("삭제 완료");
-        return ResponseEntity.ok(returnMessageDto);
+        if(commentService.deleteComments(commentNo,userNo, userType)){
+            returnMessageDto.setMsg("삭제 완료");
+            return ResponseEntity.ok(returnMessageDto);
+        }
+        else{
+            returnMessageDto.setMsg("권한 없음");
+            return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(returnMessageDto);
+        }
     }
 }
