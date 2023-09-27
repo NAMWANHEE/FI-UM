@@ -56,7 +56,8 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .addPathPatterns("/reviews")
                 .addPathPatterns("/reviews/{id}")
                 .addPathPatterns("/user/user-info")
-                .addPathPatterns("/stock/my-account");
+                .addPathPatterns("/stock/my-account")
+                .addPathPatterns("/comments/{reviewNo}");
 
 
 

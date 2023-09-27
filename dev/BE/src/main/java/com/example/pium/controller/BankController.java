@@ -35,7 +35,6 @@ public class BankController {
         ReturnMessageDto returnMessageDto = new ReturnMessageDto();
         if (!userType.equals(2) || (!option.equals("햇살은행") && !option.equals("유니콘은행"))) {
             returnMessageDto.setMsg("권한 없음.");
-            System.out.println(option);
             log.error("권한 없음.");
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(returnMessageDto);
         }
@@ -66,8 +65,6 @@ public class BankController {
         if (!userType.equals(2) || (!option.equals("햇살은행") && !option.equals("유니콘은행"))) {
             returnMessageDto.setMsg("권한 없음.");
             log.error("권한 없음.");
-            System.out.println(option);
-            System.out.println(userType);
             return ResponseEntity.status(HttpStatus.NOT_ACCEPTABLE).body(returnMessageDto);
         }
         // 보유 포인트가 예금을 더 넣을 수 있는 금액인지 여부 파악 (인출이여도 상관없음)

@@ -31,6 +31,9 @@ public class TokenCheckInterceptor implements HandlerInterceptor {
         if(request.getMethod().equals("OPTIONS")) {
             return true;
         }
+        if(arr[arr.length-2].equals("comments") && request.getMethod().equals("GET")){
+            return true;
+        }
         if(arr[arr.length-1].equals("review") && request.getMethod().equals("GET")){
             return true;
         }
