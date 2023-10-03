@@ -40,7 +40,10 @@ const MainAuctionDescription = ({
       </div>
 
       <Button
-        className="primary"
+        className={convertClassNameList(
+          styles['main-auction-description__button'],
+          'primary',
+        )}
         label="사러가기"
         value={auction.auctionNo}
         onClick={onMove}

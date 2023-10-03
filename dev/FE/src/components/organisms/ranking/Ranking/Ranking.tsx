@@ -12,9 +12,24 @@ interface RankingProps {
 const Ranking = ({ className, ranking }: RankingProps): JSX.Element => {
   const data = useMemo(
     () => [
-      { id: ranking.no1No, name: ranking.no1, src: ranking.no1ImagePath },
-      { id: ranking.no2No, name: ranking.no2, src: ranking.no2ImagePath },
-      { id: ranking.no3No, name: ranking.no3, src: ranking.no3ImagePath },
+      {
+        type: ranking.type,
+        id: ranking.no2No,
+        name: ranking.no2,
+        src: ranking.no2ImagePath,
+      },
+      {
+        type: ranking.type,
+        id: ranking.no1No,
+        name: ranking.no1,
+        src: ranking.no1ImagePath,
+      },
+      {
+        type: ranking.type,
+        id: ranking.no3No,
+        name: ranking.no3,
+        src: ranking.no3ImagePath,
+      },
     ],
     [ranking],
   );
@@ -25,18 +40,27 @@ const Ranking = ({ className, ranking }: RankingProps): JSX.Element => {
         styles.ranking,
       )}
     >
-      <Text className={styles['ranking__title']} text={ranking.type} />
+      <Text
+        className={styles['ranking__title']}
+        text={ranking.type + ' 랭킹'}
+      />
       <div className={styles['ranking__main']}>
-        {data.map(({ id, name, src }, index) => {
+        {data.map(({ id, name, src, type }, index) => {
+          console.log(`profileCard__${index}`, '???');
           return (
             <div
-              key={id}
-              className={(styles[`profileCard${index}`], 'flex-container-col')}
+              key={src + type}
+              className={convertClassNameList(
+                styles[`profileCard__${index}`],
+                'flex-container-col',
+              )}
             >
               {index === 1 ? (
-                <img src="/img/crown.svg" alt="" className={styles.crown} />
+                <div className={styles.crownWrapper}>
+                  <img src="/img/crown.svg" alt="" className={styles.crown} />
+                </div>
               ) : (
-                ''
+                <div className={styles.crownWrapper}></div>
               )}
               <ProfileCard key={id} src={src} alt={name} userNo={id} />
             </div>

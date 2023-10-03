@@ -23,11 +23,13 @@ const FundingCard = ({
       )}
       data-testid="funding-card"
     >
-      <Image
-        className={styles['funding-card-image']}
-        src={imagePath}
-        alt={itemName}
-      />
+      <div className={styles['funding-card-imageWrapper']}>
+        <Image
+          className={styles['funding-card-image']}
+          src={imagePath}
+          alt={itemName}
+        />
+      </div>
       <Text
         className={convertClassNameList('test-sm', styles['funding-card-text'])}
         text={itemName}

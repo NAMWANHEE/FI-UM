@@ -8,8 +8,11 @@
   border: 2px solid blue;
   border-radius: 20px;
 
-  &-image {
+  &-imageWrapper {
     height: 40%;
+    .funding-card-image {
+      height: 95%;
+    }
   }
   &-text {
     height: 40%;
