@@ -24,7 +24,7 @@ public class StockServiceImp {
     private final UserRepository userRepository;
     private final PointTypeRepository pointTypeRepository;
     private final BalanceSheetRepository balanceSheetRepository;
-    public Long startTime = Long.valueOf(1695600000);
+    public Long startTime = Long.valueOf(1696377600);
 
     public StockDataDto makeDtoData(StockDataEntity stockDataEntity) {
         StockDataDto stockData = new StockDataDto();
