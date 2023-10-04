@@ -110,7 +110,7 @@ public class Scheduler {
             }
             // 재무상태표 업데이트
             BalanceSheetEntity balanceSheet = balanceSheetRepository.findByUserNo(user);
-            balanceSheet.setDepositIncome(interest);
+            balanceSheet.setDepositIncome(interest+balanceSheet.getDepositIncome());
             balanceSheet.setPoint(balanceSheet.getPoint()+interest);
             balanceSheetRepository.save(balanceSheet);
             //
@@ -153,7 +153,7 @@ public class Scheduler {
             Integer savingMoney = savingAll.getSavingBalance();
             // 재무상태표 업데이트
             BalanceSheetEntity balanceSheet = balanceSheetRepository.findByUserNo(user);
-            balanceSheet.setSavingIncome(interest);
+            balanceSheet.setSavingIncome(interest+balanceSheet.getSavingIncome());
             balanceSheet.setPoint(balanceSheet.getPoint()+interest+savingMoney);
             balanceSheet.setSaving(0);
             balanceSheetRepository.save(balanceSheet);
