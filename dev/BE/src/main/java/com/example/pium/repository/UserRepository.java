@@ -19,7 +19,7 @@ public interface UserRepository extends JpaRepository<UserEntity, Integer> {
     Optional<UserEntity> findByUserNo(Integer userNo);
     List<UserEntity> findByUserType(Integer type);
 
-    @Query(value = "select a.user_no as userNo,user_name as userName,a.point,a.cash,b.sponsoredAmount from user a ,(select user_no,sum(point_change) as sponsoredAmount from point_record where point_type_no = 5 and user_no = :userNo group by user_no) b  where a.user_no = b.user_no", nativeQuery = true)
+    @Query(value = "select a.user_no as userNo,user_name as userName,a.point,a.cash,b.sponsoredAmount from user a left join (select user_no,sum(point_change) as sponsoredAmount from point_record where point_type_no = 5 and user_no = :userNo group by user_no) b  on a.user_no = b.user_no where a.user_no = :userNo", nativeQuery = true)
     SponsorUserInterface findByUserNoAndUserType(int userNo);
 
     @Query(value = "select b.user_name as userName, a.user_no as userNo, a.point, stock, stock_income as stockIncome, deposit, deposit_income as depositIncome, saving, saving_income as savingIncome, auction_income as auctionIncome, quiz_income as quizIncome, donation from user b, balance_sheet as a where a.user_no = b.user_no and a.user_no = :userNo",nativeQuery = true)
