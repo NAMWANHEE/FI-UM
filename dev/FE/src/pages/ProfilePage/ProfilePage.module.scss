@@ -54,6 +54,23 @@
       grid-template-rows: minmax(1fr, 50vh);
       gap: 5vw;
     }
+    &__tableWrapper {
+      &__buttonWrapper {
+        height: 2.5rem;
+
+        button {
+          float: right;
+          cursor: pointer;
+          background-color: #fde8e7;
+          border: 0;
+          height: 2rem;
+          width: 10rem;
+          font-weight: 600;
+          border-radius: 0.5rem;
+          color: #666;
+        }
+      }
+    }
   }
 
   & > div {
@@ -68,6 +85,21 @@
   }
 }
 
+.modal {
+  padding-left: 0;
+}
+
+.aiPortFolio {
+  &__title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-align: center;
+    padding-bottom: 0.5rem;
+  }
+  &__content {
+    font-size: 1rem;
+  }
+}
 .child-profile-page {
   &__swiper {
     min-height: 60vh;

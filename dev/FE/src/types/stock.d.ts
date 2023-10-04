@@ -54,11 +54,12 @@ interface TradeHistory {
 }
 
 interface PortfolioKeys {
-  고양이: number;
-  공룡: number;
-  마법쿠키: number;
-  스피드킹: number;
-  해적선: number;
+  [key: string]: any;
+  '꿈꾸는 고양이 카페 주식회사': number;
+  '토이케라톱스 공룡장난감 주식회사': number;
+  '마법의 쿠키 과자 주식회사': number;
+  '스피드킹 자동차 주식회사': number;
+  '신비한 해적선 모험 주식회사': number;
 }
 
 interface Portfoilo {

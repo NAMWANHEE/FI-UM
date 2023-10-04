@@ -7,6 +7,7 @@ interface ModalProps {
   toggle: () => void;
   scrollTop?: number;
   children: JSX.Element;
+  aiModal?: boolean;
 }
 
 const Modal = ({
@@ -15,6 +16,7 @@ const Modal = ({
   isOpen,
   scrollTop,
   children,
+  aiModal,
 }: ModalProps): JSX.Element => {
   return (
     <>
@@ -31,7 +33,9 @@ const Modal = ({
           }}
         >
           <div
-            className={convertClassNameList(styles['modal-box'])}
+            className={convertClassNameList(
+              aiModal ?? false ? styles['modal-aiBox'] : styles['modal-box'],
+            )}
             onClick={(e) => e.stopPropagation()}
           >
             {children}

@@ -1,11 +1,11 @@
 import { getStockKing, getStocks } from '@/api/stock';
 import { Table } from '@/components/atoms';
 import { StockRanking } from '@/components/molecules';
-import { News, Portfoilo, Stock, StockRanking as StockRank } from '@/types';
+import { News, Stock, StockRanking as StockRank } from '@/types';
 import { useQuery } from '@tanstack/react-query';
 import { useNavigate } from 'react-router-dom';
 import styles from './StockPage.module.scss';
-import { getPortfolioQuery, getRecentNewsQuery } from '@/api/queries';
+import { getRecentNewsQuery } from '@/api/queries';
 import {
   Accordion,
   AccordionItem,
@@ -16,10 +16,8 @@ import {
 } from 'react-accessible-accordion';
 import { convertClassNameList } from '@/utils';
 import { useEffect, useState } from 'react';
-import useAuth from '@/hooks/useAuth';
 
 const StockPage = () => {
-  const { userInfo } = useAuth();
   const { data: allStocks, status: isAllStocksLoading } = useQuery<
     Stock[],
     string
@@ -40,16 +38,6 @@ const StockPage = () => {
 
     return () => clearTimeout(timer);
   }, []);
-
-  // 현재 cors에러로 인해 작동 안함..
-  const { data: portFolio, status: isPortFolioLoading } = useQuery<
-    Portfoilo,
-    Error
-  >({
-    ...getPortfolioQuery(userInfo ? userInfo.userNo : 0),
-    enabled: !!userInfo,
-  });
-  console.log(portFolio, isPortFolioLoading);
 
   return (
     <>

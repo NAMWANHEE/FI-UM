@@ -30,12 +30,18 @@ import {
   MyDeposit,
   MyStock,
   Point,
+  Portfoilo,
   Purchase,
   SponsorshipDetail,
   TotalCapital,
 } from '@/types';
 import { useQuery } from '@tanstack/react-query';
-import { AuctionCard, ProfileCard, Swiper } from '@/components/molecules';
+import {
+  AuctionCard,
+  Modal,
+  ProfileCard,
+  Swiper,
+} from '@/components/molecules';
 import {
   getAuctionPurchaseQuery,
   getFollowingQuery,
@@ -43,6 +49,7 @@ import {
   getMyFundingsQuery,
   getMyStocksQuery,
   getPointsQuery,
+  getPortfolioQuery,
   getSponsorShipQuery,
   getSponsorShipRecordDetailQuery,
   getSponsorShipRecordsQuery,
@@ -181,6 +188,20 @@ const ChildProfilePage = ({ myPage }: { myPage?: boolean }) => {
   const { data: myAuctions } = useQuery<ArtistAuction[]>(
     getUserArtistQuery(Number(userNo)),
   );
+  console.log(myStocks);
+
+  // AI 포토폴리오
+  const { data: portFolio, status: isPortFolioLoading } = useQuery<
+    Portfoilo,
+    Error
+  >(getPortfolioQuery(Number(userNo)));
+  console.log(portFolio, isPortFolioLoading);
+
+  // Modal창 on, off
+  const [portFolioModal, isPortFolioModal] = useState<boolean>(false);
+  const handlePortFolioButtonClick = () => {
+    isPortFolioModal(!portFolioModal);
+  };
 
   const auction = useMemo(() => {
     const auction: JSX.Element[] = [];
@@ -229,54 +250,131 @@ const ChildProfilePage = ({ myPage }: { myPage?: boolean }) => {
         <>
           <ProfileSection label="자산 모아보기">
             <div className={styles['profile-page__profile-section']}>
-              <Table
-                data={
-                  depositSavings &&
-                  depositSavings.map(
-                    ({
-                      bankName,
-                      interestRate,
-                      primeInterestRate,
-                      productType,
-                      savingBalance,
-                    }) => {
-                      return {
-                        은행명: bankName,
-                        상품명: productType,
-                        이자율: `${interestRate}% (+${primeInterestRate}%)`,
-                        잔액: priceFilter(savingBalance),
-                      };
-                    },
-                  )
+              <div
+                className={
+                  styles['profile-page__profile-section__tableWrapper']
                 }
-                size={5}
-              />
-              <Table
-                data={
-                  myStocks &&
-                  myStocks.map(
-                    ({
-                      stockCount,
-                      stockName,
-                      stockNowPrice,
-                      stockUnitPrice,
-                    }) => {
-                      return {
-                        주식명: stockName,
-                        보유주: stockCount,
-                        평단가: priceFilter(stockUnitPrice),
-                        현재가: priceFilter(stockNowPrice),
-                      };
-                    },
-                  )
+              >
+                <div
+                  className={
+                    styles[
+                      'profile-page__profile-section__tableWrapper__buttonWrapper'
+                    ]
+                  }
+                ></div>
+                <Table
+                  data={
+                    depositSavings &&
+                    depositSavings.map(
+                      ({
+                        bankName,
+                        interestRate,
+                        primeInterestRate,
+                        productType,
+                        savingBalance,
+                      }) => {
+                        return {
+                          은행명: bankName,
+                          상품명: productType,
+                          이자율: `${interestRate}% (+${primeInterestRate}%)`,
+                          잔액: priceFilter(savingBalance),
+                        };
+                      },
+                    )
+                  }
+                  size={5}
+                />
+              </div>
+              <div
+                className={
+                  styles['profile-page__profile-section__tableWrapper']
                 }
-                size={5}
-              />
+              >
+                <div
+                  className={
+                    styles[
+                      'profile-page__profile-section__tableWrapper__buttonWrapper'
+                    ]
+                  }
+                >
+                  <button onClick={handlePortFolioButtonClick}>
+                    AI 포트폴리오 분석
+                  </button>
+                </div>
+                <Table
+                  data={
+                    myStocks &&
+                    myStocks.map(
+                      ({
+                        stockCount,
+                        stockName,
+                        stockNowPrice,
+                        stockUnitPrice,
+                      }) => {
+                        return {
+                          주식명: stockName,
+                          보유주: stockCount,
+                          평단가: priceFilter(stockUnitPrice),
+                          현재가: priceFilter(stockNowPrice),
+                        };
+                      },
+                    )
+                  }
+                  size={5}
+                />
+              </div>
             </div>
           </ProfileSection>
           <ProfileSection label="내 펀딩">
             <Funding fundings={myFundings} />
           </ProfileSection>
+          {portFolio && (
+            <div className={styles.modal}>
+              <Modal
+                aiModal={true}
+                isOpen={portFolioModal}
+                toggle={handlePortFolioButtonClick}
+              >
+                <div className={styles['aiPortFolio']}>
+                  <div className={styles['aiPortFolio__title']}>
+                    AI 포트폴리오 분석
+                  </div>
+                  <div>
+                    <Table
+                      data={
+                        myStocks &&
+                        myStocks.map(({ stockCount, stockName }) => {
+                          return {
+                            주식명: stockName,
+                            보유주: stockCount,
+                            AI기준: portFolio?.moneyBalance[stockName] ?? 0,
+                            'AI기준 비율': `${Math.floor(
+                              portFolio?.ratioBalance[stockName] * 100 ?? 0,
+                            )}%`,
+                          };
+                        })
+                      }
+                      size={5}
+                    />
+                  </div>
+                  <div className={styles['aiPortFolio__content']}>
+                    현재 AI 포트폴리오에서 주식 투자의 비율을{' '}
+                    {Object.keys(portFolio?.moneyBalance).map((item) => {
+                      const ratio = portFolio?.ratioBalance[item];
+                      if (ratio > 0) {
+                        return (
+                          <span>
+                            {item}를 {Math.floor(ratio * 100)}%{' '}
+                          </span>
+                        );
+                      }
+                    })}
+                    갖도록 분석해줬어요
+                  </div>
+                </div>
+              </Modal>
+            </div>
+          )}
         </>
       )}
 
