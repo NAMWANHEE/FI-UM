@@ -9,6 +9,7 @@
 
 .allStocks {
   width: 50%;
+  padding-right: 3%;
   height: 500px;
   &__title {
     font-size: 1.3rem;
@@ -20,16 +21,18 @@
 .rankingWrapper {
   display: flex;
   flex-wrap: wrap;
-  width: 80%;
+  width: 100%;
   justify-content: center;
+  background-color: #f6fbfd;
+
   &__title {
-    width: 100%;
+    width: 80%;
     font-size: 1.3rem;
     font-weight: 600;
     padding: 0.3rem 0.5rem;
   }
   .rankingItem {
-    width: 33%;
+    width: 26%;
   }
 }
 

@@ -3,6 +3,7 @@ import styles from './EducationPage.module.scss';
 import { Button } from '@/components/atoms';
 import { useCallback, useReducer, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import useAuth from '@/hooks/useAuth';
 
 interface EducationPageProps {
   className?: string;
@@ -54,6 +55,12 @@ const indexNameList = [
   '왜 선택해야 하나요?',
   '선택하면 포기해야 한다고요?',
   '동화로 보는 경제: 아기 돼지 삼형제',
+  '재화와 서비스가 무엇인가요?',
+  '재화나 서비스를 생산하려면 무엇이 필요한가요?',
+  '나도 생산활동을 하고 있나요?',
+  '이왕이면 더 많이 생산할 수 없나요?',
+  '동화로 보는 경제: 포도와 여우',
+  '왜 더 좋은 자본을 사용하나요?',
 ];
 
 const indexList: Index[] = [
@@ -64,10 +71,16 @@ const indexList: Index[] = [
   new IndexImpl(0, 4, 30),
   new IndexImpl(0, 5, 34),
   new IndexImpl(0, 6, 38),
+  new IndexImpl(1, 7, 42),
+  new IndexImpl(1, 8, 46),
+  new IndexImpl(1, 9, 50),
+  new IndexImpl(1, 10, 54),
+  new IndexImpl(1, 11, 58),
+  new IndexImpl(1, 12, 60),
 ];
 
 const EducationPage = ({ className }: EducationPageProps): JSX.Element => {
-  const [pageNo, dispatch] = useReducer(reducer, 1);
+  const [currentPageNo, dispatch] = useReducer(reducer, 1);
 
   const handlePageNoIncrement = useCallback(
     () => dispatch({ type: 'INCREMENT' }),
@@ -123,6 +136,8 @@ const EducationPage = ({ className }: EducationPageProps): JSX.Element => {
     return () => clearTimeout(timer);
   }, []);
 
+  const { userInfo } = useAuth();
+
   return (
     <>
       {loading && (
@@ -140,32 +155,36 @@ const EducationPage = ({ className }: EducationPageProps): JSX.Element => {
         )}
       >
         <div className={styles['education-page__index']}>
-          <span
-            className={styles['education-page__index__title']}
-            onClick={handleClickContainer}
-          >
-            목차{isDropdownView ? '▲' : '▼'}
-          </span>
-          {isDropdownView &&
-            indexList.map(({ titleNo, pageNo }, idx) => (
-              <Button
-                key={pageNo}
-                className={convertClassNameList(
-                  styles[`education-page__index__button`],
-                  styles[
-                    `education-page__index__button__${idx % 2 ? 'odd' : 'even'}`
-                  ],
-                )}
-                label={indexNameList[titleNo]}
-                onClick={handlePageNoChange(pageNo)}
-              />
-            ))}
-          <button className={styles.goQuizButton} onClick={handleGoQuiz}>
-            퀴즈 풀러 가기
-          </button>
+          <span className={styles['education-page__index__title']}>목차</span>
+          {indexList.map(({ titleNo, pageNo }, idx) => (
+            <Button
+              key={pageNo}
+              className={convertClassNameList(
+                styles[`education-page__index__button`],
+                styles[
+                  `education-page__index__button__${idx % 2 ? 'odd' : 'even'}`
+                ],
+                pageNo <= currentPageNo &&
+                  idx < indexList.length - 1 &&
+                  currentPageNo < indexList[idx + 1].pageNo
+                  ? styles[`education-page__index__button--active`]
+                  : '',
+                pageNo <= currentPageNo && idx === indexList.length - 1
+                  ? styles[`education-page__index__button--active`]
+                  : '',
+              )}
+              label={indexNameList[titleNo]}
+              onClick={handlePageNoChange(pageNo)}
+            />
+          ))}
+          {userInfo && (
+            <button className={styles.goQuizButton} onClick={handleGoQuiz}>
+              퀴즈 풀러 가기
+            </button>
+          )}
         </div>
         <div className={styles['education-page__image']}>
-          {eduBooks[pageNo]}
+          {eduBooks[currentPageNo]}
         </div>
         <div className={styles['education-page__pagination']}>
           <Button
@@ -173,7 +192,7 @@ const EducationPage = ({ className }: EducationPageProps): JSX.Element => {
             label={'이전'}
             onClick={handlePageNoDecrement}
           />
-          {pageNo}쪽
+          {currentPageNo}쪽
           <Button
             className={styles['education-page__pagination--button']}
             label={'다음'}

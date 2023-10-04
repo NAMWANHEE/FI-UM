@@ -15,7 +15,7 @@ const MainPage = () => {
   const { data: auctions } = useQuery<Auction[], Error>(getAuctionsQuery());
   const { data: fundings } = useQuery<FundingType[]>(getFundingsQuery());
   const { data: rankings } = useQuery<RankingType[]>(getRankingsQuery());
-  console.log(rankings);
+  console.log(fundings);
 
   const [loading, setLoading] = useState(true);
 

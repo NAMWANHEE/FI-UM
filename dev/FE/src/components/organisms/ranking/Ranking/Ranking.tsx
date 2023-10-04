@@ -46,7 +46,6 @@ const Ranking = ({ className, ranking }: RankingProps): JSX.Element => {
       />
       <div className={styles['ranking__main']}>
         {data.map(({ id, name, src, type }, index) => {
-          console.log(`profileCard__${index}`, '???');
           return (
             <div
               key={src + type}

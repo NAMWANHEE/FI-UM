@@ -28,17 +28,22 @@
       line-height: 2rem;
     }
     &__button {
-      height: 2rem;
+      height: 3rem;
       border: 0;
     }
     &__button:hover {
-      background-color: #ebebeb;
+      background-color: $shinhan-blue;
+      color: #fff;
     }
     &__button__odd {
       background-color: #fff;
     }
     &__button__even {
       background-color: #f2f2f2;
+    }
+    &__button--active {
+      background-color: $shinhan-blue;
+      color: #fff;
     }
   }
   .goQuizButton {

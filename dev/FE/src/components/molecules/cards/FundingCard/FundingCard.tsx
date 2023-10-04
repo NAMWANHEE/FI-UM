@@ -1,8 +1,13 @@
 import { Image, Text } from '@/components/atoms';
 import styles from './FundingCard.module.scss';
-import { convertClassName, convertClassNameList } from '@/utils';
+import {
+  convertClassName,
+  convertClassNameList,
+  formatCurrency,
+} from '@/utils';
 import { FundingBar } from '../..';
 import { Funding } from '@/types';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 interface FundingCardProps {
   className?: string;
@@ -15,6 +20,17 @@ const FundingCard = ({
   ratio,
   funding: { imagePath, itemName, itemUnitPrice, itemCount, fundingAmount },
 }: FundingCardProps): JSX.Element => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const handleClick = () => {
+    if (!location.pathname.includes('profile')) {
+      navigate('/funding');
+    }
+  };
+  const fundingGoalPrice = formatCurrency(
+    String(itemUnitPrice * itemCount * 0.3),
+  );
+  const fundingCurrentPrice = formatCurrency(String(fundingAmount));
   return (
     <div
       className={convertClassNameList(
@@ -22,6 +38,7 @@ const FundingCard = ({
         styles['funding-card'],
       )}
       data-testid="funding-card"
+      onClick={handleClick}
     >
       <div className={styles['funding-card-imageWrapper']}>
         <Image
@@ -30,10 +47,15 @@ const FundingCard = ({
           alt={itemName}
         />
       </div>
-      <Text
-        className={convertClassNameList('test-sm', styles['funding-card-text'])}
-        text={itemName}
-      />
+
+      <div className={styles['funding-card-contentWrapper']}>
+        <Text
+          className={convertClassNameList(styles['funding-card-text'])}
+          text={itemName}
+        />
+        <div>펀딩된 금액 : {fundingCurrentPrice}원</div>
+        <div>펀딩 목표 금액 : {fundingGoalPrice}원</div>
+      </div>
       {ratio && (
         <FundingBar
           className={convertClassNameList(

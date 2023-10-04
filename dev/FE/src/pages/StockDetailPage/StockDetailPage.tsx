@@ -15,6 +15,7 @@ import {
   postStockBuyingQuery,
   postStockSellingQuery,
 } from '@/api/queries/stock';
+import useAuth from '@/hooks/useAuth';
 
 interface StockDetailPageProps {
   className?: string;
@@ -26,6 +27,7 @@ const StockDetailPage = ({ className }: StockDetailPageProps): JSX.Element => {
   const [chartData, setChartData] = useState<any | undefined>();
   const { detail } = useParams<{ detail: string }>();
   const [news, setNews] = useState<News[] | null>(null);
+  const { userInfo } = useAuth();
 
   const onModal = useCallback((e: MouseEvent<HTMLButtonElement>) => {
     setLabel(e.currentTarget.value);
@@ -196,36 +198,39 @@ const StockDetailPage = ({ className }: StockDetailPageProps): JSX.Element => {
               })}
           </div>
           {isStockChartLoading === 'success' &&
-            isMyStockLoading === 'success' && (
+            isMyStockLoading === 'success' &&
+            myStock && (
               <div className={styles.myStock}>
                 <p>내가 갖고있는 수량: {myStock.stockCount}주</p>
                 <p>평균 단가: {myStock.stockAverage}</p>
                 <p>현재 가격: {stockChart[stockChart.length - 1].nowPrice}</p>
               </div>
             )}
-          <div
-            className="
-            flex-container jc-space-between"
-          >
-            <Button
-              className={convertClassNameList(
-                styles['stock-detail-page__content--button'],
-                styles['stock-detail-page__content--button__sell'],
-              )}
-              label="매도"
-              value="매도"
-              onClick={onModal}
-            />
-            <Button
-              className={convertClassNameList(
-                styles['stock-detail-page__content--button'],
-                styles['stock-detail-page__content--button__buy'],
-              )}
-              label="매수"
-              value="매수"
-              onClick={onModal}
-            />
-          </div>
+          {userInfo && userInfo.userType === 2 && (
+            <div
+              className="
+          flex-container jc-space-between"
+            >
+              <Button
+                className={convertClassNameList(
+                  styles['stock-detail-page__content--button'],
+                  styles['stock-detail-page__content--button__sell'],
+                )}
+                label="매도"
+                value="매도"
+                onClick={onModal}
+              />
+              <Button
+                className={convertClassNameList(
+                  styles['stock-detail-page__content--button'],
+                  styles['stock-detail-page__content--button__buy'],
+                )}
+                label="매수"
+                value="매수"
+                onClick={onModal}
+              />
+            </div>
+          )}
         </div>
       </div>
 
