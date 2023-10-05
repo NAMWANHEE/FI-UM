@@ -120,9 +120,9 @@ public class AuctionController {
             } else {
                 // 구매 가능한 경우 입찰 기록에 등록 및 즉시구매가일 경우 낙찰자까지 입력하는 로직
                 auctionService.makeRecord(userService.getUserInfo(buyer), artAuctionEntity, rgsAuctionDto);
-                if (rgsAuctionDto.getAuctionPrice().equals(artAuctionEntity.getInstantPrice())) {
+                if (rgsAuctionDto.getAuctionPrice().longValue() >= artAuctionEntity.getInstantPrice().longValue()) {
                     artAuctionEntity.setWinner(userService.getUserInfo(buyer));
-                    auctionService.changePoint(userService.getUserInfo(buyer), userService.getUserInfo(seller), rgsAuctionDto.getAuctionPrice());
+                    auctionService.changePoint(userService.getUserInfo(buyer), userService.getUserInfo(seller), artAuctionEntity.getInstantPrice());
                     returnMessageDto.setMsg("구매에 성공하였습니다.");
                 }
                 else {

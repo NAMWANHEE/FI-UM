@@ -11,6 +11,7 @@ import com.example.pium.repository.*;
 
 import com.example.pium.util.JwtTokenProvider;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.mindrot.jbcrypt.BCrypt;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +21,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class UserServiceImp {
@@ -200,6 +202,7 @@ public class UserServiceImp {
                 .refreshToken(refreshToken)
                 .userNo(userNo)
                 .build();
+        log.info(refreshToken);
         refreshTokenRedisRepository.save(refreshTokenEntity);
         TokenResponseDto tokenResponseDto = new TokenResponseDto();
         tokenResponseDto.setAccessToken(accessToken);
@@ -215,7 +218,7 @@ public class UserServiceImp {
     }
 
     public boolean checkRefreshToken(String token){
-
+        log.info(token);
         if(refreshTokenRedisRepository.findByRefreshToken(token) == null) return false; // 리프레시 토큰이 유효하다면 true 아니라면 false 반환
         else return true;
     }
