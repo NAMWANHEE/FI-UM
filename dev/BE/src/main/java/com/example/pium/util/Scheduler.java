@@ -25,26 +25,29 @@ public class Scheduler {
     private final RankingRepository rankingRepository;
     private final ArtAuctionRepository artAuctionRepository;
 
-    @Scheduled(cron ="0 0 0 * * *")
+    @Scheduled(cron ="0 0 * * * *")
     public void Auction(){
         log.info("경매 시간 지난 갱매 물품 낙찰 ");
         List<AuctionClose> auctionCloseList = artAuctionRepository.getAuctionCloseList();
         for(AuctionClose auctionClose: auctionCloseList){
             ArtAuctionEntity artAuction = artAuctionRepository.findByAuctionNo(auctionClose.getAuctionNo()).get();
             UserEntity child = userRepository.findByUserNo(auctionClose.getChildNo()).get();
-            UserEntity sponsor = userRepository.findByUserNo(auctionClose.getSponsorNo()).get();
             if(auctionClose.getSponsorNo() == null){
+                log.info(auctionClose.getAuctionNo()+ "번 작품 원장 선생님 낙찰");
                 artAuction.setWinner(userRepository.findByUserId("admin").get()); //원장선생님으로 낙찰자 설정
                 PointRecordEntity pointRecordEntity = PointRecordEntity.builder().userNo(child).pointTypeNo(pointTypeRepository.findByPointType("경매").get()).pointChange(auctionClose.getAuctionPrice()).changedTime(BigInteger.valueOf(System.currentTimeMillis())).build();
                 pointRecordRepository.save(pointRecordEntity);
             }
             else{
+                log.info(auctionClose.getAuctionNo()+ "번 작품 "+auctionClose.getSponsorNo()+"번 후원자 낙찰");
+                UserEntity sponsor = userRepository.findByUserNo(auctionClose.getSponsorNo()).get();
                 artAuction.setWinner(userRepository.findByUserNo(sponsor.getUserNo()).get());
                 PointRecordEntity pointRecordEntity = PointRecordEntity.builder().userNo(child).pointTypeNo(pointTypeRepository.findByPointType("경매").get()).pointChange(auctionClose.getAuctionPrice()).changedTime(BigInteger.valueOf(System.currentTimeMillis())).build();
                 pointRecordRepository.save(pointRecordEntity);
                 sponsor.setPoint(sponsor.getPoint()-auctionClose.getAuctionPrice());
                 PointRecordEntity pointRecordEntity2 = PointRecordEntity.builder().userNo(sponsor).pointTypeNo(pointTypeRepository.findByPointType("경매").get()).pointChange(-auctionClose.getAuctionPrice()).changedTime(BigInteger.valueOf(System.currentTimeMillis())).build();
                 pointRecordRepository.save(pointRecordEntity2);
+                userRepository.save(sponsor);
             }
             BalanceSheetEntity balanceSheetEntity = balanceSheetRepository.findByUserNo(child);
             child.setPoint(child.getPoint()+auctionClose.getAuctionPrice());
@@ -53,7 +56,6 @@ public class Scheduler {
             artAuctionRepository.save(artAuction);
             balanceSheetRepository.save(balanceSheetEntity);
             userRepository.save(child);
-            userRepository.save(sponsor);
         }
     }
 
@@ -174,7 +176,7 @@ public class Scheduler {
         }
     }
 
-    @Scheduled(cron ="0 0 0 * * *")
+    @Scheduled(cron ="0 0 * * * *")
     public void ranking(){
         log.info("랭킹 초기화");
         // 주식왕
