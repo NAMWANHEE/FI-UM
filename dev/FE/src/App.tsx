@@ -8,7 +8,6 @@ import { useLocation } from 'react-router-dom';
 
 const App = () => {
   const { isOpen } = useModal();
-  console.log('isOpen', isOpen);
 
   const location = useLocation();
 

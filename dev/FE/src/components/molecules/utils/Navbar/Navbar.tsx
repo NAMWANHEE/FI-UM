@@ -157,6 +157,9 @@ const Navbar = ({ className }: NavbarProps): JSX.Element => {
           className={convertClassNameList(
             styles['navbar__menu--item'],
             styles['navbar__menu--payment'],
+            userInfo.userType === 3
+              ? styles['navbar__menu--payment__active']
+              : styles['navbar__menu--payment__nonActive'],
           )}
           label="충전"
           onClick={openPayment}

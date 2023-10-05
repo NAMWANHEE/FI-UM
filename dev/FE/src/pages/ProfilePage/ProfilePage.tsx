@@ -188,14 +188,11 @@ const ChildProfilePage = ({ myPage }: { myPage?: boolean }) => {
   const { data: myAuctions } = useQuery<ArtistAuction[]>(
     getUserArtistQuery(Number(userNo)),
   );
-  console.log(myStocks);
 
   // AI 포토폴리오
-  const { data: portFolio, status: isPortFolioLoading } = useQuery<
-    Portfoilo,
-    Error
-  >(getPortfolioQuery(Number(userNo)));
-  console.log(portFolio, isPortFolioLoading);
+  const { data: portFolio } = useQuery<Portfoilo, Error>(
+    getPortfolioQuery(Number(userNo)),
+  );
 
   // Modal창 on, off
   const [portFolioModal, isPortFolioModal] = useState<boolean>(false);
@@ -364,7 +361,14 @@ const ChildProfilePage = ({ myPage }: { myPage?: boolean }) => {
                       if (ratio > 0) {
                         return (
                           <span>
-                            {item}를 {Math.floor(ratio * 100)}%{' '}
+                            {item}를{' '}
+                            <span
+                              className={
+                                styles['aiPortFolio__content__percent']
+                              }
+                            >
+                              {Math.floor(ratio * 100)}%
+                            </span>{' '}
                           </span>
                         );
                       }

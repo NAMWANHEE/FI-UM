@@ -8,7 +8,6 @@ const API_PORTFOLIO_URL = import.meta.env.VITE_API_PORTFOLIO_URL;
 let isRefresh = false;
 
 const apiInstance = () => {
-  console.log(API_BASE_URL);
   const instance = axios.create({
     baseURL: API_BASE_URL,
     headers: {
