@@ -1,0 +1,29 @@
+.total-capital {
+  background-color: #ececec;
+  display: flex;
+  justify-content: space-between;
+  text-align: end;
+  padding-right: 2vw;
+
+  &__item {
+    flex: 1;
+  }
+}
+
+.disabled {
+  display: none;
+}
+
+.user-list {
+  display: flex;
+  &__pie-chart {
+    max-height: 30vh;
+  }
+  &__table {
+    max-height: 30vh;
+  }
+}
+
+.disabled {
+  display: none;
+}

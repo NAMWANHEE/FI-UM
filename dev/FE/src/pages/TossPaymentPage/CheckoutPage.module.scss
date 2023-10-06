@@ -1,0 +1,48 @@
+.header {
+  text-align: center;
+}
+
+.inputWrapper {
+  text-align: center;
+  font-size: 1.2rem;
+  position: relative;
+  width: fit-content;
+  input {
+    box-sizing: border-box;
+    padding: 4px;
+    padding-left: 0.5rem;
+    border-radius: 4px;
+    height: 1.8rem;
+    font-size: 1.2rem;
+    width: 120px;
+  }
+}
+.inputWrapper::after {
+  content: '원';
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.buttonWrapper {
+  text-align: center;
+}
+
+.paymentButton {
+  margin: 0 auto 0 auto;
+  width: 180px;
+  height: 30px;
+  font-size: 1rem;
+  background-color: #aadaff;
+  color: #000;
+  border-radius: 8px;
+  border: 0px;
+  cursor: pointer;
+}
+
+.paymentButton:hover {
+  background-color: #3579d4;
+  color: #f2f2f2;
+}

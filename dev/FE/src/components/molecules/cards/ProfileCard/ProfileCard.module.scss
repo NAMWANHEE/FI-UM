@@ -1,0 +1,92 @@
+// ProfileCard.module.scss
+
+.profile-card {
+  padding: 10px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  // flex-wrap: wrap;
+  align-items: center;
+  border-radius: 8px;
+  height: inherit;
+
+  &__image {
+    max-height: 40vh;
+    max-width: 20vh;
+  }
+
+  &__modal {
+    display: flex;
+    flex-direction: column;
+    position: relative;
+
+    &--title {
+      text-align: center;
+      font-size: 1.4rem;
+    }
+
+    &--input {
+      color: white;
+      margin-top: 1vh;
+    }
+
+    &--image {
+      max-height: 40vh;
+      max-width: 40vw;
+      object-fit: fill;
+    }
+
+    &--button-container {
+      display: flex;
+      margin-left: auto;
+    }
+
+    &--button,
+    input[type='file']::file-selector-button {
+      height: 5vh;
+      width: 10vw;
+      border-radius: 5px;
+      border: 0;
+      margin-right: 5px;
+      cursor: pointer;
+    }
+  }
+}
+
+.button {
+  button {
+    height: max-content;
+    width: max-content;
+    padding-left: 0.5vw;
+    padding-right: 0.5vw;
+    font-size: 1vw;
+  }
+}
+
+.medium {
+  width: 300px;
+  padding: 1.5rem 1rem 1.5rem 1rem;
+
+  .image {
+    width: 240px;
+    height: 180px;
+    background-color: #fff;
+  }
+  .text {
+    margin: 8px 0 8px 0;
+  }
+}
+
+.small {
+  width: 180px;
+  padding: 1rem 0 1rem 0;
+  .image {
+    width: 120px;
+    height: 90px;
+    background-color: #fff;
+  }
+  .text {
+    margin: 4px 0 4px 0;
+  }
+}

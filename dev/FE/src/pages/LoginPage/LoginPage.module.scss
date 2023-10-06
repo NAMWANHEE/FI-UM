@@ -1,0 +1,22 @@
+.login-page {
+  display: flex;
+  padding: 3rem;
+  justify-content: space-between;
+  height: 70vh;
+
+  &__image {
+    width: 50%;
+  }
+  &__content {
+    width: 40%;
+  }
+}
+.login-page__image {
+  height: 450px;
+  width: 100%;
+
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}

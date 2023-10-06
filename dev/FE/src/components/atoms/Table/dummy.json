@@ -1,0 +1,37 @@
+[
+  {
+    "id": 1,
+    "firstName": "Dallis",
+    "lastName": "Balchen",
+    "email": "dbalchen0@craigslist.org",
+    "gender": "Female"
+  },
+  {
+    "id": 2,
+    "firstName": "Jarred",
+    "lastName": "Lias",
+    "email": "jlias1@statcounter.com",
+    "gender": "Male"
+  },
+  {
+    "id": 3,
+    "firstName": "Doralynne",
+    "lastName": "McGarrahan",
+    "email": "dmcgarrahan2@fema.gov",
+    "gender": "Female"
+  },
+  {
+    "id": 4,
+    "firstName": "Thatch",
+    "lastName": "Belk",
+    "email": "tbelk3@ycombinator.com",
+    "gender": "Male"
+  },
+  {
+    "id": 5,
+    "firstName": "Dwain",
+    "lastName": "Ledwitch",
+    "email": "dledwitch4@paginegialle.it",
+    "gender": "Male"
+  }
+]

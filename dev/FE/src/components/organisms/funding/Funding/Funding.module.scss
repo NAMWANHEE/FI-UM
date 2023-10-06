@@ -1,0 +1,17 @@
+.funding {
+  height: 60vh;
+  &__finished {
+    img {
+      filter: brightness(70%);
+    }
+    position: relative;
+
+    &::after {
+      position: absolute;
+      top: 12vh;
+      content: '펀딩완료';
+      color: white;
+      font-size: 2vw;
+    }
+  }
+}

@@ -1,0 +1,118 @@
+.profile-page {
+  &__auction-container {
+    display: grid;
+    place-items: center;
+    grid-template-columns: repeat(auto-fit, minmax(15rem, 20%));
+    grid-auto-rows: 60vh;
+    gap: 2rem;
+    img {
+      height: 30vh;
+    }
+    place-items: center;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__auction {
+    img {
+      filter: brightness(70%);
+    }
+    position: relative;
+
+    &::after {
+      position: absolute;
+      top: 12vh;
+      content: '판매완료';
+      color: white;
+      font-size: 2vw;
+    }
+  }
+
+  table th {
+    background-color: #3579d4;
+  }
+  &__swiper {
+    height: 60vh;
+    &--image {
+    }
+  }
+
+  &__profile-section {
+    min-height: 80vh;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: 100%;
+    gap: 5vw;
+    // justify-content: center;
+    // align-items: center;
+
+    &2 {
+      min-height: 80vh;
+      display: grid;
+      grid-template-columns: 7fr 3fr;
+      grid-template-rows: 100%;
+      gap: 5vw;
+      justify-content: center;
+      align-items: center;
+    }
+    &3 {
+      min-height: 80vh;
+      display: grid;
+      grid-template-columns: 6fr 4fr;
+      grid-template-rows: 100%;
+      gap: 5vw;
+      // justify-content: center;
+      // align-items: center;
+    }
+    &__tableWrapper {
+      &__buttonWrapper {
+        height: 2.5rem;
+
+        button {
+          float: right;
+          cursor: pointer;
+          background-color: #fde8e7;
+          border: 0;
+          height: 2rem;
+          width: 10rem;
+          font-weight: 600;
+          border-radius: 0.5rem;
+          color: #666;
+        }
+      }
+    }
+  }
+
+  & > div {
+    padding-left: 10vw;
+    padding-right: 10vw;
+  }
+
+  & > div:nth-child(2n + 1) {
+    background-color: #f6fbfd;
+  }
+}
+
+.modal {
+  padding-left: 0;
+}
+
+.aiPortFolio {
+  &__title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    text-align: center;
+    padding-bottom: 0.5rem;
+  }
+  &__content {
+    font-size: 1rem;
+    &__percent {
+      font-weight: 600;
+    }
+  }
+}
+.child-profile-page {
+  &__swiper {
+    min-height: 60vh;
+  }
+}

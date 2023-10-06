@@ -1,0 +1,52 @@
+@import '@/index.scss';
+
+.create-page {
+  margin: 50px;
+  position: relative;
+}
+
+.image {
+  max-width: 300px;
+  max-height: 300px;
+}
+
+.btn {
+  margin-top: 10px;
+  position: absolute;
+  top: 1rem;
+  right: 5vw;
+
+  @media screen and (max-width: 500px) {
+    top: 90%;
+  }
+}
+
+textarea {
+  margin-left: 30px;
+  width: 90%;
+  height: 20rem;
+}
+.input {
+  margin-left: 30px;
+
+  &::file-selector-button {
+    border: 1px solid $shinhan-blue !important;
+    border-radius: 5px;
+    background-color: white;
+    color: $shinhan-blue;
+    height: 5vh;
+    width: 10vw;
+    margin-right: 5px;
+    font-weight: bold;
+    cursor: pointer;
+
+    &:hover {
+      color: white;
+      background-color: $shinhan-blue;
+    }
+  }
+}
+
+input[type='file'] {
+  color: $main-bg;
+}

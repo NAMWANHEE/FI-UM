@@ -1,0 +1,40 @@
+// DepositProduct.module.scss
+
+.deposit-product {
+  height: 12vh;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem;
+  .banklogo {
+    width: 10%;
+    text-align: center;
+  }
+  .title {
+    width: 15%;
+    text-align: center;
+  }
+  .buttons {
+    text-align: center;
+    width: 50%;
+    display: flex;
+    justify-content: end;
+  }
+
+  &__item {
+    margin-left: 1rem;
+    border: 0;
+    // margin-left: auto;
+  }
+
+  &__text {
+    margin-left: auto;
+    text-align: end;
+  }
+}
+
+.third {
+  display: flex;
+  justify-content: space-evenly;
+}

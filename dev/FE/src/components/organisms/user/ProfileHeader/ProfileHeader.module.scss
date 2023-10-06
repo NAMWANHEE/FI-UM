@@ -1,0 +1,17 @@
+.profile-header {
+  min-height: 30vh;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+
+  @media screen and (max-width: 700px) {
+      flex-direction: column;
+  }
+
+  &__not-mypage {
+    justify-content: center;
+    align-items: center;
+  }
+}

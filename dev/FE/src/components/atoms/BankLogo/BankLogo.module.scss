@@ -1,0 +1,38 @@
+// BankLogo.module.scss
+
+.banklogo {
+  border-radius: 100%;
+  background-size: cover;
+}
+
+.large {
+  width: 64px;
+  height: 64px;
+}
+
+.normal {
+  width: 48px;
+  height: 48px;
+}
+
+.small {
+  width: 2rem;
+  height: 2rem;
+}
+
+.shinhan {
+  background-image: url('/img/bankicon/shinhan.png');
+}
+
+.kb {
+  background-image: url('/img/bankicon/kb.png');
+}
+
+.hana {
+  background-image: url('/img/bankicon/hana.svg');
+}
+
+.img {
+  width: 100px;
+  height: 100px;
+}

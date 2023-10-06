@@ -1,0 +1,50 @@
+.xxsmall {
+  width: 8vw;
+  height: 3vh;
+  font-size: 1.2vw;
+  border-radius: 4px;
+}
+
+.xsmall {
+  width: 120px;
+  height: 40px;
+  font-size: 1rem;
+  border-radius: 4px;
+}
+
+.small {
+  width: 140px;
+  height: 60px;
+  font-size: 1rem;
+  border-radius: 4px;
+}
+
+.normal {
+  width: 240px;
+  height: 60px;
+  font-size: 1.5rem;
+  border-radius: 8px;
+}
+
+.large {
+  width: 360px;
+  height: 60px;
+  font-size: 1.5rem;
+  border-radius: 8px;
+}
+
+.primary {
+  background-color: #3579d4;
+  color: #fff;
+  border: #3579d4;
+}
+
+.gray {
+  background-color: #8595a9;
+  color: #fff;
+  border: #8595a9;
+}
+
+.button {
+  cursor: pointer;
+}

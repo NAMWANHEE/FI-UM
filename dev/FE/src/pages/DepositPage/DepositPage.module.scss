@@ -1,0 +1,31 @@
+.deposit-page {
+  &__bank {
+    height: 50vh;
+  }
+  &__main {
+    margin-left: 25vw;
+    margin-right: 25vw;
+    @media screen and (max-width: 829px) {
+      margin-left: 15vw;
+      margin-right: 15vw;
+    }
+
+    @media screen and (max-width: 449px) {
+      margin-left: 5vw;
+      margin-right: 5vw;
+    }
+
+    @media screen and (max-width: 299px) {
+      margin: 0;
+    }
+  }
+
+  &__swiper {
+    min-height: 35vh;
+    &--item {
+      padding-top: 12vh;
+      padding-bottom: 10vh;
+      text-align: center;
+    }
+  }
+}

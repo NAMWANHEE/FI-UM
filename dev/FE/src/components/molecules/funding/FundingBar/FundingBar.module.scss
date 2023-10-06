@@ -1,0 +1,20 @@
+.funding-bar {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+
+  &__item {
+    flex: 1;
+    height: 20%;
+    margin: 0.1rem;
+  }
+  &__item--bottom {
+    flex: 2;
+    height: 40%;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 0.5vh;
+    margin-bottom: 2vh;
+    // text-align: center;
+  }
+}

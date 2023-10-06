@@ -1,0 +1,24 @@
+.creator-profile {
+  display: grid;
+  grid-template-columns: 2fr 8fr;
+  gap: 10px;
+  margin-bottom: 30px;
+
+  &_arts {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+  }
+  &_art {
+    border: 2px solid lightblue;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    &__image {
+      height: 85%;
+      &__dark {
+        filter: brightness(50%);
+      }
+    }
+  }
+}

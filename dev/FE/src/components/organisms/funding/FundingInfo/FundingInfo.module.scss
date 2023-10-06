@@ -1,0 +1,9 @@
+.funding-info {
+  display: flex;
+  width: 70%;
+  align-items: center;
+  margin-right: 10px;
+  > div {
+    width: 50%;
+  }
+}
