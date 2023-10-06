@@ -1,0 +1,21 @@
+@import '@/index.scss';
+
+.main-auction-description {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  &__title {
+    font-weight: 600;
+  }
+
+  &__button {
+    width: 40%;
+    height: 8%;
+    border-radius: 0.5rem;
+  }
+}
+
+.main-auction-description > * {
+  margin-bottom: 1rem;
+}

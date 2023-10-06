@@ -1,0 +1,127 @@
+// StockPage.module.scss
+
+.stockPage {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.allStocks {
+  margin-top: 10px;
+  width: 50%;
+  padding-right: 3%;
+  height: 500px;
+  &__title {
+    font-size: 1.3rem;
+    font-weight: 600;
+    padding: 0.3rem 0.5rem;
+  }
+  table th {
+    background-color: #3579d4;
+  }
+}
+
+.rankingWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  width: 100%;
+  justify-content: center;
+  background-color: #f6fbfd;
+
+  &__title {
+    width: 80%;
+    font-size: 1.3rem;
+    font-weight: 600;
+    padding: 0.3rem 0.5rem;
+  }
+  .rankingItem {
+    width: 26%;
+  }
+}
+
+.newsWrapper {
+  margin-top: 10px;
+
+  width: 30%;
+  height: 500px;
+}
+
+.newsTitle {
+  font-size: 1.3rem;
+  font-weight: 600;
+  padding: 0.3rem 0.5rem;
+}
+
+.accordionHeader {
+  font-size: 1rem;
+  font-weight: 600;
+  padding: 0.2rem 0.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border: 1px solid #ebebeb;
+  height: 3rem;
+}
+
+.open {
+  color: #3579d4;
+  background-color: #ebebeb;
+  font-size: 1rem;
+}
+.title {
+  padding-left: 4px;
+}
+.title__open::before {
+  content: '';
+  width: 3px;
+  height: 18.4px;
+  background-color: #3579d4;
+  position: absolute;
+  margin-left: -8px;
+}
+
+.angle__up {
+  flex-shrink: 0;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 30px;
+  border: 1px solid #d3d3d3;
+  background-color: #fff;
+  background-image: url('/img/accordion/arrow_right.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  box-shadow: 0 2px 4px rgb(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.angle__down {
+  flex-shrink: 0;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 30px;
+  background-color: #3579d4;
+  background-image: url('/img/accordion/arrow_up_white.svg');
+  background-position: center;
+  background-repeat: no-repeat;
+  box-shadow: 0 2px 4px rgb(0, 0, 0, 0.1);
+  cursor: pointer;
+}
+
+.accordionItem {
+  background-color: #ebebeb;
+  padding: 0 1rem 1.5rem 1rem;
+}
+
+@media screen and (max-width: 1080px) {
+  .allStocks {
+    width: 80%;
+    height: fit-content;
+    padding-bottom: 1rem;
+  }
+  .newsWrapper {
+    width: 80%;
+    height: fit-content;
+    padding-bottom: 2rem;
+  }
+}

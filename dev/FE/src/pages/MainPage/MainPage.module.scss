@@ -1,0 +1,40 @@
+.main-page {
+  background-color: white;
+  &__ranking {
+    height: 50vh;
+  }
+
+  & > div {
+    min-height: 50vh;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-left: 10vw;
+    padding-right: 10vw;
+
+    @media screen and (max-width: 829px) {
+      padding: 0 5rem;
+    }
+
+    @media screen and (max-width: 449px) {
+      padding: 0 1rem;
+    }
+
+    @media screen and (max-width: 299px) {
+      padding: 0;
+      font-size: 0.8rem;
+    }
+  }
+
+  & > div:nth-child(2n) {
+    background-color: #f6fbfd;
+  }
+
+  &__education {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+
+    @media screen and (max-width: 1200px) {
+      grid-template-columns: 1fr;
+    }
+  }
+}

@@ -1,0 +1,17 @@
+// AuctionDetailMain.moudle.scss
+
+.auction-detail-main {
+  display: flex;
+
+  gap: 1vw;
+
+  &__image {
+    width: 70%;
+  }
+
+  &__description {
+    width: 30%;
+    border: 1px solid lightblue;
+    border-radius: 10px;
+  }
+}

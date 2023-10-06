@@ -1,0 +1,59 @@
+// Ranking.module.scss
+
+.ranking {
+  display: flex;
+  flex-direction: column;
+
+  &__title {
+    text-align: center;
+    font-weight: bold;
+    font-size: 2rem;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+    color: #d58017;
+  }
+
+  &__main {
+    display: flex;
+    align-items: end;
+    justify-content: space-between;
+    margin: auto;
+    max-width: 25rem;
+    height: 30vh;
+  }
+
+  @media screen and (max-width: 829px) {
+    padding: 0 20vw;
+  }
+
+  @media screen and (max-width: 449px) {
+    padding: 0 5vw;
+  }
+
+  .crownWrapper {
+    height: 4vh;
+    text-align: center;
+  }
+
+  .profileCard__0 {
+    width: 25%;
+    // height: 75%;
+  }
+  .profileCard__1 {
+    width: 50%;
+    // height: 100%;
+  }
+  .crown {
+    height: 100%;
+    // margin: 0 auto 0 auto;
+    // object-fit: fill;
+  }
+  .profileCard__2 {
+    width: 25%;
+    // height: 50%;
+  }
+  img {
+    height: 100%;
+    object-fit: cover;
+  }
+}

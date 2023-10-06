@@ -1,0 +1,25 @@
+.funding-item {
+  margin: 1%;
+  padding: 10px;
+  border: 2px solid lightblue;
+  border-radius: 10px;
+  display: flex;
+
+  &__main {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+
+    &--text {
+      flex: 1;
+    }
+  }
+}
+
+.funding-item__image {
+  width: 17%;
+  height: 17%;
+  margin: 10px;
+  margin-right: 20px;
+}

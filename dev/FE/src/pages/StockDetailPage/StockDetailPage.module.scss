@@ -1,0 +1,135 @@
+@import '@/index.scss';
+
+.stock-detail-page {
+  margin: 0 10%;
+  @media screen and (max-width: 1000px) {
+    margin: 0 5%;
+  }
+  @media screen and (max-width: 800px) {
+    margin: 0;
+  }
+
+  &__news {
+    width: 100%;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+    text-overflow: clip;
+    white-space: nowrap;
+    animation: text_slider 8s linear infinite;
+    font-size: 1.5rem;
+  }
+
+  &__line-chart {
+    width: 70%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  &__content {
+    box-sizing: border-box;
+    height: fit-content;
+    padding: 0.5rem;
+    width: 30%;
+    display: flex;
+    flex-direction: column;
+    &--prev-news {
+      flex: 1;
+      border: 1px solid black;
+      background-color: #f2f2f2;
+      text-align: center;
+
+      .newsTitle {
+        font-size: 1.5rem;
+        font-weight: 600;
+        padding: 1rem;
+      }
+    }
+    .myStock {
+      flex: 1;
+    }
+
+    &--button {
+      width: 45%;
+      border: 0;
+      border-radius: 5px;
+      height: 2rem;
+      &__buy {
+        background-color: #fde8e7;
+        color: $red;
+      }
+      &__sell {
+        background-color: #aadaff;
+        color: $shinhan-blue;
+      }
+    }
+  }
+}
+
+.tradeHistoryTitle {
+  text-align: center;
+  font-size: 1.3rem;
+  font-weight: 600;
+  box-sizing: border-box;
+  padding: 0.5rem 0;
+}
+
+.tradeHistoryWrapper {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+  height: 2rem;
+  text-align: center;
+  &__0 {
+    background-color: #fff;
+  }
+  &__1 {
+    background-color: #f2f2f2;
+  }
+  &__title {
+    // background-color: #04aa6d;
+    background-color: #58df7e;
+    color: #fff;
+    font-weight: 500;
+  }
+}
+
+.tradeHistory__item__1 {
+  height: 100%;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  width: 25%;
+  line-height: 2rem;
+  .tradeSell {
+    color: #3579d4;
+  }
+  .tradeBuy {
+    color: red;
+  }
+}
+.tradeHistory__item__2 {
+  width: 25%;
+  height: 100%;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+  line-height: 2rem;
+}
+.tradeHistory__item__3 {
+  width: 50%;
+  height: 100%;
+  line-height: 2rem;
+  box-sizing: border-box;
+  border: 1px solid #ddd;
+}
+
+@keyframes text_slider {
+  0% {
+    transform: translateX(-33.3333%);
+  }
+  // 50% {
+  //   transform: translateX(-50%);
+  // }
+  100% {
+    transform: translateX(-66.6666%);
+  }
+}

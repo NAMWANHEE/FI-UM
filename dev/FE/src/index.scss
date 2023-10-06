@@ -1,0 +1,296 @@
+@import url('https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap');
+$shinhan-blue: #3579d4;
+$shinhan-orange: #d48100;
+$shinhan-skyblue: #aadaff;
+$shinhan-mint: #7ae6e9;
+$shinhan-turquoise: #07a59f;
+$shinhan-gray: #8595a9;
+$shinhan-gray-light: #ececec;
+$shinhan-gray-dark: #606972;
+$shinhan-white: #fff;
+
+$pink: #fde8e7;
+$red: #ed2926;
+$main-bg: #f3f3f3;
+
+html,
+body {
+  width: 100%;
+  height: 100%;
+  // overflow: hidden;
+  background-color: $main-bg;
+}
+
+body {
+  font-family: 'Gowun Dodum', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  margin: 0;
+  padding: 0;
+  overflow-y: scroll;
+}
+
+body {
+  -ms-overflow-style: none;
+}
+::-webkit-scrollbar {
+  display: none;
+}
+
+// ::-webkit-scrollbar {
+//   width: 6px;
+//   padding: 3px;
+
+//   background-color: transparent;
+// }
+
+// ::-webkit-scrollbar-thumb {
+//   border-radius: 3px;
+//   background-color: gray;
+// }
+
+// ::-webkit-scrollbar-button {
+//   width: 0;
+//   height: 0;
+// }
+
+.blue {
+  color: $shinhan-blue;
+  border: 0;
+}
+
+.orange {
+  color: $shinhan-orange;
+}
+
+.skyblue {
+  color: $shinhan-skyblue;
+}
+
+.mint {
+  color: $shinhan-mint;
+}
+
+.turquoise {
+  color: $shinhan-turquoise;
+}
+
+.gray {
+  color: $shinhan-gray;
+
+  &-light {
+    color: $shinhan-gray-light;
+  }
+
+  &-dark {
+    color: $shinhan-gray-dark;
+  }
+}
+
+.white {
+  color: $shinhan-white;
+}
+
+.pink {
+  color: $pink;
+}
+
+.red {
+  color: $red;
+}
+
+.bg {
+  &-blue {
+    background-color: $shinhan-blue;
+  }
+  &-orange {
+    background-color: $shinhan-orange;
+  }
+  &-skyblue {
+    background-color: $shinhan-skyblue;
+  }
+  &-mint {
+    background-color: $shinhan-mint;
+  }
+  &-turquoise {
+    background-color: $shinhan-turquoise;
+  }
+  &-gray {
+    background-color: $shinhan-gray;
+
+    &-light {
+      background-color: $shinhan-gray-light;
+    }
+
+    &-dark {
+      background-color: $shinhan-gray-dark;
+    }
+  }
+
+  &-white {
+    background-color: $shinhan-white;
+  }
+
+  &-pink {
+    background-color: $pink;
+  }
+
+  &-red {
+    background-color: $red;
+  }
+}
+
+.card-container {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 20%));
+  grid-auto-rows: 1fr;
+  gap: 2rem;
+  place-items: center;
+  justify-content: center;
+  align-items: center;
+}
+
+.container {
+  padding: 0 10rem;
+
+  @media screen and (max-width: 829px) {
+    padding: 0 5rem;
+  }
+
+  @media screen and (max-width: 449px) {
+    padding: 0 1rem;
+  }
+
+  @media screen and (max-width: 299px) {
+    padding: 0;
+    font-size: 10px;
+  }
+}
+
+.flex-container {
+  display: flex;
+}
+
+.flex-container-col {
+  display: flex;
+  flex-direction: column;
+}
+
+.jc-space-between {
+  justify-content: space-between;
+}
+
+.jc-space-around {
+  justify-content: space-around;
+}
+
+.align-end {
+  align-items: end;
+}
+
+.jc-center {
+  justify-content: center;
+}
+
+.text-align-center {
+  text-align: center;
+}
+
+.align-center {
+  align-items: center;
+}
+
+.align-end {
+  align-items: end;
+}
+.self-end {
+  align-self: flex-end;
+}
+.self-start {
+  align-self: flex-start;
+}
+.self-center {
+  align-self: center;
+}
+
+.flex-wrap {
+  flex-wrap: wrap;
+}
+
+.flex-item {
+  flex: 1;
+}
+
+.grid-container {
+  display: grid;
+}
+
+.text-vsm {
+  font-size: 0.8rem;
+}
+
+input[type='number']::-webkit-outer-spin-button,
+input[type='number']::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+// swiper
+.swiper-slide {
+  position: relative;
+  &.swiper-slide-thumb-active {
+    opacity: 1;
+  }
+}
+
+.block {
+  display: block;
+}
+
+.m-1 {
+  margin: 1rem;
+}
+
+.mr-1 {
+  margin-right: 0.2rem;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.border0 {
+  border: 0;
+}
+
+.page-loading {
+  position: absolute;
+  height: 100vw;
+  width: 100vw;
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  padding-top: 150px;
+  z-index: 99;
+}
+
+.md-1vw {
+  margin-left: 1vw;
+  margin-right: 1vw;
+}
+
+.h-50 {
+  height: 50%;
+}
+
+.mr-1 {
+  margin-right: 5vw;
+}
+
+.mr-01 {
+  margin-right: 3px;
+}
+.mb-1 {
+  margin-bottom: 1vw;
+}
