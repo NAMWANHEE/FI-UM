@@ -11,7 +11,7 @@
 
 따듯한 선행에 함께해주세요!
 
-![FIUM](/uploads/d6ed3640e94c59ba770227646b8381e2/fium.PNG)
+![FIUM](https://github.com/NAMWANHEE/FI-UM/assets/76835981/63395f71-5200-4e51-bc4a-95b90edc4ea6)
 
 ## 💡 주요기능
 
