@@ -188,12 +188,6 @@
 - Vite `4.4.0`
 - tailwindcss `3.3.3`
 
-`IoT`
-- Mosquitto `1.6.9`
-- ESP32
-    - `DM2285`
-    - `WROOM-32`
-- Arduino IDE `2.1.1`
 
 `Infra`
 
