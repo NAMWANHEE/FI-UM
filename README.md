@@ -168,17 +168,23 @@
 `Backend`
 
 - IntelliJ IDE
-- Java Open-JDK zulu `1.8.0_192`
-- SpringBoot `2.7.13`
-    - Maven `4.0.0`
-    - jbcrypt  `0.4`
-    - jjwt `0.9.1`
-    - Swagger `1.6.11`
+- Java Open-JDK zulu `11.0.20`
+- SpringBoot `2.7.15`
+    - Gradle  `8.2.1`
+    - jbcrypt  `0.3`
+    - jjwt `0.11.2`
+    - Swagger `2.9.2`
     - lombok
     - JPA
+ - Flask `2.3.3`
+   - finance-datareader `0.9.50`
+   - pandas-datareader `0.10.0`
+   - PyMySQL `1.1.0`
+   - pyportfolioopt `1.5.5`
 
 `Data`
 - MYSQL
+- Redis
 
 
 `Frontend`
@@ -186,7 +192,9 @@
 - React `18.2.0`
 - TypeScript `5.0.2`
 - Vite `4.4.0`
-- tailwindcss `3.3.3`
+- Scss `1.66.1`
+- Recoil `0.7.7`
+- Jest `29.6.4`
 
 
 `Infra`
